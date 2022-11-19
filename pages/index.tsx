@@ -1,4 +1,20 @@
 import Head from 'next/head';
+import {
+  Box,
+  Flex,
+  Stack,
+  Heading,
+  Text,
+  Container,
+  Input,
+  Button,
+  SimpleGrid,
+  Avatar,
+  AvatarGroup,
+  useBreakpointValue,
+  IconProps,
+  Icon,
+} from '@chakra-ui/react';
 
 function Home() {
   return (
@@ -9,7 +25,12 @@ function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <h1>This is the Home route</h1>
+      <Heading
+        lineHeight={1.1}
+        fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }}
+      >
+        This is the Home route
+      </Heading>
     </>
   );
 }
