@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.button {
+  all: unset;
+  display: grid;
+  place-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  color: white;
+  background-color: hsl(237deg 77% 59%);
+  font-weight: 500;
+  line-height: 1.2;
+  cursor: pointer;
+}

@@ -1,34 +1,86 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Welcome to Stitch app
 
-## Getting Started
+## Commitlint types
 
-First, run the development server:
+This is a sticky note for Tom, because he never remembers them!
 
-```bash
-npm run dev
-# or
-yarn dev
+- build
+- chore
+- ci
+- docs
+- feat
+- fix
+- perf
+- refactor
+- revert
+- style
+- test
+
+## Stitch app architecture
+
+- Framework: [Next.js 13 stable](https://nextjs.org/docs/getting-started) (React v18)
+- Component library: [Chakra UI](https://chakra-ui.com/)
+- Custom styles: [CSS Modules](https://nextjs.org/docs/basic-features/built-in-css-support#adding-component-level-css)
+- API: [YouTube](https://developers.google.com/youtube/)
+- Deployment: [Vercel](https://vercel.com/)
+
+**Twitch architecture**
+
+- Framework: React App (v18) (probably a custom build)
+- Styles: Styled Components (runtime CSS-in-JS)
+- API: Custom
+- Deployment: AWS (obviously)
+
+**Note** - Twitch serves a [separate app](https://m.twitch.tv) for handheld devices.
+
+## Component architecture
+
+See ./components/NewComponent for a structural example.
+
+## CSS declaration order style guide
+
+This is not enforced via tooling but is recommended for the benefit of your compañeros.
+
+```css
+.selector {
+  /* Positioned layout */
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  right: 0;
+
+  /* Display & Box Model */
+  display: inline-block;
+  overflow: hidden;
+  box-sizing: border-box;
+  width: 100px;
+  height: 100px;
+  padding: 10px;
+  border: 10px solid #333;
+  margin: 10px;
+
+  /* Color */
+  background: #000;
+  color: #fff
+
+  /* Text */
+  font-family: sans-serif;
+  font-size: 16px;
+  line-height: 1.4;
+  text-align: right;
+
+  /* Other */
+  cursor: pointer;
+
+  /* Animations */
+  transition: filter 400ms;
+}
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## CSS future specs
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+Keep close to the upcoming CSS specs' progress as documented by [CSSDB](https://cssdb.org/#all-property).
+CSS is evolving rapidly with native nesting and scoping solutions on the horizon.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+A PostCSS plugin exists called `postcss-preset-env` that allows us to use future specs today.
+However in favour of **stability** it isn't used in this project.
