@@ -1,0 +1,56 @@
+.container {
+  min-height: 100%;
+  display: grid;
+  grid-template-areas:
+    'header header'
+    'sidebar main';
+  grid-template-columns: 15rem 1fr;
+  grid-template-rows: 3rem 1fr;
+  --buffer: 0.5rem;
+}
+
+.header {
+  grid-area: header;
+  padding-inline: var(--buffer);
+}
+
+.sidebar {
+  grid-area: sidebar;
+  padding-inline: var(--buffer);
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  grid-area: main;
+  padding-inline: var(--buffer);
+}
+
+/* sidebar changes to icon only at 1024px bp - on Twitch the actual 
+  component children are swapped out at this breakpoint - perhaps 
+  we can do better by moving the info (which is lost on Twitch)
+  to a tooltip on hover */
+@media (max-width: 1024px) {
+  .container {
+    grid-template-columns: 3rem 1fr;
+  }
+}
+
+/* Twitch actually serves a separate app for handheld devices. 
+  here we replicate the mobile app layout using responsive CSS instead.
+  if sidebar become complex, we'd conditionally render based on device 
+  detection to avoid React performing wasted unwanted updates - or 'guide' 
+  the user towards downloading a native mobile app */
+@media (max-width: 768px) {
+  .container {
+    grid-template-areas:
+      'header'
+      'main';
+    grid-template-columns: 1fr;
+    grid-template-rows: 3rem 1fr;
+  }
+
+  .sidebar {
+    display: none;
+  }
+}
