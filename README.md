@@ -16,7 +16,7 @@ This is a sticky note for Tom, because he never remembers them!
 - style
 - test
 
-## Stitch app architecture
+## App architecture
 
 - Framework: [Next.js 13 stable](https://nextjs.org/docs/getting-started) (React v18)
 - Component library: [Chakra UI](https://chakra-ui.com/)
@@ -24,7 +24,9 @@ This is a sticky note for Tom, because he never remembers them!
 - API: [YouTube](https://developers.google.com/youtube/)
 - Deployment: [Vercel](https://vercel.com/)
 
-**Twitch architecture**
+The data fetching method is currently ISR. To change to SSR we just need to change `getStaticProps` to `getServerSideProps`. We also remove `getStaticPaths` because no HTML is needed to be generated at build time for SSR.
+
+### Twitch architecture
 
 - Framework: React App (v18) (probably a custom build)
 - Styles: Styled Components (runtime CSS-in-JS)
@@ -33,7 +35,7 @@ This is a sticky note for Tom, because he never remembers them!
 
 **Note** - Twitch serves a [separate app](https://m.twitch.tv) for handheld devices.
 
-## Component architecture
+### Component architecture
 
 See ./components/NewComponent for a structural example.
 

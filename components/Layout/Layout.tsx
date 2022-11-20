@@ -3,6 +3,8 @@ import { Children } from '~/types';
 import Link from 'next/link';
 import Image from 'next/image';
 
+// TODO work out layouts in Next.js...
+
 const channels = [
   { name: 'kent-c-dodds', id: 123 },
   { name: 'lee-robinson', id: 456 },
