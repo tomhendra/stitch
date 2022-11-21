@@ -115,7 +115,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     In the future we want to re-architect the app to take advantage of persistent
     layouts. Note if a user followed a channel we'd have to save it to local 
     state for our navigation and also submit to the database - ! potential bugs
-    or race conditions.
+    due to race conditions. 🪲
 
     TODO implement persistent layout of sidebar & header
     https://nextjs.org/docs/basic-features/layouts#data-fetchinghttps://nextjs.org/docs/basic-features/layouts#data-fetching
