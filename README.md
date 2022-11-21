@@ -24,7 +24,9 @@ This is a sticky note for Tom, because he never remembers them!
 - API: [YouTube](https://developers.google.com/youtube/)
 - Deployment: [Vercel](https://vercel.com/)
 
-The data fetching method is currently ISR. To change to SSR we just need to change `getStaticProps` to `getServerSideProps`. We also remove `getStaticPaths` because no HTML is needed to be generated at build time for SSR.
+The data fetching method is currently ISR. To change to SSR we just need to
+change `getStaticProps` to `getServerSideProps`. We also remove `getStaticPaths`
+because no HTML is needed to be generated at build time for SSR.
 
 ### Twitch architecture
 
@@ -84,5 +86,5 @@ This is not enforced via tooling but is recommended for the benefit of your comp
 Keep close to the upcoming CSS specs' progress as documented by [CSSDB](https://cssdb.org/#all-property).
 CSS is evolving rapidly with native nesting and scoping solutions on the horizon.
 
-A PostCSS plugin exists called `postcss-preset-env` that allows us to use future specs today.
-However in favour of **stability** it isn't used in this project.
+A PostCSS plugin exists called `postcss-preset-env` that allows us to use future
+specs today. However in favour of **stability** it isn't used in this project.

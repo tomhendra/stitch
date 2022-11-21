@@ -8,7 +8,6 @@ import {
   DrawerContent,
   DrawerFooter,
   DrawerHeader,
-  DrawerOverlay,
   Flex,
   GridItem,
   Heading,
@@ -33,6 +32,8 @@ import { useEffect, useState } from 'react';
 import { messageSampleData } from '~/data';
 import type { Channel, ChannelList, Message, Video } from '~/models/api';
 import { sampleOne } from '~/utils/main';
+
+import { videosSampleData } from '~/data';
 // import { DataDebugger } from '~/components';
 
 interface FormElements extends HTMLFormControlsCollection {
@@ -280,13 +281,13 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   );
 
   // Call a *real* API this time 😅
-  const VIDEOS_ENDPOINT = channel
-    ? getVideosFromChannel(channel.id.channelId, 12)
-    : '';
-  const videosRes = await fetch(`${VIDEOS_ENDPOINT}`);
-  const videosData = await videosRes.json();
+  // const VIDEOS_ENDPOINT = channel
+  //   ? getVideosFromChannel(channel.id.channelId, 12)
+  //   : '';
+  // const videosRes = await fetch(`${VIDEOS_ENDPOINT}`);
+  // const videosData = await videosRes.json();
   // ? swap to sample data if the API quota runs low (or spin up another app on GCP!)
-  // const videosData = playListSampleData;
+  const videosData = videosSampleData;
 
   const title: string = channel?.snippet.title || '';
   const about: string = channel?.snippet.description || '';
