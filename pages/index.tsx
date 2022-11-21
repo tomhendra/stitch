@@ -5,6 +5,7 @@ import NextLink from 'next/link';
 import slugify from 'slugify';
 import { Layout } from '~/components';
 import { channelListSampleData } from '~/data/api';
+import { ChannelListDataFromApi } from '~/models/api';
 import type { ChannelList } from '~/models/app';
 
 // import { getSearchEndpoint } from '~/helpers/youtube-api.helper';
@@ -105,11 +106,11 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     Home & Channel routes. 
     
     The problem with this is that the Google algorithm will generate a fresh 
-    response each tim e the API is called, which could result in different 
-    data between on different routes! 🪲 
+    response each time the API is called, which could result in different data
+    on different routes! 🪲 
 
     For now, rather than query YouTube to simulate a database we can "get" data 
-    for subscribed to channels from /data.ts on the backend ¯\_(ツ)_/¯ 
+    for subscribed channels from /data.ts on the backend ¯\_(ツ)_/¯ 
 
     TODO implement nested Layouts
     - Persist header and sidebar data to React context (global state) at the top level _app.tsx
@@ -125,7 +126,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 
   const channels: ChannelList[] = [];
 
-  channelData.items.forEach((item: any) =>
+  channelData.items.forEach((item: ChannelListDataFromApi) =>
     channels.push({
       channelId: item.snippet.channelId,
       title: item.snippet.title,

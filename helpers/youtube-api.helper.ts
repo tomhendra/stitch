@@ -10,28 +10,17 @@ export function getSearchEndpoint(
   search: string,
   type: ResourceType,
 ) {
-  // https://www.googleapis.com/youtube/v3/search?
-  // order=date
-  // &part=snippet
-  // &channelId={channel id here}
-  // &maxResults=25
-  // &key={YOUR_API_KEY}
-
   // 'https://youtube.googleapis.com/youtube/v3/search?part=snippet
   // &maxResults=25&
   // q=surfing
   // &type=channel
   // &key=[YOUR_API_KEY]';
   const BASE = `${API}/search?part=snippet`;
+
   return `${BASE}&maxResults=${maxResults}&q=${search}&type=${type}&key=${AUTH}`;
 }
 
-export function getVideosFromChannel(
-  channelId: string,
-  maxResults: number,
-  // search: string,
-  // type: ResourceType,
-) {
+export function getVideosFromChannel(channelId: string, maxResults: number) {
   // https://www.googleapis.com/youtube/v3/search?
   // order=date
   // &part=snippet
@@ -51,6 +40,7 @@ export function getPlaylistEndpoint(id: string, maxResults: number) {
   // &key=[YOUR_API_KEY]'
 
   const BASE = `${API}/playlists?part=snippet%2CcontentDetails`;
+
   return `${BASE}&channelId=${id}&maxResults=${maxResults}&key=${AUTH}`;
 }
 
@@ -59,5 +49,6 @@ export function getChannelsEndpoint(id: string) {
   //  %2Cstatistics&id=UC_x5XG1OV2P6uZZ5FSM9Ttw
   //  &key=[YOUR_API_KEY]'
   const BASE = `${API}/channels?part=snippet%2CcontentDetails`;
+
   return `${BASE}%2Cstatistics&id=${id}&key=${AUTH}`;
 }

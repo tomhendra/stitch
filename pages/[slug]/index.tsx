@@ -30,9 +30,11 @@ import {
   videosSampleData,
 } from '~/data/api';
 import { getVideosFromChannel } from '~/helpers/youtube-api.helper';
+import type { ParsedUrlQuery } from 'querystring';
 
 import type { GetStaticPaths, GetStaticProps } from 'next';
 import { useEffect, useState } from 'react';
+import type { ChannelListDataFromApi, VideoDataFromApi } from '~/models/api';
 import type { Channel, ChannelList, Message, Video } from '~/models/app';
 import { sampleOne } from '~/utils/main';
 // import { DataDebugger } from '~/components';
@@ -213,16 +215,24 @@ function Channel({ channel, channels }: Props) {
 
   we need to generate an array of paths for the getStaticPaths function.
 */
-export const getStaticPaths: GetStaticPaths = async () => {
+
+interface Params extends ParsedUrlQuery {
+  slug: string;
+}
+
+export const getStaticPaths: GetStaticPaths<Params> = async () => {
   // const ENDPOINT = getSearchEndpoint(25, 'gaming', 'channel');
   // const res = await fetch(`${ENDPOINT}`);
   // const data = await res.json();
   // ? using static data for this API call - see explanation in pages/index.tsx
   const data = channelListSampleData;
 
+  // TODO how to type getStaticPaths? (Next docs doesn't advise!) remove last "any"
+  // https://www.vitamindev.com/next-js/getstaticprops-getstaticpaths-typescript/
+
   const paths: any = [];
 
-  data.items.forEach((item: any) => {
+  data.items.forEach(item => {
     paths.push({
       params: {
         slug: slugify(item.snippet.title).toLowerCase(),
@@ -262,7 +272,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
     
     slug comes from the filename [slug] — square brackets signify a dynamic route.
   */
-  const channel = searchData.items.find((item: any) => {
+  const channel = searchData.items.find((item: ChannelListDataFromApi) => {
     const { title } = item.snippet;
     const itemSlug = slugify(title).toLowerCase();
     return itemSlug === slug;
@@ -274,7 +284,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
     populate the channels array so that we only send data from the server that 
     is required to minimise bandwidth and compute expense.
   */
-  searchData.items.forEach((item: any) =>
+  searchData.items.forEach((item: ChannelListDataFromApi) =>
     channels.push({
       channelId: item.snippet.channelId,
       title: item.snippet.title,
@@ -295,11 +305,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const channelId: string = channel?.snippet.channelId || '';
   const videos: Video[] = [];
 
-  /* 
-    again, filter out the unnecessary data.
-    TODO data model for data fetched from API - "any" no es bueno!
-  */
-  videosData.items.forEach((video: any) => {
+  videosData.items.forEach((video: VideoDataFromApi) => {
     videos.push({
       videoId: video.id.videoId,
       title: video.snippet.title,
