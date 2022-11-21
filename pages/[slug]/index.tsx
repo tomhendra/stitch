@@ -305,12 +305,12 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
     some sample data to data/api.ts as with the channel query. 
   */
   // TODO move fetch calls into helpers and return proper types
-  // const ENDPOINT = getChannelVideosQueryEndpoint(channel.id.channelId, 12);
-  // const channelVideosQueryRes = await fetch(`${ENDPOINT}`);
-  // const channelVideosQueryData: ChannelVideosQueryData =
-  //   await channelVideosQueryRes.json();
+  const ENDPOINT = getChannelVideosQueryEndpoint(channel.id.channelId, 12);
+  const channelVideosQueryRes = await fetch(`${ENDPOINT}`);
+  const channelVideosQueryData: ChannelVideosQueryData =
+    await channelVideosQueryRes.json();
 
-  const channelVideosQueryData = sampleChannelVideosQueryData;
+  // const channelVideosQueryData = sampleChannelVideosQueryData;
 
   const title = channel?.snippet.title || '';
   const about = channel?.snippet.description || '';
