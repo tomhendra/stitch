@@ -1,7 +1,7 @@
 import NextLink from 'next/link';
 import slugify from 'slugify';
 import Image from 'next/image';
-import type { ChannelList } from '~/models/app';
+import type { Channel } from '~/models/app';
 import { useRouter } from 'next/router';
 import {
   Container,
@@ -16,7 +16,7 @@ import {
 import { useEffect, useState } from 'react';
 
 type Props = {
-  channelData: ChannelList[] | null;
+  channelData: Channel[] | null;
 };
 
 function Sidebar({ channelData }: Props) {
@@ -28,7 +28,7 @@ function Sidebar({ channelData }: Props) {
     or tweets @leeerob to grok.
   */
 
-  const [channels, setChannels] = useState<ChannelList[] | null>(null);
+  const [channels, setChannels] = useState<Channel[] | null>(null);
   useEffect(() => setChannels(channelData), []);
 
   return (

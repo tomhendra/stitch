@@ -1,18 +1,13 @@
-export type ChannelList = {
+export type Channel = {
   channelId: string;
   title: string;
+  about: string;
+  videos?: Video[];
 };
 
 export type Video = {
   videoId: string;
   title: string;
-};
-
-export type Channel = {
-  channelId: string;
-  title: string;
-  about: string;
-  videos: Video[];
 };
 
 export type Message = {

@@ -19,25 +19,22 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
+import type { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import NextLink from 'next/link';
-import { useRef } from 'react';
+import type { ParsedUrlQuery } from 'querystring';
+import { useEffect, useRef, useState } from 'react';
 import slugify from 'slugify';
 import { Layout } from '~/components';
-import {
-  channelListSampleData,
-  messageSampleData,
-  videosSampleData,
-} from '~/data/api';
-import { getVideosFromChannel } from '~/helpers/youtube-api.helper';
-import type { ParsedUrlQuery } from 'querystring';
-
-import type { GetStaticPaths, GetStaticProps } from 'next';
-import { useEffect, useState } from 'react';
-import type { ChannelListDataFromApi, VideoDataFromApi } from '~/models/api';
-import type { Channel, ChannelList, Message, Video } from '~/models/app';
+import { sampleMessageData, sampleChannelSearchQueryData } from '~/data/api';
+import { getChannelVideosQueryEndpoint } from '~/helpers/youtube-api.helper';
+import type { ChannelVideosQueryData } from '~/models/api';
+import type { Channel, Message, Video } from '~/models/app';
 import { sampleOne } from '~/utils/main';
+
 // import { DataDebugger } from '~/components';
+
+// ! TODO Error handling throughout app for a better user experience
 
 interface FormElements extends HTMLFormControlsCollection {
   messageInput: HTMLInputElement;
@@ -48,7 +45,7 @@ interface MessageFormElement extends HTMLFormElement {
 
 type Props = {
   channel: Channel;
-  channels: ChannelList[];
+  channels: Channel[];
 };
 
 function Channel({ channel, channels }: Props) {
@@ -63,8 +60,8 @@ function Channel({ channel, channels }: Props) {
 
   // On component mount populate video state variables
   useEffect(() => {
-    setVideos(channel.videos);
-    setCurrentVideo(sampleOne(channel.videos));
+    setVideos(channel.videos || null);
+    setCurrentVideo(channel.videos ? sampleOne(channel.videos) : null);
   }, [channel.videos]);
 
   /* 
@@ -89,7 +86,7 @@ function Channel({ channel, channels }: Props) {
     const updatedMessages = [...messages, newMessage];
     setMessages(updatedMessages);
 
-    const randomMessage = sampleOne(messageSampleData.items);
+    const randomMessage = sampleOne(sampleMessageData.items);
 
     setTimeout(() => {
       setMessages([...updatedMessages, randomMessage]);
@@ -99,7 +96,7 @@ function Channel({ channel, channels }: Props) {
   return (
     <>
       {/* <DataDebugger data={channel} />  */}
-      {/* <DataDebugger data={channels} />  */}
+      {/* <DataDebugger data={channelVideosQueryData} /> */}
       <Head>
         <title>User channel</title>
         <meta name="description" content="User description" />
@@ -147,6 +144,7 @@ function Channel({ channel, channels }: Props) {
             >
               {channel.title}
             </Heading>
+            {/* // TODO fix when more familiar with Chakra */}
             {/* @ts-ignore */}
             <Button ref={btnRef} colorScheme="teal" onClick={onOpen} size="lg">
               Chat
@@ -182,6 +180,7 @@ function Channel({ channel, channels }: Props) {
               </DrawerBody>
               <DrawerFooter>
                 <Flex
+                  // TODO fix when more familiar with Chakra
                   // @ts-ignore
                   onSubmit={handleMessage}
                   as="form"
@@ -221,18 +220,14 @@ interface Params extends ParsedUrlQuery {
 }
 
 export const getStaticPaths: GetStaticPaths<Params> = async () => {
-  // const ENDPOINT = getSearchEndpoint(25, 'gaming', 'channel');
-  // const res = await fetch(`${ENDPOINT}`);
-  // const data = await res.json();
-  // ? using static data for this API call - see explanation in pages/index.tsx
-  const data = channelListSampleData;
+  // ? using static data to simulate a database as explained in pages/index.tsx
+  const channelSearchQueryData = sampleChannelSearchQueryData;
 
-  // TODO how to type getStaticPaths? (Next docs doesn't advise!) remove last "any"
+  // TODO how to type getStaticPaths? - no info in Next docs! - remove "any"
   // https://www.vitamindev.com/next-js/getstaticprops-getstaticpaths-typescript/
-
   const paths: any = [];
 
-  data.items.forEach(item => {
+  channelSearchQueryData.data.items.forEach(item => {
     paths.push({
       params: {
         slug: slugify(item.snippet.title).toLowerCase(),
@@ -260,52 +255,58 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
 
   const slug: string = !Array.isArray(params.slug) ? params.slug : '';
 
-  // ? using static data for this API call - see explanation in pages/index.tsx
-  // const SEARCH_ENDPOINT = getSearchEndpoint(25, 'gaming', 'channel');
-  // const searchRes = await fetch(`${SEARCH_ENDPOINT}`);
-  // const searchData = await searchRes.json();
-  const searchData = channelListSampleData;
+  // ? using static data to simulate a database as explained in pages/index.tsx
+  const channelSearchQueryData = sampleChannelSearchQueryData;
 
   /* 
-    grab the current channel for ths dynamic route by matching the slug on the
-    params object with the subscribed channel data. 
+    grab the current channel for this route by matching the slug on the params 
+    object with the subscribed channel sample data entry. 
     
     slug comes from the filename [slug] — square brackets signify a dynamic route.
   */
-  const channel = searchData.items.find((item: ChannelListDataFromApi) => {
+  const channel = channelSearchQueryData.data.items.find(item => {
     const { title } = item.snippet;
     const itemSlug = slugify(title).toLowerCase();
     return itemSlug === slug;
   });
 
-  const channels: ChannelList[] = [];
-
+  const channels: Channel[] = [];
   /* 
     populate the channels array so that we only send data from the server that 
     is required to minimise bandwidth and compute expense.
   */
-  searchData.items.forEach((item: ChannelListDataFromApi) =>
+  channelSearchQueryData.data.items.forEach(item =>
     channels.push({
       channelId: item.snippet.channelId,
       title: item.snippet.title,
+      about: item.snippet.description,
     }),
   );
 
-  // Call a *real* API this time 😅
-  // const VIDEOS_ENDPOINT = channel
-  //   ? getVideosFromChannel(channel.id.channelId, 12)
-  //   : '';
-  // const videosRes = await fetch(`${VIDEOS_ENDPOINT}`);
-  // const videosData = await videosRes.json();
-  // ? swap to sample data if the API quota runs low (or spin up another app on GCP!)
-  const videosData = videosSampleData;
+  if (!channel) {
+    throw new Error('channel not found');
+    // TODO research how Next handles errors.
+  }
 
-  const title: string = channel?.snippet.title || '';
-  const about: string = channel?.snippet.description || '';
-  const channelId: string = channel?.snippet.channelId || '';
+  /* 
+    Now we hit the YouTube API to get videos for the channel 🎉. The GCP quota 
+    is pretty low - I have had to create 3 apps on GCP already! - so have dumped 
+    some sample data to data/api.ts as with the channel query. 
+  */
+  // TODO move fetch calls into helpers and return proper types
+  const ENDPOINT = getChannelVideosQueryEndpoint(channel.id.channelId, 12);
+  const channelVideosQueryRes = await fetch(`${ENDPOINT}`);
+  const channelVideosQueryData: ChannelVideosQueryData =
+    await channelVideosQueryRes.json();
+
+  // const channelVideosQueryData = sampleChannelVideosQueryData;
+
+  const title = channel?.snippet.title || '';
+  const about = channel?.snippet.description || '';
+  const channelId = channel?.snippet.channelId || '';
   const videos: Video[] = [];
 
-  videosData.items.forEach((video: VideoDataFromApi) => {
+  channelVideosQueryData.items.forEach(video => {
     videos.push({
       videoId: video.id.videoId,
       title: video.snippet.title,

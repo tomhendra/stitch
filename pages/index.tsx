@@ -4,21 +4,20 @@ import Head from 'next/head';
 import NextLink from 'next/link';
 import slugify from 'slugify';
 import { Layout } from '~/components';
-import { channelListSampleData } from '~/data/api';
-import { ChannelListDataFromApi } from '~/models/api';
-import type { ChannelList } from '~/models/app';
+import { sampleChannelSearchQueryData } from '~/data/api';
+import type { Channel } from '~/models/app';
 
-// import { getSearchEndpoint } from '~/helpers/youtube-api.helper';
+// import { getChannelSearchQueryEndpoint } from '~/helpers/youtube-api.helper';
 // import { DataDebugger } from '~/components';
 
 type Props = {
-  channels: ChannelList[];
+  channels: Channel[];
 };
 
 function Home({ channels }: Props) {
   return (
     <>
-      {/* <DataDebugger data={channels} /> */}
+      {/* <DataDebugger data={channelData} /> */}
       <Head>
         <title>Stitch</title>
         <meta name="description" content="The next big thing" />
@@ -83,53 +82,60 @@ function Home({ channels }: Props) {
   
 */
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  // const ENDPOINT = getSearchEndpoint(12, 'gaming', 'channel');
-  // const res = await fetch(`${ENDPOINT}`);
-  // const channelData = await res.json();
+  // const ENDPOINT = getChannelSearchQueryEndpoint(12, 'gaming', 'channel');
+  // const channelSearchQueryRes = await fetch(`${ENDPOINT}`);
+  // const channelSearchQueryData: ChannelSearchQueryData =
+  //   await channelSearchQueryRes.json();
 
   /* 
-    getSearchEndpoint fetches a list of channels from YouTube API based on 
-    a YouTube search query. As far as I can tell there is no obvious way to 
-    query a consistent list of channels from the YouTube API without using this 
-    feature.
+    getChannelSearchQueryEndpoint provides an endpoint to fetch channels from
+    the YouTube API based on a search query, which means it could be different 
+    for between queries. As far as I can tell there is no obvious way to query
+    for a consistent list of channels.
 
     https://developers.google.com/youtube/v3/docs/search
 
     With a real app there would be a user object persisted to a database which
     would have an array of channels that the authenticated user has subscribed 
-    to. This would be fetched from the database and used to query our API for 
-    channel data.
+    to. This would be fetched from the database via GetStaticProps or 
+    getServerSideProps.
 
-    We want to persist the sidebar containing the channels between page nav. 
-    This can be handled by client-side data fetching, like a traditional React 
-    SPA. At the moment the sidebar + server-side data fetching is duplicated in 
-    Home & Channel routes. 
-    
-    The problem with this is that the Google algorithm will generate a fresh 
-    response each time the API is called, which could result in different data
-    on different routes! 🪲 
+    I have queried the YouTube API once using getChannelSearchQueryEndpoint and 
+    have dumped the result to data/api.ts to simulate a database, which can be 
+    reused in other routes. 
 
-    For now, rather than query YouTube to simulate a database we can "get" data 
-    for subscribed channels from /data.ts on the backend ¯\_(ツ)_/¯ 
+    Something to consider is that we want to persist the sidebar containing 
+    the channels the user has subscribed to in between page navigations for an 
+    "app-like" feel. This can be achieved by client-side data fetching, like a 
+    traditional React SPA.
 
-    TODO implement nested Layouts
-    - Persist header and sidebar data to React context (global state) at the top level _app.tsx
+    At the moment the sidebar is duplicated in the Home and Channel routes since 
+    the simulated database channel data is coming from the backend of each route.
+
+    In the future we want to re-architect the app to take advantage of persistent
+    layouts. Note if a user followed a channel we'd have to save it to local 
+    state for our navigation and submit to the database - ! potential bugs.
+
+    TODO implement persistent layout of sidebar & header
     https://nextjs.org/docs/basic-features/layouts#data-fetchinghttps://nextjs.org/docs/basic-features/layouts#data-fetching
     https://www.youtube.com/watch?v=WOeLxL2DF3E&t=37s
     https://adamwathan.me/2019/10/17/persistent-layout-patterns-in-nextjs/
-
-    TODO move data fetching for navigation to client-side with SWR + API route
     https://nextjs.org/docs/api-routes/introduction
     https://swr.vercel.app/docs/with-nextjs
+
+    Next has a solution to this problem with their new (Remix inspired) router 
+    that uses an app directory, but the feature is still in beta unfortunately.
+    This ties in to React 18 Server Components and streaming.
   */
-  const channelData = channelListSampleData;
+  const channelSearchQueryData = sampleChannelSearchQueryData;
 
-  const channels: ChannelList[] = [];
+  const channels: Channel[] = [];
 
-  channelData.items.forEach((item: ChannelListDataFromApi) =>
+  channelSearchQueryData.data.items.forEach(item =>
     channels.push({
       channelId: item.snippet.channelId,
       title: item.snippet.title,
+      about: item.snippet.description,
     }),
   );
 
