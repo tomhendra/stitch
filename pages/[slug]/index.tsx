@@ -1,46 +1,39 @@
-import NextLink from 'next/link';
-import Head from 'next/head';
-import slugify from 'slugify';
-import { useRef } from 'react';
 import {
   AspectRatio,
   Box,
   Button,
-  Heading,
-  GridItem,
-  Flex,
-  Link,
-  Input,
   Drawer,
   DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
   DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  useDisclosure,
-  Spacer,
-  Text,
+  Flex,
+  GridItem,
+  Heading,
+  Input,
+  Link,
   List,
   ListItem,
+  Spacer,
+  Text,
+  useDisclosure,
 } from '@chakra-ui/react';
-import {
-  getSearchEndpoint,
-  getChannelsEndpoint,
-  getVideosFromChannel,
-} from '~/helpers/youtube-api.helper';
-import {
-  channelListSampleData,
-  channelSampleData,
-  playListSampleData,
-  videosSampleData,
-} from '~/data';
+import Head from 'next/head';
+import NextLink from 'next/link';
+import { useRef } from 'react';
+import slugify from 'slugify';
 import { Layout } from '~/components';
-import type { GetStaticProps, GetStaticPaths } from 'next';
-import type { Channel, Video, ChannelList, Message } from '~/models/api';
+import { channelListSampleData } from '~/data';
+import { getVideosFromChannel } from '~/helpers/youtube-api.helper';
+
+import type { GetStaticPaths, GetStaticProps } from 'next';
 import { useEffect, useState } from 'react';
-import { sampleOne } from '~/utils/main';
 import { messageSampleData } from '~/data';
+import type { Channel, ChannelList, Message, Video } from '~/models/api';
+import { sampleOne } from '~/utils/main';
+// import { DataDebugger } from '~/components';
 
 interface FormElements extends HTMLFormControlsCollection {
   messageInput: HTMLInputElement;
@@ -55,19 +48,33 @@ type Props = {
 };
 
 function Channel({ channel, channels }: Props) {
-  // Video
+  // Videos
   const [videos, setVideos] = useState<Video[] | null>(null);
   const [currentVideo, setCurrentVideo] = useState<Video | null>(null);
+  // Messages
   const [messages, setMessages] = useState<Message[]>([]);
   // Drawer
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef();
 
+  // On component mount populate video state variables
   useEffect(() => {
     setVideos(channel.videos);
     setCurrentVideo(sampleOne(channel.videos));
   }, [channel.videos]);
 
+  /* 
+    Handle the message and persist in component state. The messages are currently
+    not associated with a channel, so remain the same across channel routes. 
+    
+    Take this as a proof on concept that the form handling is taken care of on 
+    the frontend,
+
+    TODO 3. create an auth flow and realtime chat via Websockets & PostgreSQL
+    - channel id for each message & database query with id to get messages for 
+    channel 
+  
+  */
   function handleMessage(event: React.FormEvent<MessageFormElement>) {
     event.preventDefault();
 
@@ -76,20 +83,20 @@ function Channel({ channel, channels }: Props) {
       body: event.currentTarget.elements.messageInput.value,
     };
 
-    const updatesMessages = [...messages, newMessage];
-    setMessages(updatesMessages);
+    const updatedMessages = [...messages, newMessage];
+    setMessages(updatedMessages);
 
     const randomMessage = sampleOne(messageSampleData.items);
 
     setTimeout(() => {
-      setMessages([...updatesMessages, randomMessage]);
+      setMessages([...updatedMessages, randomMessage]);
     }, 1000);
   }
 
   return (
     <>
-      {/* <pre>{JSON.stringify(videosData, null, 2)}</pre> */}
-
+      {/* <DataDebugger data={channel} />  */}
+      {/* <DataDebugger data={channels} />  */}
       <Head>
         <title>User channel</title>
         <meta name="description" content="User description" />
@@ -144,7 +151,7 @@ function Channel({ channel, channels }: Props) {
           </Flex>
           <p>{channel.about}</p>
           <div>
-            {/* Channel videos */}
+            {/* Channel video list */}
             <Heading paddingBlock={4}>Videos</Heading>
             <List>
               {videos?.map(video => (
@@ -158,7 +165,6 @@ function Channel({ channel, channels }: Props) {
             <DrawerContent>
               <DrawerCloseButton />
               <DrawerHeader>Chat</DrawerHeader>
-
               <DrawerBody>
                 <Flex direction="column" maxHeight="100%">
                   <Box p="4">
@@ -198,39 +204,20 @@ function Channel({ channel, channels }: Props) {
   );
 }
 
+/* 
+  we can't create a static page for an infinite number of possibilities, (for
+  every channel id there could ever be).
+
+  we need to provide Next.js with a finite number of options so it can create 
+  a page for each of them.
+
+  we need to generate an array of paths for the getStaticPaths function.
+*/
 export const getStaticPaths: GetStaticPaths = async () => {
-  /* 
-    we can't create a static page for an infinite number of possibilities, (for
-    every channel id there could ever be).
-
-    we need to provide Next.js with a finite number of options so it can create 
-    a page for each of them.
-
-    we need to generate an array of paths for the getStaticPaths function.
-  */
-
-  /* 
-    ! calling getSearchEndpoint multiple times in channel & home no es bueno... 
-    ! the data could be different between calls, and therefore break routing 🪲  
-
-    With a real app there would be a user object persisted to a database which
-    would have an array of channels that the authenticated user has subscribed 
-    to. This would be fetched from the database and used to query the API for 
-    channel data.
-
-    As far as I can tell there is no obvious way to query a consistent list of 
-    channels from the YouTube API without using Search.
-    https://developers.google.com/youtube/v3/docs/search
-    
-    The Google algorithm will generate a response based on the search query, in
-    this case 'gaming' which we have no way of controlling for consistency. 
-    
-    To simulate a database we "get" data from /data.ts on the backend ¯\_(ツ)_/¯ 
-  */
-
   // const ENDPOINT = getSearchEndpoint(25, 'gaming', 'channel');
   // const res = await fetch(`${ENDPOINT}`);
   // const data = await res.json();
+  // ? using static data for this API call - see explanation in pages/index.tsx
   const data = channelListSampleData;
 
   const paths: any = [];
@@ -251,25 +238,30 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
+/* 
+  Next.js will call the getStaticProps function for every path we've returned
+  from getStaticPaths
+*/
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
-  // fetch details for Channel from YouTube API
-
-  /* 
-    Next.js will call the getStaticProps function for every path we've returned
-    from getStaticPaths
-  */
+  // console.log({params});
   if (!params?.slug) {
     throw new Error('error generating path');
   }
 
   const slug: string = !Array.isArray(params.slug) ? params.slug : '';
 
-  // ? Simulate db as mentioned above
+  // ? using static data for this API call - see explanation in pages/index.tsx
   // const SEARCH_ENDPOINT = getSearchEndpoint(25, 'gaming', 'channel');
   // const searchRes = await fetch(`${SEARCH_ENDPOINT}`);
   // const searchData = await searchRes.json();
   const searchData = channelListSampleData;
 
+  /* 
+    grab the current channel for ths dynamic route by matching the slug on the
+    params object with the subscribed channel data. 
+    
+    slug comes from the filename [slug] — square brackets signify a dynamic route.
+  */
   const channel = searchData.items.find((item: any) => {
     const { title } = item.snippet;
     const itemSlug = slugify(title).toLowerCase();
@@ -278,6 +270,10 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
 
   const channels: ChannelList[] = [];
 
+  /* 
+    populate the channels array so that we only send data from the server that 
+    is required to minimise bandwidth and compute expense.
+  */
   searchData.items.forEach((item: any) =>
     channels.push({
       channelId: item.snippet.channelId,
@@ -285,11 +281,13 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
     }),
   );
 
+  // Call a *real* API this time 😅
   const VIDEOS_ENDPOINT = channel
     ? getVideosFromChannel(channel.id.channelId, 12)
     : '';
   const videosRes = await fetch(`${VIDEOS_ENDPOINT}`);
   const videosData = await videosRes.json();
+  // ? swap to sample data if the API quota runs low (or spin up another app on GCP!)
   // const videosData = playListSampleData;
 
   const title: string = channel?.snippet.title || '';
@@ -297,6 +295,10 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const channelId: string = channel?.snippet.channelId || '';
   const videos: Video[] = [];
 
+  /* 
+    again, filter out the unnecessary data.
+    TODO data model for data fetched from API - "any" no es bueno!
+  */
   videosData.items.forEach((video: any) => {
     videos.push({
       videoId: video.id.videoId,

@@ -1,21 +1,14 @@
-import NextLink from 'next/link';
-import Head from 'next/head';
-import slugify from 'slugify';
-import {
-  Container,
-  Heading,
-  Flex,
-  Grid,
-  GridItem,
-  Text,
-  Link,
-} from '@chakra-ui/react';
+import { Flex, GridItem, Heading, Link } from '@chakra-ui/react';
 import type { GetStaticProps } from 'next';
-import type { ChannelList } from '~/models/api';
-import { channelListSampleData } from '~/data';
-import { getSearchEndpoint } from '~/helpers/youtube-api.helper';
-import Image from 'next/image';
+import Head from 'next/head';
+import NextLink from 'next/link';
+import slugify from 'slugify';
 import { Layout } from '~/components';
+import { channelListSampleData } from '~/data';
+import type { ChannelList } from '~/models/api';
+
+// import { getSearchEndpoint } from '~/helpers/youtube-api.helper';
+// import { DataDebugger } from '~/components';
 
 type Props = {
   channels: ChannelList[];
@@ -24,8 +17,7 @@ type Props = {
 function Home({ channels }: Props) {
   return (
     <>
-      {/* <pre>{JSON.stringify(channels, null, 2)}</pre> */}
-
+      {/* <DataDebugger data={channels} /> */}
       <Head>
         <title>Stitch</title>
         <meta name="description" content="The next big thing" />
@@ -34,7 +26,7 @@ function Home({ channels }: Props) {
 
       <Layout>
         {/* sidebar depends on data props so is duplicated in Home and 
-          Channel routes. see comments in _app.tsx for more info */}
+          Channel routes. see comments below / in _app.tsx */}
         <GridItem p={2} area={'sidebar'}>
           <Heading as="h2" fontSize="xl" marginBlockEnd={3}>
             For you
@@ -64,7 +56,9 @@ function Home({ channels }: Props) {
   );
 }
 
-/* 
+/*
+  ? Some notes on data fetching and rendering methods
+  
   getStaticProps will:
 
     1. fetch data from API
@@ -88,11 +82,45 @@ function Home({ channels }: Props) {
   
 */
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  // fetch list of channels from YouTube API based on search query
-
   // const ENDPOINT = getSearchEndpoint(12, 'gaming', 'channel');
   // const res = await fetch(`${ENDPOINT}`);
   // const channelData = await res.json();
+
+  /* 
+    getSearchEndpoint fetches a list of channels from YouTube API based on 
+    a YouTube search query. As far as I can tell there is no obvious way to 
+    query a consistent list of channels from the YouTube API without using this 
+    feature.
+
+    https://developers.google.com/youtube/v3/docs/search
+
+    With a real app there would be a user object persisted to a database which
+    would have an array of channels that the authenticated user has subscribed 
+    to. This would be fetched from the database and used to query our API for 
+    channel data.
+
+    We want to persist the sidebar containing the channels between page nav. 
+    This can be handled by client-side data fetching, like a traditional React 
+    SPA. At the moment the sidebar + server-side data fetching is duplicated in 
+    Home & Channel routes. 
+    
+    The problem with this is that the Google algorithm will generate a fresh 
+    response each tim e the API is called, which could result in different 
+    data between on different routes! 🪲 
+
+    For now, rather than query YouTube to simulate a database we can "get" data 
+    for subscribed to channels from /data.ts on the backend ¯\_(ツ)_/¯ 
+
+    TODO 1. implement nested Layouts
+    - Persist header and sidebar data to React context (global state) at the top level _app.tsx
+    https://nextjs.org/docs/basic-features/layouts#data-fetchinghttps://nextjs.org/docs/basic-features/layouts#data-fetching
+    https://www.youtube.com/watch?v=WOeLxL2DF3E&t=37s
+    https://adamwathan.me/2019/10/17/persistent-layout-patterns-in-nextjs/
+
+    TODO 2. move the data fetching to an API route with SWR
+    https://nextjs.org/docs/api-routes/introduction
+    https://swr.vercel.app/docs/with-nextjs
+  */
   const channelData = channelListSampleData;
 
   const channels: ChannelList[] = [];
