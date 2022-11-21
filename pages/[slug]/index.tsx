@@ -24,16 +24,17 @@ import NextLink from 'next/link';
 import { useRef } from 'react';
 import slugify from 'slugify';
 import { Layout } from '~/components';
-import { channelListSampleData } from '~/data';
+import {
+  channelListSampleData,
+  messageSampleData,
+  videosSampleData,
+} from '~/data/api';
 import { getVideosFromChannel } from '~/helpers/youtube-api.helper';
 
 import type { GetStaticPaths, GetStaticProps } from 'next';
 import { useEffect, useState } from 'react';
-import { messageSampleData } from '~/data';
-import type { Channel, ChannelList, Message, Video } from '~/models/api';
+import type { Channel, ChannelList, Message, Video } from '~/models/app';
 import { sampleOne } from '~/utils/main';
-
-import { videosSampleData } from '~/data';
 // import { DataDebugger } from '~/components';
 
 interface FormElements extends HTMLFormControlsCollection {

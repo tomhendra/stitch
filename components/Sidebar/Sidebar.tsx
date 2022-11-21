@@ -1,7 +1,7 @@
 import NextLink from 'next/link';
 import slugify from 'slugify';
 import Image from 'next/image';
-import type { ChannelList } from '~/models/api';
+import type { ChannelList } from '~/models/app';
 import { useRouter } from 'next/router';
 import {
   Container,

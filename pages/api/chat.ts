@@ -1,5 +1,5 @@
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
-import type { Message } from '~/models/api';
+import type { Message } from '~/models/app';
 
 // function replyToMessage(message: Message): Message {
 //   return {

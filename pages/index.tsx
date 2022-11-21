@@ -4,8 +4,8 @@ import Head from 'next/head';
 import NextLink from 'next/link';
 import slugify from 'slugify';
 import { Layout } from '~/components';
-import { channelListSampleData } from '~/data';
-import type { ChannelList } from '~/models/api';
+import { channelListSampleData } from '~/data/api';
+import type { ChannelList } from '~/models/app';
 
 // import { getSearchEndpoint } from '~/helpers/youtube-api.helper';
 // import { DataDebugger } from '~/components';
