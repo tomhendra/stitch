@@ -1,7 +1,7 @@
 type ResourceType = 'video' | 'channel' | 'playlist';
 
 const API = 'https://www.googleapis.com/youtube/v3';
-const AUTH = process.env.YOUTUBE_API_KEY;
+const AUTH = process.env.YOUTUBE_API_KEY_2;
 
 // ? Function names should correspond to the YouTube API conventions por-fa
 

@@ -67,12 +67,11 @@ function Channel({ channel, channels }: Props) {
     Handle the message and persist in component state. The messages are currently
     not associated with a channel, so remain the same across channel routes. 
     
-    Take this as a proof on concept that the form handling is taken care of on 
-    the frontend,
+    Take this as a minimum proof of concept that the form handling works..
 
-    TODO 3. create an auth flow and realtime chat via Websockets & PostgreSQL
+    TODO create an auth flow and realtime chat via Websockets & PostgreSQL
     - channel id for each message & database query with id to get messages for 
-    channel 
+    current channel.
   
   */
   function handleMessage(event: React.FormEvent<MessageFormElement>) {
@@ -105,7 +104,7 @@ function Channel({ channel, channels }: Props) {
 
       <Layout>
         {/* sidebar depends on data props so is duplicated in Home and 
-          Channel routes. see comments in _app.tsx for more info */}
+          Channel routes. see comments in index.tsx for more info */}
         <GridItem p={2} area={'sidebar'}>
           <Heading as="h2" fontSize="xl" marginBlockEnd={3}>
             For you

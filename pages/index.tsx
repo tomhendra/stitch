@@ -26,7 +26,7 @@ function Home({ channels }: Props) {
 
       <Layout>
         {/* sidebar depends on data props so is duplicated in Home and 
-          Channel routes. see comments below / in _app.tsx */}
+          Channel routes. see comments below */}
         <GridItem p={2} area={'sidebar'}>
           <Heading as="h2" fontSize="xl" marginBlockEnd={3}>
             For you
@@ -111,13 +111,13 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     For now, rather than query YouTube to simulate a database we can "get" data 
     for subscribed to channels from /data.ts on the backend ¯\_(ツ)_/¯ 
 
-    TODO 1. implement nested Layouts
+    TODO implement nested Layouts
     - Persist header and sidebar data to React context (global state) at the top level _app.tsx
     https://nextjs.org/docs/basic-features/layouts#data-fetchinghttps://nextjs.org/docs/basic-features/layouts#data-fetching
     https://www.youtube.com/watch?v=WOeLxL2DF3E&t=37s
     https://adamwathan.me/2019/10/17/persistent-layout-patterns-in-nextjs/
 
-    TODO 2. move the data fetching to an API route with SWR
+    TODO move data fetching for navigation to client-side with SWR + API route
     https://nextjs.org/docs/api-routes/introduction
     https://swr.vercel.app/docs/with-nextjs
   */
