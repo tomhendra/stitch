@@ -24,6 +24,8 @@ type Props = {
 function Home({ channels }: Props) {
   return (
     <>
+      {/* <pre>{JSON.stringify(channels, null, 2)}</pre> */}
+
       <Head>
         <title>Stitch</title>
         <meta name="description" content="The next big thing" />
@@ -57,7 +59,6 @@ function Home({ channels }: Props) {
         <GridItem as="main" area={'main'}>
           <Heading>Home route</Heading>
         </GridItem>
-        {/* <pre>{JSON.stringify(channels, null, 2)}</pre> */}
       </Layout>
     </>
   );

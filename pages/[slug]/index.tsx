@@ -1,7 +1,9 @@
 import NextLink from 'next/link';
 import Head from 'next/head';
 import slugify from 'slugify';
+import YouTube, { type YouTubeProps } from 'react-youtube';
 import {
+  AspectRatio,
   Container,
   Heading,
   Grid,
@@ -13,15 +15,19 @@ import {
   getSearchEndpoint,
   getChannelsEndpoint,
   getPlaylistEndpoint,
+  getVideosFromChannel,
 } from '~/helpers/youtube-api.helper';
 import {
   channelListSampleData,
   channelSampleData,
   playListSampleData,
+  videosSampleData,
 } from '~/data';
 import { Layout } from '~/components';
 import type { GetStaticProps, GetStaticPaths } from 'next';
 import type { Channel, Video, ChannelList } from '~/models/api';
+import { useEffect, useState } from 'react';
+import { sampleOne } from '~/utils/main';
 
 type Props = {
   channel: Channel;
@@ -29,8 +35,18 @@ type Props = {
 };
 
 function Channel({ channel, channels }: Props) {
+  const [videos, setVideos] = useState<Video[] | null>(null);
+  const [currentVideo, setCurrentVideo] = useState<Video | null>(null);
+
+  useEffect(() => {
+    setVideos(channel.videos);
+    setCurrentVideo(sampleOne(channel.videos));
+  }, [channel.videos]);
+
   return (
     <>
+      {/* <pre>{JSON.stringify(videosData, null, 2)}</pre> */}
+
       <Head>
         <title>User channel</title>
         <meta name="description" content="User description" />
@@ -62,6 +78,16 @@ function Channel({ channel, channels }: Props) {
           </Flex>
         </GridItem>
         <GridItem as="main" area={'main'}>
+          {/* Video embed */}
+          <AspectRatio maxW="560px" ratio={16 / 9}>
+            <iframe
+              src={`https://www.youtube.com/embed/${currentVideo?.videoId}`}
+              // src={`https://www.youtube.com/embed/${currentVideo?.videoId}?autoplay=1`}
+              frameBorder="0"
+              allow="autoplay; encrypted-media"
+              allowFullScreen
+            ></iframe>
+          </AspectRatio>
           <Heading
             lineHeight={1.1}
             fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }}
@@ -70,13 +96,14 @@ function Channel({ channel, channels }: Props) {
           </Heading>
           <p>{channel.about}</p>
           <div>
-            {channel.videos.map((video: Video) => (
+            {/* Channel videos */}
+            <Heading>Videos</Heading>
+            {videos?.map(video => (
               <p key={video.videoId}>{video.title}</p>
             ))}
           </div>
         </GridItem>
       </Layout>
-      {/* <pre>{JSON.stringify(channel, null, 2)}</pre> */}
     </>
   );
 }
@@ -169,21 +196,21 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   );
 
   // ? burned the API quota, so created a new app on GCP & captured sample data!
-  // const PLAYLIST_ENDPOINT = channel
-  //   ? getPlaylistEndpoint(channel.id.channelId, 12)
-  //   : '';
-  // const playlistRes = await fetch(`${PLAYLIST_ENDPOINT}`);
-  // const playlistData = await playlistRes.json();
-  const playlistData = playListSampleData;
+  const VIDEOS_ENDPOINT = channel
+    ? getVideosFromChannel(channel.id.channelId, 12)
+    : '';
+  const videosRes = await fetch(`${VIDEOS_ENDPOINT}`);
+  const videosData = await videosRes.json();
+  // const videosData = playListSampleData;
 
   const title: string = channel?.snippet.title || '';
   const about: string = channel?.snippet.description || '';
   const channelId: string = channel?.snippet.channelId || '';
   const videos: Video[] = [];
 
-  playlistData.items.forEach((video: any) => {
+  videosData.items.forEach((video: any) => {
     videos.push({
-      videoId: video.id,
+      videoId: video.id.videoId,
       title: video.snippet.title,
     });
   });

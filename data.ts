@@ -971,3 +971,447 @@ export const playListSampleData = {
     },
   ],
 };
+
+export const videosSampleData = {
+  kind: 'youtube#searchListResponse',
+  etag: 'lnBXWkSQca8bACFkRr6GcUc7PZQ',
+  nextPageToken: 'CAwQAA',
+  regionCode: 'ES',
+  pageInfo: {
+    totalResults: 2859,
+    resultsPerPage: 12,
+  },
+  items: [
+    {
+      kind: 'youtube#searchResult',
+      etag: 'dTA8cghE2ExRlr3K2lWhVq8u-LY',
+      id: {
+        kind: 'youtube#video',
+        videoId: '4Fdfcl0XRiY',
+      },
+      snippet: {
+        publishedAt: '2022-11-20T14:58:39Z',
+        channelId: 'UCJHNShrJLCXF2_Fawq_VO7Q',
+        title: 'Стрим на День Рождения ➤ Общение, поздравление, веселье',
+        description:
+          'Поздравить с Днем Рождения - https://www.donationalerts.ru/r/scrachit Друзья! Сегодня у меня ДР и я решил провести ...',
+        thumbnails: {
+          default: {
+            url: 'https://i.ytimg.com/vi/4Fdfcl0XRiY/default.jpg',
+            width: 120,
+            height: 90,
+          },
+          medium: {
+            url: 'https://i.ytimg.com/vi/4Fdfcl0XRiY/mqdefault.jpg',
+            width: 320,
+            height: 180,
+          },
+          high: {
+            url: 'https://i.ytimg.com/vi/4Fdfcl0XRiY/hqdefault.jpg',
+            width: 480,
+            height: 360,
+          },
+        },
+        channelTitle: 'Scrachit Gaming',
+        liveBroadcastContent: 'none',
+        publishTime: '2022-11-20T14:58:39Z',
+      },
+    },
+    {
+      kind: 'youtube#searchResult',
+      etag: 'e5LFXeRiNDtKv1P3Gw-NdgbILus',
+      id: {
+        kind: 'youtube#video',
+        videoId: 'no2uYfqLRbk',
+      },
+      snippet: {
+        publishedAt: '2022-11-19T17:32:59Z',
+        channelId: 'UCJHNShrJLCXF2_Fawq_VO7Q',
+        title:
+          'ФИНАЛ THE DEVIL IN ME [4K] ➤ Прохождение Часть 3 ➤ Новый Хоррор The Dark Pictures Anthology',
+        description:
+          'Донат и сообщение на Стрим - https://www.donationalerts.ru/r/scrachit Полное Прохождение игры The Dark Pictures ...',
+        thumbnails: {
+          default: {
+            url: 'https://i.ytimg.com/vi/no2uYfqLRbk/default.jpg',
+            width: 120,
+            height: 90,
+          },
+          medium: {
+            url: 'https://i.ytimg.com/vi/no2uYfqLRbk/mqdefault.jpg',
+            width: 320,
+            height: 180,
+          },
+          high: {
+            url: 'https://i.ytimg.com/vi/no2uYfqLRbk/hqdefault.jpg',
+            width: 480,
+            height: 360,
+          },
+        },
+        channelTitle: 'Scrachit Gaming',
+        liveBroadcastContent: 'none',
+        publishTime: '2022-11-19T17:32:59Z',
+      },
+    },
+    {
+      kind: 'youtube#searchResult',
+      etag: 'GU8C6Ff4Ym3RFExFsAUyDmOoI3g',
+      id: {
+        kind: 'youtube#video',
+        videoId: 'x8V2-kiq5YU',
+      },
+      snippet: {
+        publishedAt: '2022-11-18T20:40:23Z',
+        channelId: 'UCJHNShrJLCXF2_Fawq_VO7Q',
+        title:
+          'ПРОХОЖДЕНИЕ THE DEVIL IN ME [4K] ➤ Часть 2 ➤ Новый Хоррор The Dark Pictures Anthology ➤ На Русском',
+        description:
+          'Донат и сообщение на Стрим - https://www.donationalerts.ru/r/scrachit Полное Прохождение игры The Dark Pictures ...',
+        thumbnails: {
+          default: {
+            url: 'https://i.ytimg.com/vi/x8V2-kiq5YU/default.jpg',
+            width: 120,
+            height: 90,
+          },
+          medium: {
+            url: 'https://i.ytimg.com/vi/x8V2-kiq5YU/mqdefault.jpg',
+            width: 320,
+            height: 180,
+          },
+          high: {
+            url: 'https://i.ytimg.com/vi/x8V2-kiq5YU/hqdefault.jpg',
+            width: 480,
+            height: 360,
+          },
+        },
+        channelTitle: 'Scrachit Gaming',
+        liveBroadcastContent: 'none',
+        publishTime: '2022-11-18T20:40:23Z',
+      },
+    },
+    {
+      kind: 'youtube#searchResult',
+      etag: 'fVT5ys4VQiCggGx8pj5PFalXUvQ',
+      id: {
+        kind: 'youtube#video',
+        videoId: 'dqE1yddGITo',
+      },
+      snippet: {
+        publishedAt: '2022-11-18T16:06:41Z',
+        channelId: 'UCJHNShrJLCXF2_Fawq_VO7Q',
+        title:
+          'ПРОХОЖДЕНИЕ THE DEVIL IN ME [4K] ➤ Часть 1 ➤ Новый Хоррор The Dark Pictures Anthology ➤ На Русском',
+        description:
+          'Донат и сообщение на Стрим - https://www.donationalerts.ru/r/scrachit Полное Прохождение игры The Dark Pictures ...',
+        thumbnails: {
+          default: {
+            url: 'https://i.ytimg.com/vi/dqE1yddGITo/default.jpg',
+            width: 120,
+            height: 90,
+          },
+          medium: {
+            url: 'https://i.ytimg.com/vi/dqE1yddGITo/mqdefault.jpg',
+            width: 320,
+            height: 180,
+          },
+          high: {
+            url: 'https://i.ytimg.com/vi/dqE1yddGITo/hqdefault.jpg',
+            width: 480,
+            height: 360,
+          },
+        },
+        channelTitle: 'Scrachit Gaming',
+        liveBroadcastContent: 'none',
+        publishTime: '2022-11-18T16:06:41Z',
+      },
+    },
+    {
+      kind: 'youtube#searchResult',
+      etag: 'giGvQ17jhHgHRL-kyiI9ANs_dnk',
+      id: {
+        kind: 'youtube#video',
+        videoId: 'Xh5exGCohOg',
+      },
+      snippet: {
+        publishedAt: '2022-11-15T19:22:22Z',
+        channelId: 'UCJHNShrJLCXF2_Fawq_VO7Q',
+        title:
+          'ПРОХОЖДЕНИЕ GOD OF WAR RAGNAROK [4K] ➤ Часть 15 ➤ Русская Озвучка ➤ Год оф Вар Рагнарёк на PS5',
+        description:
+          'Донат и сообщение на Стрим - https://www.donationalerts.ru/r/scrachit Полное Прохождение игры God of War Ragnarok в 4K ...',
+        thumbnails: {
+          default: {
+            url: 'https://i.ytimg.com/vi/Xh5exGCohOg/default.jpg',
+            width: 120,
+            height: 90,
+          },
+          medium: {
+            url: 'https://i.ytimg.com/vi/Xh5exGCohOg/mqdefault.jpg',
+            width: 320,
+            height: 180,
+          },
+          high: {
+            url: 'https://i.ytimg.com/vi/Xh5exGCohOg/hqdefault.jpg',
+            width: 480,
+            height: 360,
+          },
+        },
+        channelTitle: 'Scrachit Gaming',
+        liveBroadcastContent: 'none',
+        publishTime: '2022-11-15T19:22:22Z',
+      },
+    },
+    {
+      kind: 'youtube#searchResult',
+      etag: '5_AWbCJUY0qZ87pYxl0skvM0cS4',
+      id: {
+        kind: 'youtube#video',
+        videoId: 'ZKFIpkNiskQ',
+      },
+      snippet: {
+        publishedAt: '2022-11-15T13:26:09Z',
+        channelId: 'UCJHNShrJLCXF2_Fawq_VO7Q',
+        title:
+          'Все Битвы Тора с Кратосом в God of War Ragnarok ➤ Геймплей на PS5',
+        description:
+          'Все битвы Кратоса с Тором! Игрофильм и Полное Прохождение God of War Ragnarok - https://youtu.be/1ZVHCdGhk_c ...',
+        thumbnails: {
+          default: {
+            url: 'https://i.ytimg.com/vi/ZKFIpkNiskQ/default.jpg',
+            width: 120,
+            height: 90,
+          },
+          medium: {
+            url: 'https://i.ytimg.com/vi/ZKFIpkNiskQ/mqdefault.jpg',
+            width: 320,
+            height: 180,
+          },
+          high: {
+            url: 'https://i.ytimg.com/vi/ZKFIpkNiskQ/hqdefault.jpg',
+            width: 480,
+            height: 360,
+          },
+        },
+        channelTitle: 'Scrachit Gaming',
+        liveBroadcastContent: 'none',
+        publishTime: '2022-11-15T13:26:09Z',
+      },
+    },
+    {
+      kind: 'youtube#searchResult',
+      etag: 'VN_6PIRlQIrOlN8kaSNvql4-nV0',
+      id: {
+        kind: 'youtube#video',
+        videoId: '1ZVHCdGhk_c',
+      },
+      snippet: {
+        publishedAt: '2022-11-14T11:33:27Z',
+        channelId: 'UCJHNShrJLCXF2_Fawq_VO7Q',
+        title:
+          'ИГРОФИЛЬМ GOD OF WAR RAGNAROK [4K] ➤ Русская Озвучка ➤ Полное Прохождение Год оф Вар Рагнарёк PS5',
+        description:
+          'Игрофильм God of War Ragnarok в 4K. Полное прохождение игры Год оф Вар Рагнарек Без Комментариев на PS5 на ...',
+        thumbnails: {
+          default: {
+            url: 'https://i.ytimg.com/vi/1ZVHCdGhk_c/default.jpg',
+            width: 120,
+            height: 90,
+          },
+          medium: {
+            url: 'https://i.ytimg.com/vi/1ZVHCdGhk_c/mqdefault.jpg',
+            width: 320,
+            height: 180,
+          },
+          high: {
+            url: 'https://i.ytimg.com/vi/1ZVHCdGhk_c/hqdefault.jpg',
+            width: 480,
+            height: 360,
+          },
+        },
+        channelTitle: 'Scrachit Gaming',
+        liveBroadcastContent: 'none',
+        publishTime: '2022-11-14T11:33:27Z',
+      },
+    },
+    {
+      kind: 'youtube#searchResult',
+      etag: 'xD_RAoaCI_VCjW8JrGXLpDiY56c',
+      id: {
+        kind: 'youtube#video',
+        videoId: 'AtlIRFDuhvI',
+      },
+      snippet: {
+        publishedAt: '2022-11-13T18:39:23Z',
+        channelId: 'UCJHNShrJLCXF2_Fawq_VO7Q',
+        title:
+          'ПРОХОЖДЕНИЕ GOD OF WAR RAGNAROK [4K] ➤ Часть 14 ➤ Русская Озвучка ➤ Год оф Вар Рагнарёк на PS5',
+        description:
+          'Донат и сообщение на Стрим - https://www.donationalerts.ru/r/scrachit Полное Прохождение игры God of War Ragnarok в 4K ...',
+        thumbnails: {
+          default: {
+            url: 'https://i.ytimg.com/vi/AtlIRFDuhvI/default.jpg',
+            width: 120,
+            height: 90,
+          },
+          medium: {
+            url: 'https://i.ytimg.com/vi/AtlIRFDuhvI/mqdefault.jpg',
+            width: 320,
+            height: 180,
+          },
+          high: {
+            url: 'https://i.ytimg.com/vi/AtlIRFDuhvI/hqdefault.jpg',
+            width: 480,
+            height: 360,
+          },
+        },
+        channelTitle: 'Scrachit Gaming',
+        liveBroadcastContent: 'none',
+        publishTime: '2022-11-13T18:39:23Z',
+      },
+    },
+    {
+      kind: 'youtube#searchResult',
+      etag: 'zaf5BRlDR-fZTLj5bHHGkIDRq1A',
+      id: {
+        kind: 'youtube#video',
+        videoId: 'WvDRJJpz5ro',
+      },
+      snippet: {
+        publishedAt: '2022-11-11T18:43:09Z',
+        channelId: 'UCJHNShrJLCXF2_Fawq_VO7Q',
+        title:
+          'ФИНАЛ GOD OF WAR RAGNAROK [4K] ➤ Прохождение Часть 13 ➤ Русская Озвучка ➤ Год оф Вар Рагнарёк на PS5',
+        description:
+          'Донат и сообщение на Стрим - https://www.donationalerts.ru/r/scrachit Полное Прохождение игры God of War Ragnarok в 4K ...',
+        thumbnails: {
+          default: {
+            url: 'https://i.ytimg.com/vi/WvDRJJpz5ro/default.jpg',
+            width: 120,
+            height: 90,
+          },
+          medium: {
+            url: 'https://i.ytimg.com/vi/WvDRJJpz5ro/mqdefault.jpg',
+            width: 320,
+            height: 180,
+          },
+          high: {
+            url: 'https://i.ytimg.com/vi/WvDRJJpz5ro/hqdefault.jpg',
+            width: 480,
+            height: 360,
+          },
+        },
+        channelTitle: 'Scrachit Gaming',
+        liveBroadcastContent: 'none',
+        publishTime: '2022-11-11T18:43:09Z',
+      },
+    },
+    {
+      kind: 'youtube#searchResult',
+      etag: 'hNdqZBPM2Pa0DPigt3qAfdn3bCA',
+      id: {
+        kind: 'youtube#video',
+        videoId: 'qK57-o9xxjc',
+      },
+      snippet: {
+        publishedAt: '2022-11-11T14:48:21Z',
+        channelId: 'UCJHNShrJLCXF2_Fawq_VO7Q',
+        title:
+          'ПРОХОЖДЕНИЕ GOD OF WAR RAGNAROK [4K] ➤ Часть 12 ➤ Русская Озвучка ➤ Год оф Вар Рагнарёк на PS5',
+        description:
+          'Донат и сообщение на Стрим - https://www.donationalerts.ru/r/scrachit Полное Прохождение игры God of War Ragnarok в 4K ...',
+        thumbnails: {
+          default: {
+            url: 'https://i.ytimg.com/vi/qK57-o9xxjc/default.jpg',
+            width: 120,
+            height: 90,
+          },
+          medium: {
+            url: 'https://i.ytimg.com/vi/qK57-o9xxjc/mqdefault.jpg',
+            width: 320,
+            height: 180,
+          },
+          high: {
+            url: 'https://i.ytimg.com/vi/qK57-o9xxjc/hqdefault.jpg',
+            width: 480,
+            height: 360,
+          },
+        },
+        channelTitle: 'Scrachit Gaming',
+        liveBroadcastContent: 'none',
+        publishTime: '2022-11-11T14:48:21Z',
+      },
+    },
+    {
+      kind: 'youtube#searchResult',
+      etag: 'vrckTH-2hPpg04Rmf66dW69uf7w',
+      id: {
+        kind: 'youtube#video',
+        videoId: 'Zpt3OFH_Y3g',
+      },
+      snippet: {
+        publishedAt: '2022-11-10T22:47:06Z',
+        channelId: 'UCJHNShrJLCXF2_Fawq_VO7Q',
+        title:
+          'ПРОХОЖДЕНИЕ GOD OF WAR RAGNAROK [4K] ➤ Часть 11 ➤ Русская Озвучка ➤ Год оф Вар Рагнарёк на PS5',
+        description:
+          'Донат и сообщение на Стрим - https://www.donationalerts.ru/r/scrachit Полное Прохождение игры God of War Ragnarok в 4K ...',
+        thumbnails: {
+          default: {
+            url: 'https://i.ytimg.com/vi/Zpt3OFH_Y3g/default.jpg',
+            width: 120,
+            height: 90,
+          },
+          medium: {
+            url: 'https://i.ytimg.com/vi/Zpt3OFH_Y3g/mqdefault.jpg',
+            width: 320,
+            height: 180,
+          },
+          high: {
+            url: 'https://i.ytimg.com/vi/Zpt3OFH_Y3g/hqdefault.jpg',
+            width: 480,
+            height: 360,
+          },
+        },
+        channelTitle: 'Scrachit Gaming',
+        liveBroadcastContent: 'none',
+        publishTime: '2022-11-10T22:47:06Z',
+      },
+    },
+    {
+      kind: 'youtube#searchResult',
+      etag: '96Fhsbo6xCZNeeXjSbHEDTcrWFA',
+      id: {
+        kind: 'youtube#video',
+        videoId: 'jHLjOd4utjA',
+      },
+      snippet: {
+        publishedAt: '2022-11-10T19:51:39Z',
+        channelId: 'UCJHNShrJLCXF2_Fawq_VO7Q',
+        title:
+          'ПРОХОЖДЕНИЕ GOD OF WAR RAGNAROK [4K] ➤ Часть 10 ➤ Русская Озвучка ➤ Год оф Вар Рагнарёк на PS5',
+        description:
+          'Донат и сообщение на Стрим - https://www.donationalerts.ru/r/scrachit Полное Прохождение игры God of War Ragnarok в 4K ...',
+        thumbnails: {
+          default: {
+            url: 'https://i.ytimg.com/vi/jHLjOd4utjA/default.jpg',
+            width: 120,
+            height: 90,
+          },
+          medium: {
+            url: 'https://i.ytimg.com/vi/jHLjOd4utjA/mqdefault.jpg',
+            width: 320,
+            height: 180,
+          },
+          high: {
+            url: 'https://i.ytimg.com/vi/jHLjOd4utjA/hqdefault.jpg',
+            width: 480,
+            height: 360,
+          },
+        },
+        channelTitle: 'Scrachit Gaming',
+        liveBroadcastContent: 'none',
+        publishTime: '2022-11-10T19:51:39Z',
+      },
+    },
+  ],
+};

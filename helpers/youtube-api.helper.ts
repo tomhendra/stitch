@@ -1,7 +1,7 @@
 type ResourceType = 'video' | 'channel' | 'playlist';
 
 const API = 'https://www.googleapis.com/youtube/v3';
-const AUTH = process.env.YOUTUBE_API_KEY_2;
+const AUTH = process.env.YOUTUBE_API_KEY;
 
 // ? Function names should correspond to the YouTube API conventions por-fa
 
@@ -10,6 +10,13 @@ export function getSearchEndpoint(
   search: string,
   type: ResourceType,
 ) {
+  // https://www.googleapis.com/youtube/v3/search?
+  // order=date
+  // &part=snippet
+  // &channelId={channel id here}
+  // &maxResults=25
+  // &key={YOUR_API_KEY}
+
   // 'https://youtube.googleapis.com/youtube/v3/search?part=snippet
   // &maxResults=25&
   // q=surfing
@@ -17,6 +24,24 @@ export function getSearchEndpoint(
   // &key=[YOUR_API_KEY]';
   const BASE = `${API}/search?part=snippet`;
   return `${BASE}&maxResults=${maxResults}&q=${search}&type=${type}&key=${AUTH}`;
+}
+
+export function getVideosFromChannel(
+  channelId: string,
+  maxResults: number,
+  // search: string,
+  // type: ResourceType,
+) {
+  // https://www.googleapis.com/youtube/v3/search?
+  // order=date
+  // &part=snippet
+  // &channelId={channel id here}
+  // &maxResults=25
+  // &key={YOUR_API_KEY}
+
+  const BASE = `${API}/search?order=date&part=snippet`;
+
+  return `${BASE}&channelId=${channelId}&maxResults=${maxResults}&key=${AUTH}`;
 }
 
 export function getPlaylistEndpoint(id: string, maxResults: number) {
