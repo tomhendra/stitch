@@ -160,7 +160,6 @@ function Channel({ channel, channels }: Props) {
           </div>
           {/* Chat */}
           <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
-            <DrawerOverlay />
             <DrawerContent>
               <DrawerCloseButton />
               <DrawerHeader>Chat</DrawerHeader>
