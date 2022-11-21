@@ -39,6 +39,5 @@ export type Channel = {
 
 export type Message = {
   sender: string;
-  timestamp: number;
   body: string;
 };

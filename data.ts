@@ -1415,3 +1415,25 @@ export const videosSampleData = {
     },
   ],
 };
+
+export const messageSampleData = {
+  items: [
+    {
+      sender: 'Tom',
+      body: 'The lure of the distant and the difficult is deceptive. The great opportunity is where you are.',
+    },
+    {
+      sender: 'Javier',
+      body: 'God gave us the gift of life; it is up to us to give ourselves the gift of living well.',
+    },
+    { sender: 'María', body: 'Love is a serious mental disease.' },
+    {
+      sender: 'Marco',
+      body: 'A single rose can be my garden... a single friend, my world.',
+    },
+    {
+      sender: 'Feo',
+      body: 'Life is movement-we breathe, we eat, we walk, we move!',
+    },
+  ],
+};

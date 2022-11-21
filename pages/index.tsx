@@ -90,7 +90,6 @@ function Home({ channels }: Props) {
 export const getStaticProps: GetStaticProps<Props> = async () => {
   // fetch list of channels from YouTube API based on search query
 
-  // ? burned the API quota, so created a new app on GCP & captured sample data!
   // const ENDPOINT = getSearchEndpoint(12, 'gaming', 'channel');
   // const res = await fetch(`${ENDPOINT}`);
   // const channelData = await res.json();

@@ -1,20 +1,32 @@
 import NextLink from 'next/link';
 import Head from 'next/head';
 import slugify from 'slugify';
-import YouTube, { type YouTubeProps } from 'react-youtube';
+import { useRef } from 'react';
 import {
   AspectRatio,
-  Container,
+  Box,
+  Button,
   Heading,
-  Grid,
   GridItem,
   Flex,
   Link,
+  Input,
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  useDisclosure,
+  Spacer,
+  Text,
+  List,
+  ListItem,
 } from '@chakra-ui/react';
 import {
   getSearchEndpoint,
   getChannelsEndpoint,
-  getPlaylistEndpoint,
   getVideosFromChannel,
 } from '~/helpers/youtube-api.helper';
 import {
@@ -25,9 +37,17 @@ import {
 } from '~/data';
 import { Layout } from '~/components';
 import type { GetStaticProps, GetStaticPaths } from 'next';
-import type { Channel, Video, ChannelList } from '~/models/api';
+import type { Channel, Video, ChannelList, Message } from '~/models/api';
 import { useEffect, useState } from 'react';
 import { sampleOne } from '~/utils/main';
+import { messageSampleData } from '~/data';
+
+interface FormElements extends HTMLFormControlsCollection {
+  messageInput: HTMLInputElement;
+}
+interface MessageFormElement extends HTMLFormElement {
+  readonly elements: FormElements;
+}
 
 type Props = {
   channel: Channel;
@@ -35,13 +55,36 @@ type Props = {
 };
 
 function Channel({ channel, channels }: Props) {
+  // Video
   const [videos, setVideos] = useState<Video[] | null>(null);
   const [currentVideo, setCurrentVideo] = useState<Video | null>(null);
+  const [messages, setMessages] = useState<Message[]>([]);
+  // Drawer
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const btnRef = useRef();
 
   useEffect(() => {
     setVideos(channel.videos);
     setCurrentVideo(sampleOne(channel.videos));
   }, [channel.videos]);
+
+  function handleMessage(event: React.FormEvent<MessageFormElement>) {
+    event.preventDefault();
+
+    const newMessage = {
+      sender: 'Me',
+      body: event.currentTarget.elements.messageInput.value,
+    };
+
+    const updatesMessages = [...messages, newMessage];
+    setMessages(updatesMessages);
+
+    const randomMessage = sampleOne(messageSampleData.items);
+
+    setTimeout(() => {
+      setMessages([...updatesMessages, randomMessage]);
+    }, 1000);
+  }
 
   return (
     <>
@@ -79,29 +122,76 @@ function Channel({ channel, channels }: Props) {
         </GridItem>
         <GridItem as="main" area={'main'}>
           {/* Video embed */}
-          <AspectRatio maxW="560px" ratio={16 / 9}>
+          <AspectRatio maxW="560px" ratio={16 / 9} paddingBlock={6}>
             <iframe
-              src={`https://www.youtube.com/embed/${currentVideo?.videoId}`}
-              // src={`https://www.youtube.com/embed/${currentVideo?.videoId}?autoplay=1`}
+              src={`https://www.youtube.com/embed/${currentVideo?.videoId}?autoplay=1`}
               frameBorder="0"
               allow="autoplay; encrypted-media"
               allowFullScreen
             ></iframe>
           </AspectRatio>
-          <Heading
-            lineHeight={1.1}
-            fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }}
-          >
-            {channel.title}
-          </Heading>
+          <Flex paddingBlock={5} alignItems="center" gap={4}>
+            <Heading
+              lineHeight={1.1}
+              fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }}
+            >
+              {channel.title}
+            </Heading>
+            {/* @ts-ignore */}
+            <Button ref={btnRef} colorScheme="teal" onClick={onOpen} size="lg">
+              Chat
+            </Button>
+          </Flex>
           <p>{channel.about}</p>
           <div>
             {/* Channel videos */}
-            <Heading>Videos</Heading>
-            {videos?.map(video => (
-              <p key={video.videoId}>{video.title}</p>
-            ))}
+            <Heading paddingBlock={4}>Videos</Heading>
+            <List>
+              {videos?.map(video => (
+                <ListItem key={video.videoId}>{video.title}</ListItem>
+              ))}
+            </List>
           </div>
+          {/* Chat */}
+          <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+            <DrawerOverlay />
+            <DrawerContent>
+              <DrawerCloseButton />
+              <DrawerHeader>Chat</DrawerHeader>
+
+              <DrawerBody>
+                <Flex direction="column" maxHeight="100%">
+                  <Box p="4">
+                    {messages?.map(message => (
+                      <div key={message.body}>
+                        <Text fontSize="xs">From: {message.sender}</Text>
+                        <Text marginBottom={6}>{message.body}</Text>
+                      </div>
+                    ))}
+                  </Box>
+                  <Spacer />
+                </Flex>
+              </DrawerBody>
+              <DrawerFooter>
+                <Flex
+                  // @ts-ignore
+                  onSubmit={handleMessage}
+                  as="form"
+                  direction="column"
+                  width="100%"
+                  gap="6"
+                >
+                  <Input id="messageInput" placeholder="Message..." />
+                  <Flex direction="column" width="100%" gap="3">
+                    <Button type="submit">Send</Button>
+                    <Button variant="outline" mr={3} onClick={onClose}>
+                      Cancel
+                    </Button>
+                  </Flex>
+                </Flex>
+              </DrawerFooter>
+            </DrawerContent>
+          </Drawer>
         </GridItem>
       </Layout>
     </>
@@ -174,7 +264,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
 
   const slug: string = !Array.isArray(params.slug) ? params.slug : '';
 
-  // ? burned the API quota, so created a new app on GCP & captured sample data!
+  // ? Simulate db as mentioned above
   // const SEARCH_ENDPOINT = getSearchEndpoint(25, 'gaming', 'channel');
   // const searchRes = await fetch(`${SEARCH_ENDPOINT}`);
   // const searchData = await searchRes.json();
@@ -195,7 +285,6 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
     }),
   );
 
-  // ? burned the API quota, so created a new app on GCP & captured sample data!
   const VIDEOS_ENDPOINT = channel
     ? getVideosFromChannel(channel.id.channelId, 12)
     : '';
