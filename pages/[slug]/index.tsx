@@ -26,7 +26,11 @@ import type { ParsedUrlQuery } from 'querystring';
 import { useEffect, useRef, useState } from 'react';
 import slugify from 'slugify';
 import { Layout } from '~/components';
-import { sampleMessageData, sampleChannelSearchQueryData } from '~/data/api';
+import {
+  sampleMessageData,
+  sampleChannelSearchQueryData,
+  sampleChannelVideosQueryData,
+} from '~/data/api';
 import { getChannelVideosQueryEndpoint } from '~/helpers/youtube-api.helper';
 import type { ChannelVideosQueryData } from '~/models/api';
 import type { Channel, Message, Video } from '~/models/app';
@@ -294,12 +298,12 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
     some sample data to data/api.ts as with the channel query. 
   */
   // TODO move fetch calls into helpers and return proper types
-  const ENDPOINT = getChannelVideosQueryEndpoint(channel.id.channelId, 12);
-  const channelVideosQueryRes = await fetch(`${ENDPOINT}`);
-  const channelVideosQueryData: ChannelVideosQueryData =
-    await channelVideosQueryRes.json();
+  // const ENDPOINT = getChannelVideosQueryEndpoint(channel.id.channelId, 12);
+  // const channelVideosQueryRes = await fetch(`${ENDPOINT}`);
+  // const channelVideosQueryData: ChannelVideosQueryData =
+  //   await channelVideosQueryRes.json();
 
-  // const channelVideosQueryData = sampleChannelVideosQueryData;
+  const channelVideosQueryData = sampleChannelVideosQueryData;
 
   const title = channel?.snippet.title || '';
   const about = channel?.snippet.description || '';

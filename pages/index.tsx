@@ -89,9 +89,9 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 
   /* 
     getChannelSearchQueryEndpoint provides an endpoint to fetch channels from
-    the YouTube API based on a search query, which means it could be different 
-    for between queries. As far as I can tell there is no obvious way to query
-    for a consistent list of channels.
+    the YouTube API based on a search query, which means data could be different 
+    between queries. As far as I can tell there is no obvious way to query for 
+    a consistent list of channels.
 
     https://developers.google.com/youtube/v3/docs/search
 
@@ -101,8 +101,8 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     getServerSideProps.
 
     I have queried the YouTube API once using getChannelSearchQueryEndpoint and 
-    have dumped the result to data/api.ts to simulate a database, which can be 
-    reused in other routes. 
+    have dumped the result in data/api.ts to simulate a database fetch, which 
+    can be reused in other routes. 
 
     Something to consider is that we want to persist the sidebar containing 
     the channels the user has subscribed to in between page navigations for an 
@@ -114,7 +114,8 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 
     In the future we want to re-architect the app to take advantage of persistent
     layouts. Note if a user followed a channel we'd have to save it to local 
-    state for our navigation and submit to the database - ! potential bugs.
+    state for our navigation and also submit to the database - ! potential bugs
+    or race conditions.
 
     TODO implement persistent layout of sidebar & header
     https://nextjs.org/docs/basic-features/layouts#data-fetchinghttps://nextjs.org/docs/basic-features/layouts#data-fetching
