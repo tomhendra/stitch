@@ -58,6 +58,7 @@ function Channel({ channel, channels }: Props) {
   const [currentVideo, setCurrentVideo] = useState<Video | null>(null);
   // Messages
   const [messages, setMessages] = useState<Message[]>([]);
+  const [message, setMessage] = useState('');
   // Drawer
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef();
@@ -84,10 +85,11 @@ function Channel({ channel, channels }: Props) {
 
     const newMessage = {
       sender: 'Me',
-      body: event.currentTarget.elements.messageInput.value,
+      body: message,
     };
 
     const updatedMessages = [...messages, newMessage];
+    setMessage('');
     setMessages(updatedMessages);
 
     const randomMessage = sampleOne(sampleMessageData.items);
@@ -192,7 +194,12 @@ function Channel({ channel, channels }: Props) {
                   width="100%"
                   gap="6"
                 >
-                  <Input id="messageInput" placeholder="Message..." />
+                  <Input
+                    id="messageInput"
+                    placeholder="Message..."
+                    value={message}
+                    onChange={e => setMessage(e.target.value)}
+                  />
                   <Flex direction="column" width="100%" gap="3">
                     <Button type="submit">Send</Button>
                     <Button variant="outline" mr={3} onClick={onClose}>
