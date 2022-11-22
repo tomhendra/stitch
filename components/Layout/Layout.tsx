@@ -1,7 +1,5 @@
-import { Grid, GridItem } from '@chakra-ui/react';
+import { Grid } from '@chakra-ui/react';
 import type { Children } from '~/types';
-
-import { Navbar } from '../Navbar';
 
 function Layout({ children }: Children) {
   return (

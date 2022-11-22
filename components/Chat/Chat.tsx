@@ -12,7 +12,7 @@ import {
   Spacer,
   Text,
 } from '@chakra-ui/react';
-import { Message } from '~/models/app';
+import type { Message } from '~/models/app';
 
 interface FormElements extends HTMLFormControlsCollection {
   messageInput: HTMLInputElement;
@@ -53,7 +53,7 @@ function Chat(props: Props) {
         </DrawerBody>
         <DrawerFooter>
           <Flex
-            // TODO fix when more familiar with Chakra
+            // TODO fix this later
             // @ts-ignore
             onSubmit={onSubmit}
             as="form"

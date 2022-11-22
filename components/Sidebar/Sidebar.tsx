@@ -1,8 +1,7 @@
+import { Flex, Heading, Link } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import slugify from 'slugify';
-import Image from 'next/image';
 import type { Channel } from '~/models/app';
-import { Heading, Flex, Link } from '@chakra-ui/react';
 
 type Props = {
   channels: Channel[];

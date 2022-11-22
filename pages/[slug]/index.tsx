@@ -1,21 +1,10 @@
 import {
-  AspectRatio,
-  Box,
   Button,
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
   Flex,
   GridItem,
   Heading,
-  Input,
   List,
   ListItem,
-  Spacer,
-  Text,
   useDisclosure,
 } from '@chakra-ui/react';
 import type { GetStaticPaths, GetStaticProps } from 'next';
@@ -29,8 +18,8 @@ import type { ChannelVideosQueryData } from '~/models/api';
 import type { Channel, Message, Video } from '~/models/app';
 import { sampleOne } from '~/utils/main';
 
-import { getChannelVideosQueryEndpoint } from '~/helpers/youtube-api.helper';
 import { Chat } from '~/components/Chat';
+import { getChannelVideosQueryEndpoint } from '~/helpers/youtube-api.helper';
 // import { sampleChannelVideosQueryData } from '~/data/api';
 // import { DataDebugger } from '~/components';
 
@@ -138,7 +127,7 @@ function Channel({ channel, channels }: Props) {
             >
               {channel.title}
             </Heading>
-            {/* // TODO fix this */}
+            {/* // TODO fix this later */}
             {/* @ts-ignore */}
             <Button ref={btnRef} colorScheme="teal" onClick={onOpen} size="lg">
               Chat

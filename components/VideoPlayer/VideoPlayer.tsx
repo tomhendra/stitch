@@ -1,5 +1,5 @@
 import { AspectRatio } from '@chakra-ui/react';
-import { Video } from '~/models/app';
+import type { Video } from '~/models/app';
 
 type Props = {
   video: Video | null;

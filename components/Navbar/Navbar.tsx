@@ -1,7 +1,7 @@
+import { Flex, VisuallyHidden } from '@chakra-ui/react';
 import Image from 'next/image';
 import NextLink from 'next/link';
-import { Flex, VisuallyHidden } from '@chakra-ui/react';
-import { Channel } from '~/models/app';
+import type { Channel } from '~/models/app';
 
 type Props = {
   channel?: Channel;
