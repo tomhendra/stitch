@@ -18,7 +18,7 @@ type Props = {
 };
 
 function Sidebar({ channels }: Props) {
-  const bgColor = useColorModeValue('gray.100', 'whiteAlpha.50');
+  const bgColor = useColorModeValue('gray.50', 'gray.800');
 
   return (
     <GridItem area={'Sidebar'} bg={bgColor} px={2.5} py={4} zIndex={3}>

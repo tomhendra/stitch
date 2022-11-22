@@ -1,12 +1,8 @@
 import {
   Box,
   Button,
-  Container,
   Flex,
-  GridItem,
   Heading,
-  List,
-  ListItem,
   SimpleGrid,
   Text,
   useDisclosure,
@@ -38,8 +34,8 @@ import { getDataWithFetch, sampleOne } from '~/utils/main';
 // import { DataDebugger } from '~/components';
 
 // ! 🔥 DO NOT FORGET TO FLIP TO *TRUE* BEFORE PUSHING TO PROD !! 🔥
-const USE_ACTUAL_API_VIDEO_DATA = true;
-const AUTOPLAY_VIDEO = true;
+const USE_ACTUAL_API_VIDEO_DATA = false;
+const AUTOPLAY_VIDEO = false;
 
 /* 
     SEO

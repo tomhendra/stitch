@@ -16,7 +16,7 @@ type Props = {
 
 function Navbar({ channel }: Props) {
   const { toggleColorMode } = useColorMode();
-  const bgColor = useColorModeValue('gray.50', 'whiteAlpha.100');
+  const bgColor = useColorModeValue('gray.50', 'gray.900');
   const secondaryTextColor = useColorModeValue('gray.600', 'gray.400');
 
   return (
