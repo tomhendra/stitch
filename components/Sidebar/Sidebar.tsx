@@ -41,6 +41,7 @@ function Sidebar({ channelData }: Props) {
           <NextLink
             key={channel.channelId}
             href={`/${slugify(channel.title).toLowerCase()}`}
+            passHref
           >
             <Link noOfLines={1}>{channel.title}</Link>
           </NextLink>

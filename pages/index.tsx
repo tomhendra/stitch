@@ -10,6 +10,20 @@ import type { Channel } from '~/models/app';
 // import { getChannelSearchQueryEndpoint } from '~/helpers/youtube-api.helper';
 // import { DataDebugger } from '~/components';
 
+/* 
+    TODO improve User Experience 
+    - Error handling throughout app for a better user experience
+    - Core Web Vitals https://web.dev/vitals/ 
+
+    TODO consider whether url/channels/user would be better for SEO
+    https://nextjs.org/learn/seo/rendering-and-ranking/url-structure
+
+    SEO 
+    TODO generate OG images from channel thumbnail
+    TODO go further with Open Graph https://ogp.me/
+    TODO generate structured data and JSON-LD https://schema.org/docs/documents.html
+*/
+
 type Props = {
   channels: Channel[];
 };
@@ -17,18 +31,25 @@ type Props = {
 function Home({ channels }: Props) {
   return (
     <>
-      {/* <DataDebugger data={channelData} /> */}
       <Head>
         <title>Stitch</title>
-        <meta name="description" content="The next big thing" />
+        <meta
+          name="description"
+          content="A big thing in video streaming"
+          key="desc"
+        />
+        <meta name="robots" content="all" />
         <link rel="icon" href="/favicon.ico" />
+        <meta property="og:title" content="Stitch" />
+        <meta property="og:description" content="Get social with Stitch" />
+        <meta property="og:image" content="https://postimg.cc/w3Vk5FJ0" />
       </Head>
 
+      {/* <DataDebugger data={channelData} /> */}
+
       <Layout>
-        {/* sidebar depends on data props so is duplicated in Home and 
-          Channel routes. see comments below */}
         <GridItem p={2} area={'sidebar'}>
-          <Heading as="h2" fontSize="xl" marginBlockEnd={3}>
+          <Heading as="p" fontSize="xl" marginBlockEnd={3}>
             For you
           </Heading>
           <Flex as="nav" direction="column" gap={1.5}>
@@ -49,25 +70,24 @@ function Home({ channels }: Props) {
           </Flex>
         </GridItem>
         <GridItem as="main" area={'main'}>
-          <Heading>Home route</Heading>
+          <Heading as="h1">Home route</Heading>
         </GridItem>
       </Layout>
     </>
   );
 }
 
-/*
-  ? Some notes on data fetching and rendering methods
-  
-  getStaticProps will:
+/*  
+  for SSG getStaticProps will:
 
     1. fetch data from API
     2. create static pages at build time
 
-  the revalidate property is the only thing required to transition from 
-  SSG to ISR. ISR behaves like SSG, but re-fetches data and rebuilds 
-  static pages on the server once every interval specified in seconds. 
-  The stale static pages are invalidated by the server. Example usage:
+  the revalidate property is the only addition required to transition from SSG 
+  to ISR. ISR behaves like SSG, but re-fetches data and rebuilds static pages on 
+  the server (if there is a client request for them) no more than once during 
+  a specified period of time in seconds. The stale static pages are invalidated 
+  by the server and new ones are served. Example usage:
   ...
   return {
     props: {
@@ -75,17 +95,22 @@ function Home({ channels }: Props) {
     },
     revalidate: 5,
   };
+
   ...
   to transition to SSR from ISR, we just rename getStaticProps to 
-  getServerSideProps (+ change the type) and delete getStaticPaths. 
-  SSR will fetch data and serve fresh pages on every user request.
-  
+  getServerSideProps (+ change the type) and delete getStaticPaths. SSR will 
+  fetch data and serve fresh pages on every user request.
+
+  ? Learn more about how rendering strategies affect SEO
+  https://nextjs.org/learn/seo/rendering-and-ranking/rendering-strategies
+  https://www.smashingmagazine.com/2021/04/incremental-static-regeneration-nextjs/
+  https://vercel.com/blog/nextjs-server-side-rendering-vs-static-generation
 */
 export const getStaticProps: GetStaticProps<Props> = async () => {
   // const ENDPOINT = getChannelSearchQueryEndpoint(12, 'gaming', 'channel');
   // const channelSearchQueryRes = await fetch(`${ENDPOINT}`);
   // const channelSearchQueryData: ChannelSearchQueryData =
-  //   await channelSearchQueryRes.json();
+  // await channelSearchQueryRes.json();
 
   /* 
     getChannelSearchQueryEndpoint provides an endpoint to fetch channels from
@@ -110,23 +135,32 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     traditional React SPA.
 
     At the moment the sidebar is duplicated in the Home and Channel routes since 
-    the simulated database channel data is coming from the backend of each route.
+    the channel data is dynamically generated from the backend of each route 
+    via a (simulated) database read.
 
-    In the future we want to re-architect the app to take advantage of persistent
-    layouts. Note if a user followed a channel we'd have to save it to local 
-    state for our navigation and also submit to the database - ! potential bugs
-    due to race conditions. 🪲
+    In the future we may want to re-architect the app to take advantage of 
+    persistent layouts, which presently requires Client-Side Rendering in 
+    Next.js. Note if a user added a channel to their followed channels list, 
+    we'd have to update local state for our navigation + update the database, 
+    which could introduce bugs due to race conditions - handle with care.
+    
+    There is a tradeoff with this approach however - in general Client-Side 
+    Rendering is not recommended for optimal SEO. CSR is perfect for data heavy 
+    dashboards, account pages or any page that you do not require to be in any 
+    search engine index.
 
-    TODO implement persistent layout of sidebar & header
+    Next.js 13 has a new (Remix inspired) router which handles nested layouts, 
+    but the app directory part of the feature to invoke this behaviour is still 
+    in beta. This ties in to React 18 Server Components and Streaming.
+    TODO investigate SEO strategies for the upcoming router architecture
+    https://nextjs.org/blog/next-13
+
+    TODO (maybe) implement persistent layout of sidebar & header the stable way
     https://nextjs.org/docs/basic-features/layouts#data-fetchinghttps://nextjs.org/docs/basic-features/layouts#data-fetching
     https://www.youtube.com/watch?v=WOeLxL2DF3E&t=37s
     https://adamwathan.me/2019/10/17/persistent-layout-patterns-in-nextjs/
     https://nextjs.org/docs/api-routes/introduction
     https://swr.vercel.app/docs/with-nextjs
-
-    Next has a solution to this problem with their new (Remix inspired) router 
-    that uses an app directory, but the feature is still in beta unfortunately.
-    This ties in to React 18 Server Components and streaming.
   */
   const channelSearchQueryData = sampleChannelSearchQueryData;
 

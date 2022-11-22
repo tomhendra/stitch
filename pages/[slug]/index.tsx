@@ -38,7 +38,14 @@ import { sampleOne } from '~/utils/main';
 
 // import { DataDebugger } from '~/components';
 
-// ! TODO Error handling throughout app for a better user experience
+/* 
+    SEO
+    TODO consider https://<url>/channels/user url structure
+    https://nextjs.org/learn/seo/rendering-and-ranking/url-structure
+    TODO generate OG images from channel thumbnail
+    TODO go further with Open Graph https://ogp.me/
+    TODO generate structured data and JSON-LD https://schema.org/docs/documents.html
+*/
 
 interface FormElements extends HTMLFormControlsCollection {
   messageInput: HTMLInputElement;
@@ -101,17 +108,21 @@ function Channel({ channel, channels }: Props) {
 
   return (
     <>
-      {/* <DataDebugger data={channel} />  */}
-      {/* <DataDebugger data={channelVideosQueryData} /> */}
       <Head>
-        <title>User channel</title>
-        <meta name="description" content="User description" />
+        {/* use keywords in the title for improved SEO */}
+        <title>{channel.title} | video streaming channel - Stitch</title>
+        <meta name="description" content={channel.about} key="desc" />
+        <meta name="robots" content="all" />
         <link rel="icon" href="/favicon.ico" />
+        <meta property="og:title" content="Stitch" />
+        <meta property="og:description" content="Get social with Stitch" />
+        <meta property="og:image" content="https://postimg.cc/w3Vk5FJ0" />
       </Head>
 
+      {/* <DataDebugger data={channel} />  */}
+      {/* <DataDebugger data={channelVideosQueryData} /> */}
+
       <Layout>
-        {/* sidebar depends on data props so is duplicated in Home and 
-          Channel routes. see comments in index.tsx for more info */}
         <GridItem p={2} area={'sidebar'}>
           <Heading as="h2" fontSize="xl" marginBlockEnd={3}>
             For you
@@ -186,9 +197,7 @@ function Channel({ channel, channels }: Props) {
               </DrawerBody>
               <DrawerFooter>
                 <Flex
-                  // TODO fix when more familiar with Chakra
-                  // @ts-ignore
-                  onSubmit={handleMessage}
+                  onSubmit={() => handleMessage}
                   as="form"
                   direction="column"
                   width="100%"
