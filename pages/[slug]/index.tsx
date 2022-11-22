@@ -169,13 +169,18 @@ function Channel({ channel, channels }: Props) {
               {videos?.map(video => {
                 const { url, height, width } = video.thumbnails.medium;
                 return (
-                  <Image
+                  <Button
+                    variant="unstyled"
                     key={video.videoId}
-                    alt={video.title}
-                    src={url}
-                    height={height}
-                    width={width}
-                  />
+                    onClick={() => setCurrentVideo(video)}
+                  >
+                    <Image
+                      alt={video.title}
+                      src={url}
+                      height={height}
+                      width={width}
+                    />
+                  </Button>
                 );
               })}
             </SimpleGrid>
