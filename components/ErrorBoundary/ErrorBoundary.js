@@ -1,3 +1,5 @@
+import React from 'react';
+
 /*
  TODO improve Error handling
  https://blog.logrocket.com/testing-error-handling-patterns-next-js/
