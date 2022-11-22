@@ -12,7 +12,6 @@ import {
   GridItem,
   Heading,
   Input,
-  Link,
   List,
   ListItem,
   Spacer,
@@ -21,21 +20,17 @@ import {
 } from '@chakra-ui/react';
 import type { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
-import NextLink from 'next/link';
 import type { ParsedUrlQuery } from 'querystring';
 import { useEffect, useRef, useState } from 'react';
 import slugify from 'slugify';
-import { Layout, Navbar, Sidebar } from '~/components';
-import {
-  sampleMessageData,
-  sampleChannelSearchQueryData,
-  sampleChannelVideosQueryData,
-} from '~/data/api';
-import { getChannelVideosQueryEndpoint } from '~/helpers/youtube-api.helper';
+import { Layout, Navbar, Sidebar, VideoPlayer } from '~/components';
+import { sampleChannelSearchQueryData, sampleMessageData } from '~/data/api';
 import type { ChannelVideosQueryData } from '~/models/api';
 import type { Channel, Message, Video } from '~/models/app';
 import { sampleOne } from '~/utils/main';
 
+import { getChannelVideosQueryEndpoint } from '~/helpers/youtube-api.helper';
+// import { sampleChannelVideosQueryData } from '~/data/api';
 // import { DataDebugger } from '~/components';
 
 /* 
@@ -134,15 +129,7 @@ function Channel({ channel, channels }: Props) {
         </GridItem>
         <GridItem as="main" area={'main'}>
           {/* Video embed */}
-          <AspectRatio maxW="560px" ratio={16 / 9} paddingBlock={6}>
-            <iframe
-              // src={`https://www.youtube.com/embed/${currentVideo?.videoId}`}
-              src={`https://www.youtube.com/embed/${currentVideo?.videoId}?autoplay=1`}
-              frameBorder="0"
-              allow="autoplay; encrypted-media"
-              allowFullScreen
-            ></iframe>
-          </AspectRatio>
+          <VideoPlayer video={currentVideo || null} />
           {/* Channel body */}
           <Flex paddingBlock={5} alignItems="center" gap={4}>
             <Heading

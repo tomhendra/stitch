@@ -1,12 +1,12 @@
-import { Flex, GridItem, Heading, Link } from '@chakra-ui/react';
+import { GridItem, Heading } from '@chakra-ui/react';
 import type { GetStaticProps } from 'next';
 import Head from 'next/head';
 import { Layout, Navbar, Sidebar } from '~/components';
 import { sampleChannelSearchQueryData } from '~/data/api';
 import type { Channel } from '~/models/app';
-import type { ChannelSearchQueryData } from '~/models/api';
 
 // import { getChannelSearchQueryEndpoint } from '~/helpers/youtube-api.helper';
+// import type { ChannelSearchQueryData } from '~/models/api';
 // import { DataDebugger } from '~/components';
 
 /* 
@@ -113,15 +113,21 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     have dumped the result in data/api.ts to simulate a database fetch, which 
     can be reused in other routes. 
 
-    At the moment the sidebar & header components in the Home and Channel routes 
-    will unmount and remount on page navigation change. If we want to persist 
-    them (and their data) in between page navigations, with Next.js we need to
-    use client-side data fetching - the same as a React SPA.
+    If we were fetching real channel data from each route, the sidebar & header 
+    components in the Home and Channel routes would unmount and remount on page 
+    navigation change. If we wanted to persist state between page navigations, 
+    with Next.js we need to use client-side data fetching - the same as a React 
+    SPA.
     
     There is a tradeoff with this approach however - in general Client-Side 
     Rendering is not recommended for optimal SEO. CSR is more suited to data 
     heavy dashboards, account pages or any page that you do not require to be 
     in any search engine index.
+
+    I am still trying to get my head around the Next.js model - hence all these 
+    note changes! With all these different data / rendering strategies it'll 
+    take a *patient* and *thorough* read of the docs at the weekend!
+    TODO read Next.js docs from start to finish
 
     Next.js 13 has a new (Remix inspired) router which handles nested layouts, 
     but the app directory part of the feature to invoke this behaviour is still 
