@@ -1,7 +1,60 @@
-.make-circular {
+.circular {
   border-radius: 50%;
 }
 
 .uppercase {
   text-transform: uppercase;
+}
+
+.debug {
+  outline: 1px solid deeppink;
+}
+
+.debug-direct-children > * {
+  outline: 1px solid hotpink;
+}
+
+.visually-hidden {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+}
+
+.clearfix::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+@media (pointer: course) {
+  /* 
+    uses pseudo-element to increase tap target size without affecting layout.
+
+    example: if the element height (100%) is only 24px, the calc equation 
+    evaluates (24px - 44px) / 2, resolving to -10. The min function resolves to
+    -10, since it's smaller than 0. 
+
+    !⚠️ elements selected by .click-target-helper *must* be `position: relative` 
+  */
+  .click-target-helper::after {
+    --click-target-minimum: 44px;
+    --inset-by: min(0px, calc((100% - var(--click-target-minimum)) / 2));
+
+    content: '';
+    position: absolute;
+    top: var(--inset-by);
+    left: var(--inset-by);
+    right: var(--inset-by);
+    bottom: var(--inset-by);
+  }
+}
+
+/* darken images in dark mode with filter defined in colors.css .dark {...} */
+.image-filter {
+  filter: var(--image-filter);
 }

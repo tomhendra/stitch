@@ -1,4 +1,4 @@
-import { GridItem, Heading } from '@chakra-ui/react';
+import { Container, GridItem, Heading } from '@chakra-ui/react';
 import type { GetStaticProps } from 'next';
 import Head from 'next/head';
 import { Layout, Navbar, Sidebar } from '~/components';
@@ -48,14 +48,24 @@ function Home({ channels }: Props) {
       {/* <DataDebugger data={channelSearchQueryData} /> */}
 
       <Layout>
-        <GridItem p={2} shadow="base" area={'header'}>
+        <GridItem
+          position="sticky"
+          top={0}
+          p={2}
+          shadow="base"
+          area={'header'}
+          bg="Background"
+          zIndex={3}
+        >
           <Navbar />
         </GridItem>
-        <GridItem p={2} area={'sidebar'} backgroundColor={'gray.50'}>
+        <GridItem p={2} area={'sidebar'} backgroundColor={'gray.50'} zIndex={2}>
           <Sidebar channels={channels} />
         </GridItem>
-        <GridItem as="main" area={'main'} paddingInline={8}>
-          <Heading as="h1">Home route</Heading>
+        <GridItem as="main" area={'main'} paddingInline={8} zIndex={1}>
+          <Container maxW="container.xl" padding={10}>
+            <Heading as="h1">Home route</Heading>
+          </Container>
         </GridItem>
       </Layout>
     </>

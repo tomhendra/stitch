@@ -11,7 +11,6 @@ function Layout({ children }: Children) {
       "header header"
       "sidebar main"
       `}
-      gap={2}
     >
       {children}
     </Grid>

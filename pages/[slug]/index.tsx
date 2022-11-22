@@ -1,5 +1,7 @@
 import {
+  Box,
   Button,
+  Container,
   Flex,
   GridItem,
   Heading,
@@ -31,7 +33,7 @@ import { sampleChannelVideosQueryData } from '~/data/api';
     https://nextjs.org/learn/seo/rendering-and-ranking/url-structure
     TODO generate OG images from channel thumbnail
     TODO go further with Open Graph https://ogp.me/
-    TODO generate structured data and JSON-LD https://schema.org/docs/documents.html
+    TODO generate structured data & JSON-LD https://schema.org/docs/documents.html
     TODO dynamically import modules 
     https://nextjs.org/learn/seo/improve/dynamic-imports
     https://nextjs.org/learn/seo/improve/dynamic-import-components
@@ -48,6 +50,11 @@ type Props = {
   channel: Channel;
   channels: Channel[];
 };
+
+// ! 🔥 DO NOT FORGET TO FLIP TO TRUE BEFORE PUSHING TO PROD !! 🔥
+const USE_ACTUAL_API_VIDEO_DATA = false;
+const AUTOPLAY_VIDEO = false;
+// ! 🔥 OR THE REQ'S WILL NOT PASS !! 🔥
 
 function Channel({ channel, channels }: Props) {
   // Videos
@@ -113,46 +120,69 @@ function Channel({ channel, channels }: Props) {
       {/* <DataDebugger data={channelVideosQueryData} /> */}
 
       <Layout>
-        <GridItem p={2} shadow="base" area={'header'}>
+        <GridItem
+          position="sticky"
+          top={0}
+          p={2}
+          shadow="base"
+          area={'header'}
+          bg="Background"
+          zIndex={3}
+        >
           <Navbar channel={channel} />
         </GridItem>
-        <GridItem p={2} area={'sidebar'} backgroundColor={'gray.50'}>
+        <GridItem p={2} area={'sidebar'} backgroundColor={'gray.50'} zIndex={2}>
           <Sidebar channels={channels} />
         </GridItem>
-        <GridItem as="main" area={'main'} paddingInline={8}>
-          <VideoPlayer video={currentVideo || null} />
+        <GridItem as="main" area={'main'} zIndex={1}>
+          <Container maxW="container.xl" padding={10}>
+            <Box>
+              <VideoPlayer
+                video={currentVideo || null}
+                autoplay={AUTOPLAY_VIDEO}
+              />
+            </Box>
+          </Container>
           {/* Channel body */}
-          <Flex paddingBlock={5} alignItems="center" gap={4}>
-            <Heading
-              lineHeight={1.1}
-              fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }}
-            >
-              {channel.title}
-            </Heading>
-            {/* // TODO fix this later */}
-            {/* @ts-ignore */}
-            <Button ref={btnRef} colorScheme="teal" onClick={onOpen} size="lg">
-              Chat
-            </Button>
-            <Chat
-              messages={messages}
-              message={messageBody}
-              isOpen={isOpen}
-              onClose={onClose}
-              onChange={e => setMessageBody(e.target.value)}
-              onSubmit={handleMessage}
-            />
-          </Flex>
-          <p>{channel.about}</p>
-          <div>
-            {/* Channel video list */}
-            <Heading paddingBlock={4}>Videos</Heading>
-            <List>
-              {videos?.map(video => (
-                <ListItem key={video.videoId}>{video.title}</ListItem>
-              ))}
-            </List>
-          </div>
+          <Container maxW="container.xl" padding={10}>
+            <Flex paddingBlock={5} alignItems="center" gap={4}>
+              <Heading
+                lineHeight={1.1}
+                fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }}
+              >
+                {channel.title}
+              </Heading>
+              <Button
+                // TODO fix this later
+                // @ts-ignore
+                ref={btnRef}
+                colorScheme="teal"
+                onClick={onOpen}
+                size="lg"
+              >
+                Chat
+              </Button>
+              {/* Chat */}
+              <Chat
+                messages={messages}
+                message={messageBody}
+                isOpen={isOpen}
+                onClose={onClose}
+                onChange={e => setMessageBody(e.target.value)}
+                onSubmit={handleMessage}
+              />
+            </Flex>
+            <p>{channel.about}</p>
+            <div>
+              {/* Channel video list */}
+              <Heading paddingBlock={4}>Videos</Heading>
+              <List>
+                {videos?.map(video => (
+                  <ListItem key={video.videoId}>{video.title}</ListItem>
+                ))}
+              </List>
+            </div>
+          </Container>
         </GridItem>
       </Layout>
     </>
@@ -248,17 +278,16 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   */
 
   const ENDPOINT = getChannelVideosQueryEndpoint(channel.id.channelId, 12);
-  const channelVideosQueryData = await getDataWithFetch<ChannelVideosQueryData>(
-    ENDPOINT,
-  );
 
-  // const channelVideosQueryData = sampleChannelVideosQueryData;
+  const channelVideosQueryData = USE_ACTUAL_API_VIDEO_DATA
+    ? await getDataWithFetch<ChannelVideosQueryData>(ENDPOINT)
+    : sampleChannelVideosQueryData;
 
   const title = channel.snippet.title;
-  const about = channel?.snippet.description;
-  const channelId = channel?.snippet.channelId;
-  const videos: Video[] = [];
+  const about = channel.snippet.description;
+  const channelId = channel.snippet.channelId;
   const thumbnail = channel.snippet.thumbnails.default.url;
+  const videos: Video[] = [];
 
   channelVideosQueryData.items.forEach(video => {
     videos.push({
@@ -274,8 +303,8 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
         channelId,
         title,
         about,
-        videos,
         thumbnail,
+        videos,
       },
     },
     revalidate: 5,

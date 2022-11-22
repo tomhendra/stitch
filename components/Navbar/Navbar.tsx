@@ -26,7 +26,7 @@ function Navbar({ channel }: Props) {
       </NextLink>
       <Image
         alt={`avatar for ${channel?.title}`}
-        className="make-circular"
+        className="circular"
         src={channel?.thumbnail || '/images/user-circle.png'}
         height={30}
         width={30}

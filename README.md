@@ -8,25 +8,25 @@ This is a Twitch clone for learning some technologies that are new to me:
 
 ## Twitch architecture
 
-- Framework: React App (v18) (probably a custom Webpack / Vite build)
-- Component library: Almost certainly custom based on their [design system](https://brand.twitch.tv/) at Twitch's scale.
-- Styles: Styled Components
-- API: Custom
-- Deployment: AWS (obviously, being Amazon-owned!)
+- **Framework**: React App (v18) (probably a custom Webpack / Vite build)
+- **Component library**: Almost certainly custom based on their [design system](https://brand.twitch.tv/) at Twitch's scale.
+- **Styles**: Styled Components
+- **API**: Custom
+- **Deployment**: AWS (obviously, being Amazon-owned!)
 
 **Note** - Twitch serves a separate app at [https://m.twitch.tv](https://m.twitch.tv) for handheld devices.
 
 ## Stitch architecture
 
-- Framework: [Next.js v13 (stable)](https://nextjs.org/docs/getting-started) (React v18)
-- Component library: [Chakra UI](https://chakra-ui.com/)
-- Custom styles: [CSS Modules](https://nextjs.org/docs/basic-features/built-in-css-support#adding-component-level-css)
-- API: [YouTube](https://developers.google.com/youtube/)
-- Deployment: [Vercel](https://vercel.com/)
+- **Framework**: [Next.js v13 (stable)](https://nextjs.org/docs/getting-started) (React v18)
+- **Component library**: [Chakra UI](https://chakra-ui.com/)
+- **Styles**: [CSS Modules](https://nextjs.org/docs/basic-features/built-in-css-support#adding-component-level-css) + CSS utils
+- **API**: [YouTube](https://developers.google.com/youtube/)
+- **Deployment**: [Vercel](https://vercel.com/)
 
 ## Component architecture
 
-See ./components/NewComponent for a structural example.
+See `./components/NewComponent` for a structural example.
 
 ## CSS declaration order style guide
 

@@ -1,4 +1,4 @@
-import { Flex, Heading, Link, Text } from '@chakra-ui/react';
+import { Box, Flex, Heading, Link, Text } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import slugify from 'slugify';
 import type { Channel } from '~/models/app';
@@ -32,7 +32,7 @@ function Sidebar({ channels }: Props) {
             paddingBlock={2}
           >
             <Image
-              className="make-circular"
+              className="circular"
               src={channel.thumbnail}
               alt={`avatar for ${channel.title}`}
               height={30}
