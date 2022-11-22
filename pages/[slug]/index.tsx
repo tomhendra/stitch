@@ -7,10 +7,13 @@ import {
   Heading,
   List,
   ListItem,
+  SimpleGrid,
+  Text,
   useDisclosure,
 } from '@chakra-ui/react';
 import type { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
+import Image from 'next/image';
 import type { ParsedUrlQuery } from 'querystring';
 import { useEffect, useRef, useState } from 'react';
 import slugify from 'slugify';
@@ -36,7 +39,7 @@ import { getDataWithFetch, sampleOne } from '~/utils/main';
 
 // ! 🔥 DO NOT FORGET TO FLIP TO *TRUE* BEFORE PUSHING TO PROD !! 🔥
 const USE_ACTUAL_API_VIDEO_DATA = true;
-const AUTOPLAY_VIDEO = true;
+const AUTOPLAY_VIDEO = false;
 
 /* 
     SEO
@@ -165,16 +168,22 @@ function Channel({ channel, channels }: Props) {
                 onSubmit={handleMessage}
               />
             </Flex>
-            <p>{channel.about}</p>
-            <div>
-              {/* Channel video list */}
-              <Heading paddingBlock={4}>Videos</Heading>
-              <List>
-                {videos?.map(video => (
-                  <ListItem key={video.videoId}>{video.title}</ListItem>
-                ))}
-              </List>
-            </div>
+            <Text>{channel.about}</Text>
+            <Heading paddingBlock={4}>Videos</Heading>
+            <SimpleGrid columns={4} columnGap={2.5} rowGap={8} w="full">
+              {videos?.map(video => {
+                const { url, height, width } = video.thumbnails.medium;
+                return (
+                  <Image
+                    key={video.videoId}
+                    alt={video.title}
+                    src={url}
+                    height={height}
+                    width={width}
+                  />
+                );
+              })}
+            </SimpleGrid>
           </MaxWidthContainer>
         </Main>
       </Layout>
@@ -286,6 +295,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
     videos.push({
       videoId: video.id.videoId,
       title: video.snippet.title,
+      thumbnails: video.snippet.thumbnails,
     });
   });
 

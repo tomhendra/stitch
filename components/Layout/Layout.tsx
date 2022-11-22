@@ -8,8 +8,8 @@ function Layout({ children }: Children) {
       gridTemplateRows={'3rem 1fr'}
       minH="100%"
       templateAreas={`
-      "header header"
-      "sidebar main"
+      "Navbar Navbar"
+      "Sidebar Main"
       `}
     >
       {children}

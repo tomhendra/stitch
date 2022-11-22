@@ -9,9 +9,11 @@ import {
   DrawerHeader,
   Flex,
   Heading,
-  Input,
   Spacer,
   Text,
+  FormControl,
+  FormLabel,
+  Input,
 } from '@chakra-ui/react';
 import type { Message } from '~/models/app';
 
@@ -66,7 +68,7 @@ function Chat(props: Props) {
         </DrawerBody>
         <DrawerFooter>
           <Flex
-            // TODO fix this later
+            // TODO fix this later & use FormControl / FormLabel components
             // @ts-ignore
             onSubmit={onSubmit}
             as="form"

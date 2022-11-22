@@ -9,6 +9,23 @@ export type Channel = {
 export type Video = {
   videoId: string;
   title: string;
+  thumbnails: {
+    default: {
+      url: string;
+      width: number;
+      height: number;
+    };
+    medium: {
+      url: string;
+      width: number;
+      height: number;
+    };
+    high: {
+      url: string;
+      width: number;
+      height: number;
+    };
+  };
 };
 
 export type Message = {
