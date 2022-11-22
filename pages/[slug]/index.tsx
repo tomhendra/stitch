@@ -52,8 +52,8 @@ type Props = {
 };
 
 // ! 🔥 DO NOT FORGET TO FLIP TO TRUE BEFORE PUSHING TO PROD !! 🔥
-const USE_ACTUAL_API_VIDEO_DATA = false;
-const AUTOPLAY_VIDEO = false;
+const USE_ACTUAL_API_VIDEO_DATA = true;
+const AUTOPLAY_VIDEO = true;
 // ! 🔥 OR THE REQ'S WILL NOT PASS !! 🔥
 
 function Channel({ channel, channels }: Props) {
