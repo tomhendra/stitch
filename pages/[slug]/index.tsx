@@ -243,7 +243,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
 
   /* 
     Now we hit the YouTube API to get videos for the channel 🎉. The GCP quota 
-    is pretty low - I have had to create 3 apps on GCP already! - so have dumped 
+    is pretty low - I have had to create 5 apps on GCP already! - so have dumped 
     some sample data to data/api.ts as with the channel query. 
   */
 
