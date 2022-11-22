@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Container,
   Flex,
   Heading,
   SimpleGrid,
@@ -31,6 +32,7 @@ import {
 import { getChannelVideosQueryEndpoint } from '~/helpers/youtube-api.helper';
 import type { ChannelVideosQueryData } from '~/models/api';
 import type { Channel, Message, Video } from '~/models/app';
+import type { MessageFormElement } from '~/components/Chat';
 import { getDataWithFetch, sampleOne } from '~/utils/main';
 // import { DataDebugger } from '~/components';
 
@@ -49,13 +51,6 @@ const AUTOPLAY_VIDEO = true;
     https://nextjs.org/learn/seo/improve/dynamic-imports
     https://nextjs.org/learn/seo/improve/dynamic-import-components
 */
-
-interface FormElements extends HTMLFormControlsCollection {
-  messageInput: HTMLInputElement;
-}
-interface MessageFormElement extends HTMLFormElement {
-  readonly elements: FormElements;
-}
 
 type Props = {
   channel: Channel;
@@ -128,7 +123,7 @@ function Channel({ channel, channels }: Props) {
         <Sidebar channels={channels} />
         <Main>
           <MaxWidthContainer>
-            <Box>
+            <Box py={[4, 6, 10]}>
               <VideoPlayer
                 video={currentVideo || null}
                 autoplay={AUTOPLAY_VIDEO}
@@ -136,20 +131,22 @@ function Channel({ channel, channels }: Props) {
             </Box>
           </MaxWidthContainer>
           <MaxWidthContainer>
-            <Flex paddingBlock={5} alignItems="center" gap={4}>
-              <Heading
-                lineHeight={1.1}
-                fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }}
-              >
+            <Flex
+              py={6}
+              alignItems="center"
+              gap={8}
+              justifyContent="space-between"
+            >
+              <Heading as="h1" lineHeight={1.1} fontSize={['4xl']}>
                 {channel.title}
               </Heading>
               <Button
                 // TODO fix this later
                 // @ts-ignore
                 ref={btnRef}
-                colorScheme="teal"
+                colorScheme="blue"
                 onClick={onOpen}
-                size="lg"
+                size="md"
               >
                 Chat
               </Button>
@@ -165,24 +162,35 @@ function Channel({ channel, channels }: Props) {
               />
             </Flex>
             <Text>{channel.about}</Text>
-            <Heading paddingBlock={4}>Videos</Heading>
-            <SimpleGrid columns={4} columnGap={8} w="full" h="full">
+            <Heading as="h2" paddingBlock={4} fontSize={['3xl']}>
+              Videos
+            </Heading>
+            <SimpleGrid
+              columns={[1, 1, 2, 3, 4]}
+              columnGap={[0, 0, 8]}
+              rowGap={[8, 8, 8, 8]}
+              w="full"
+              h="full"
+            >
               {videos?.map(video => {
                 const { url, height, width } = video.thumbnails.medium;
                 return (
-                  <Button
-                    variant="unstyled"
+                  <Box
+                    cursor="pointer"
                     key={video.videoId}
                     onClick={() => setCurrentVideo(video)}
+                    w="full"
                   >
-                    <Image
-                      alt={video.title}
-                      src={url}
-                      height={height}
-                      width={width}
-                    />
+                    <Box>
+                      <Image
+                        alt={video.title}
+                        src={url}
+                        height={height}
+                        width={width}
+                      />
+                    </Box>
                     <VisuallyHidden>video - {video.title}</VisuallyHidden>
-                  </Button>
+                  </Box>
                 );
               })}
             </SimpleGrid>

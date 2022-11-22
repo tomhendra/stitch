@@ -19,53 +19,68 @@ type Props = {
 
 function Sidebar({ channels }: Props) {
   const bgColor = useColorModeValue('gray.50', 'gray.800');
+  const hoverColor = useColorModeValue('gray.100', 'gray.700');
 
   return (
-    <GridItem area={'Sidebar'} bg={bgColor} px={2.5} py={4} zIndex={3}>
-      <Heading as="h2" fontSize="xl" marginBlockEnd={3}>
-        For You
-      </Heading>
-      <Heading
-        as="h3"
-        className="uppercase"
-        fontSize="sm"
-        color={'gray.500'}
-        paddingBlockEnd={4}
-      >
-        Followed channels
-      </Heading>
-      <Flex as="nav">
-        <VStack w="full" h="full" p={0} spacing={1.5} alignItems="flex-start">
-          {channels?.map(channel => (
-            <Flex
-              key={channel.channelId}
-              alignItems={'center'}
-              gap={2}
-              paddingBlock={2}
-            >
-              <Image
-                className="circular"
-                src={channel.thumbnail}
-                alt={`avatar for ${channel.title}`}
-                height={30}
-                width={30}
-              />
+    <GridItem area={'Sidebar'} bg={bgColor} py={4} zIndex={3}>
+      <VStack alignItems="start">
+        <Heading
+          as="h2"
+          fontSize="xl"
+          marginBlockEnd={3}
+          display={['none', 'none', 'revert']}
+          px={2.5}
+        >
+          For You
+        </Heading>
+        <Heading
+          as="h3"
+          className="uppercase"
+          fontSize="sm"
+          color={'gray.500'}
+          display={['none', 'none', 'revert']}
+          px={2.5}
+        >
+          Followed channels
+        </Heading>
+        <Flex as="nav">
+          <VStack w="full" h="full" p={0} spacing={1.5} alignItems="flex-start">
+            {channels?.map(channel => (
               <NextLink
-                legacyBehavior
-                passHref
                 key={channel.channelId}
                 href={`/${slugify(channel.title).toLowerCase()}`}
+                legacyBehavior
+                passHref
               >
-                <Link noOfLines={1}>
-                  <Heading as="p" fontSize="1xl">
-                    {channel.title}
-                  </Heading>
+                <Link
+                  noOfLines={1}
+                  variant="button"
+                  w="full"
+                  _hover={{ bg: hoverColor }}
+                  px={2.5}
+                >
+                  <Flex alignItems={'center'} gap={2} paddingBlock={2}>
+                    <Image
+                      className="circular"
+                      src={channel.thumbnail}
+                      alt={`avatar for ${channel.title}`}
+                      height={30}
+                      width={30}
+                    />
+                    <Heading
+                      as="p"
+                      fontSize="1xl"
+                      display={['none', 'none', 'revert']}
+                    >
+                      {channel.title}
+                    </Heading>
+                  </Flex>
                 </Link>
               </NextLink>
-            </Flex>
-          ))}
-        </VStack>
-      </Flex>
+            ))}
+          </VStack>
+        </Flex>
+      </VStack>
     </GridItem>
   );
 }

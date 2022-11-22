@@ -20,7 +20,8 @@ import type { Message } from '~/models/app';
 interface FormElements extends HTMLFormControlsCollection {
   messageInput: HTMLInputElement;
 }
-interface MessageFormElement extends HTMLFormElement {
+
+export interface MessageFormElement extends HTMLFormElement {
   readonly elements: FormElements;
 }
 
@@ -83,7 +84,7 @@ function Chat(props: Props) {
               onChange={onChange}
             />
             <Flex direction="column" width="100%" gap="3">
-              <Button colorScheme="teal" type="submit">
+              <Button colorScheme="blue" type="submit">
                 Send
               </Button>
               <Button variant="outline" mr={3} onClick={onClose}>

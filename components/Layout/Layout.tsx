@@ -4,8 +4,8 @@ import type { Children } from '~/types';
 function Layout({ children }: Children) {
   return (
     <Grid
-      templateColumns={'15rem 1fr'}
-      gridTemplateRows={'3rem 1fr'}
+      templateColumns={['3rem 1fr', '3rem 1fr', '15rem 1fr']}
+      gridTemplateRows={['3rem 1fr']}
       minH="100%"
       templateAreas={`
       "Navbar Navbar"
