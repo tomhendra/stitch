@@ -16,11 +16,13 @@ import { Layout, Navbar, Sidebar, VideoPlayer } from '~/components';
 import { sampleChannelSearchQueryData, sampleMessageData } from '~/data/api';
 import type { ChannelVideosQueryData } from '~/models/api';
 import type { Channel, Message, Video } from '~/models/app';
-import { sampleOne } from '~/utils/main';
+import { getDataWithFetch, sampleOne } from '~/utils/main';
 
 import { Chat } from '~/components/Chat';
 import { getChannelVideosQueryEndpoint } from '~/helpers/youtube-api.helper';
+
 // import { sampleChannelVideosQueryData } from '~/data/api';
+
 // import { DataDebugger } from '~/components';
 
 /* 
@@ -54,7 +56,7 @@ function Channel({ channel, channels }: Props) {
   // Messages
   const [messages, setMessages] = useState<Message[]>([]);
   const [messageBody, setMessageBody] = useState('');
-  // Drawer
+  // Chat
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef();
 
@@ -243,11 +245,11 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
     is pretty low - I have had to create 3 apps on GCP already! - so have dumped 
     some sample data to data/api.ts as with the channel query. 
   */
-  // TODO move fetch calls into helpers and return properly typed values
+
   const ENDPOINT = getChannelVideosQueryEndpoint(channel.id.channelId, 12);
-  const channelVideosQueryRes = await fetch(`${ENDPOINT}`);
-  const channelVideosQueryData: ChannelVideosQueryData =
-    await channelVideosQueryRes.json();
+  const channelVideosQueryData = await getDataWithFetch<ChannelVideosQueryData>(
+    ENDPOINT,
+  );
 
   // const channelVideosQueryData = sampleChannelVideosQueryData;
 

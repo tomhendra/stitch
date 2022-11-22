@@ -58,3 +58,14 @@ export function getPrefersReducedMotion() {
 
   return prefersReducedMotion;
 }
+
+export async function getDataWithFetch<T>(endpoint: string): Promise<T> {
+  try {
+    const res = await fetch(endpoint);
+    const data = await res.json();
+    return data;
+  } catch (e) {
+    console.log(e);
+    throw new Error(`error fetching data from ${endpoint}`);
+  }
+}

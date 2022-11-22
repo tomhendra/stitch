@@ -5,8 +5,10 @@ import { Layout, Navbar, Sidebar } from '~/components';
 import { sampleChannelSearchQueryData } from '~/data/api';
 import type { Channel } from '~/models/app';
 
+// import { getDataWithFetch } from '~/utils/main';
 // import { getChannelSearchQueryEndpoint } from '~/helpers/youtube-api.helper';
 // import type { ChannelSearchQueryData } from '~/models/api';
+
 // import { DataDebugger } from '~/components';
 
 /* 
@@ -44,7 +46,7 @@ function Home({ channels }: Props) {
         <meta property="og:image" content="https://postimg.cc/w3Vk5FJ0" />
       </Head>
 
-      {/* <DataDebugger data={channelData} /> */}
+      {/* <DataDebugger data={channelSearchQueryData} /> */}
 
       <Layout>
         <GridItem p={2} shadow="base" area={'header'}>
@@ -92,9 +94,11 @@ function Home({ channels }: Props) {
 */
 export const getStaticProps: GetStaticProps<Props> = async () => {
   // const ENDPOINT = getChannelSearchQueryEndpoint(12, 'gaming', 'channel');
-  // const channelSearchQueryRes = await fetch(`${ENDPOINT}`);
-  // const channelSearchQueryData: ChannelSearchQueryData =
-  //   await channelSearchQueryRes.json();
+  // const channelSearchQueryData = await getDataWithFetch<ChannelSearchQueryData>(
+  //   ENDPOINT,
+  // );
+
+  const channelSearchQueryData = sampleChannelSearchQueryData;
 
   /* 
     getChannelSearchQueryEndpoint provides an endpoint to fetch channels from
@@ -140,8 +144,8 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     https://adamwathan.me/2019/10/17/persistent-layout-patterns-in-nextjs/
     https://nextjs.org/docs/api-routes/introduction
     https://swr.vercel.app/docs/with-nextjs
+
   */
-  const channelSearchQueryData = sampleChannelSearchQueryData;
 
   const channels: Channel[] = [];
 
