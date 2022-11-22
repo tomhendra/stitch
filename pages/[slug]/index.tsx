@@ -39,7 +39,7 @@ import { getDataWithFetch, sampleOne } from '~/utils/main';
 
 // ! 🔥 DO NOT FORGET TO FLIP TO *TRUE* BEFORE PUSHING TO PROD !! 🔥
 const USE_ACTUAL_API_VIDEO_DATA = true;
-const AUTOPLAY_VIDEO = false;
+const AUTOPLAY_VIDEO = true;
 
 /* 
     SEO
