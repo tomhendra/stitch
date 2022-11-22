@@ -30,6 +30,7 @@ import type { Channel, Message, Video } from '~/models/app';
 import { sampleOne } from '~/utils/main';
 
 import { getChannelVideosQueryEndpoint } from '~/helpers/youtube-api.helper';
+import { Chat } from '~/components/Chat';
 // import { sampleChannelVideosQueryData } from '~/data/api';
 // import { DataDebugger } from '~/components';
 
@@ -63,7 +64,7 @@ function Channel({ channel, channels }: Props) {
   const [currentVideo, setCurrentVideo] = useState<Video | null>(null);
   // Messages
   const [messages, setMessages] = useState<Message[]>([]);
-  const [message, setMessage] = useState('');
+  const [messageBody, setMessageBody] = useState('');
   // Drawer
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef();
@@ -90,11 +91,11 @@ function Channel({ channel, channels }: Props) {
 
     const newMessage = {
       sender: 'Me',
-      body: message,
+      body: messageBody,
     };
 
     const updatedMessages = [...messages, newMessage];
-    setMessage('');
+    setMessageBody('');
     setMessages(updatedMessages);
 
     const randomMessage = sampleOne(sampleMessageData.items);
@@ -128,7 +129,6 @@ function Channel({ channel, channels }: Props) {
           <Sidebar channels={channels} />
         </GridItem>
         <GridItem as="main" area={'main'}>
-          {/* Video embed */}
           <VideoPlayer video={currentVideo || null} />
           {/* Channel body */}
           <Flex paddingBlock={5} alignItems="center" gap={4}>
@@ -138,11 +138,19 @@ function Channel({ channel, channels }: Props) {
             >
               {channel.title}
             </Heading>
-            {/* // TODO fix when more familiar with Chakra */}
+            {/* // TODO fix this */}
             {/* @ts-ignore */}
             <Button ref={btnRef} colorScheme="teal" onClick={onOpen} size="lg">
               Chat
             </Button>
+            <Chat
+              messages={messages}
+              message={messageBody}
+              isOpen={isOpen}
+              onClose={onClose}
+              onChange={e => setMessageBody(e.target.value)}
+              onSubmit={handleMessage}
+            />
           </Flex>
           <p>{channel.about}</p>
           <div>
@@ -154,50 +162,6 @@ function Channel({ channel, channels }: Props) {
               ))}
             </List>
           </div>
-          {/* Chat */}
-          <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
-            <DrawerContent>
-              <DrawerCloseButton />
-              <DrawerHeader>Chat</DrawerHeader>
-              <DrawerBody>
-                <Flex direction="column" maxHeight="100%">
-                  <Box p="4">
-                    {messages?.map(message => (
-                      <div key={message.body}>
-                        <Text fontSize="xs">From: {message.sender}</Text>
-                        <Text marginBottom={6}>{message.body}</Text>
-                      </div>
-                    ))}
-                  </Box>
-                  <Spacer />
-                </Flex>
-              </DrawerBody>
-              <DrawerFooter>
-                <Flex
-                  // TODO fix when more familiar with Chakra
-                  // @ts-ignore
-                  onSubmit={handleMessage}
-                  as="form"
-                  direction="column"
-                  width="100%"
-                  gap="6"
-                >
-                  <Input
-                    id="messageInput"
-                    placeholder="Message..."
-                    value={message}
-                    onChange={e => setMessage(e.target.value)}
-                  />
-                  <Flex direction="column" width="100%" gap="3">
-                    <Button type="submit">Send</Button>
-                    <Button variant="outline" mr={3} onClick={onClose}>
-                      Cancel
-                    </Button>
-                  </Flex>
-                </Flex>
-              </DrawerFooter>
-            </DrawerContent>
-          </Drawer>
         </GridItem>
       </Layout>
     </>

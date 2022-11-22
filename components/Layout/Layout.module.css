@@ -14,17 +14,17 @@
   padding-inline: var(--buffer);
 } */
 
-.sidebar {
+/* .sidebar {
   grid-area: sidebar;
   padding-inline: var(--buffer);
   display: flex;
   flex-direction: column;
-}
+} */
 
-.main {
+/* .main {
   grid-area: main;
   padding-inline: var(--buffer);
-}
+} */
 
 /* sidebar changes to icon only at 1024px bp - on Twitch the actual 
   component children are swapped out at this breakpoint - perhaps 

@@ -1,5 +1,3 @@
-import { useEffect, useRef, useState } from 'react';
-import { sampleOne } from '~/utils/main';
 import {
   Box,
   Button,
@@ -12,11 +10,9 @@ import {
   Flex,
   Input,
   Spacer,
-  useDisclosure,
   Text,
 } from '@chakra-ui/react';
 import { Message } from '~/models/app';
-import { sampleMessageData } from '~/data/api';
 
 interface FormElements extends HTMLFormControlsCollection {
   messageInput: HTMLInputElement;
@@ -27,34 +23,15 @@ interface MessageFormElement extends HTMLFormElement {
 
 type Props = {
   messages: Message[];
+  message: string;
+  isOpen: boolean;
+  onClose: () => void;
+  onChange: (e: any) => any;
+  onSubmit: (event: React.FormEvent<MessageFormElement>) => void;
 };
 
-function Chat({ messages }: Props) {
-  // Drawer
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const btnRef = useRef();
-  // Messages
-  const [messagesData, setMessagesData] = useState<Message[]>([]);
-  const [message, setMessage] = useState('');
-
-  function handleMessage(event: React.FormEvent<MessageFormElement>) {
-    event.preventDefault();
-
-    const newMessage = {
-      sender: 'Me',
-      body: message,
-    };
-
-    const updatedMessages = [...messages, newMessage];
-    setMessage('');
-    setMessagesData(updatedMessages);
-
-    const randomMessage = sampleOne(sampleMessageData.items);
-
-    setTimeout(() => {
-      setMessagesData([...updatedMessages, randomMessage]);
-    }, 1000);
-  }
+function Chat(props: Props) {
+  const { messages, message, isOpen, onClose, onChange, onSubmit } = props;
 
   return (
     <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
@@ -76,7 +53,9 @@ function Chat({ messages }: Props) {
         </DrawerBody>
         <DrawerFooter>
           <Flex
-            onSubmit={() => handleMessage}
+            // TODO fix when more familiar with Chakra
+            // @ts-ignore
+            onSubmit={onSubmit}
             as="form"
             direction="column"
             width="100%"
@@ -86,10 +65,12 @@ function Chat({ messages }: Props) {
               id="messageInput"
               placeholder="Message..."
               value={message}
-              onChange={e => setMessage(e.target.value)}
+              onChange={onChange}
             />
             <Flex direction="column" width="100%" gap="3">
-              <Button type="submit">Send</Button>
+              <Button colorScheme="teal" type="submit">
+                Send
+              </Button>
               <Button variant="outline" mr={3} onClick={onClose}>
                 Cancel
               </Button>

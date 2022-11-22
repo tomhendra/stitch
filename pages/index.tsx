@@ -124,9 +124,8 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     heavy dashboards, account pages or any page that you do not require to be 
     in any search engine index.
 
-    I am still trying to get my head around the Next.js model - hence all these 
-    note changes! With all these different data / rendering strategies it'll 
-    take a *patient* and *thorough* read of the docs at the weekend!
+    I am still developing my mental model of Next.js - which is why there are a 
+    lot of note changes! 
     TODO read Next.js docs from start to finish
 
     Next.js 13 has a new (Remix inspired) router which handles nested layouts, 
