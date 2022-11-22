@@ -21,7 +21,7 @@ import { getDataWithFetch, sampleOne } from '~/utils/main';
 import { Chat } from '~/components/Chat';
 import { getChannelVideosQueryEndpoint } from '~/helpers/youtube-api.helper';
 
-// import { sampleChannelVideosQueryData } from '~/data/api';
+import { sampleChannelVideosQueryData } from '~/data/api';
 
 // import { DataDebugger } from '~/components';
 
@@ -116,10 +116,10 @@ function Channel({ channel, channels }: Props) {
         <GridItem p={2} shadow="base" area={'header'}>
           <Navbar channel={channel} />
         </GridItem>
-        <GridItem p={2} area={'sidebar'}>
+        <GridItem p={2} area={'sidebar'} backgroundColor={'gray.50'}>
           <Sidebar channels={channels} />
         </GridItem>
-        <GridItem as="main" area={'main'}>
+        <GridItem as="main" area={'main'} paddingInline={8}>
           <VideoPlayer video={currentVideo || null} />
           {/* Channel body */}
           <Flex paddingBlock={5} alignItems="center" gap={4}>
@@ -236,7 +236,8 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
       channelId: item.snippet.channelId,
       title: item.snippet.title,
       about: item.snippet.description,
-      thumbnail: item.snippet.thumbnails.default.url,
+      thumbnail:
+        item.snippet.thumbnails.default.url || '/images/user-circle.png',
     }),
   );
 

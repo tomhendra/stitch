@@ -1,7 +1,7 @@
 import React from 'react';
 
 /*
- TODO improve Error handling
+ TODO improve ErrorBoundary
  https://blog.logrocket.com/testing-error-handling-patterns-next-js/
  TODO convert ErrorBoundary to TypeScript and remove from .tsconfig includes array
 

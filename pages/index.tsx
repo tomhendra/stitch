@@ -13,7 +13,6 @@ import type { Channel } from '~/models/app';
 
 /* 
     TODO improve User Experience 
-    - Error handling throughout app for a better user experience
     - Core Web Vitals https://web.dev/vitals/ 
 
     TODO consider whether url/channels/user would be better for SEO
@@ -52,10 +51,10 @@ function Home({ channels }: Props) {
         <GridItem p={2} shadow="base" area={'header'}>
           <Navbar />
         </GridItem>
-        <GridItem p={2} area={'sidebar'}>
+        <GridItem p={2} area={'sidebar'} backgroundColor={'gray.50'}>
           <Sidebar channels={channels} />
         </GridItem>
-        <GridItem as="main" area={'main'}>
+        <GridItem as="main" area={'main'} paddingInline={8}>
           <Heading as="h1">Home route</Heading>
         </GridItem>
       </Layout>
@@ -154,7 +153,8 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
       channelId: item.snippet.channelId,
       title: item.snippet.title,
       about: item.snippet.description,
-      thumbnail: item.snippet.thumbnails.default.url,
+      thumbnail:
+        item.snippet.thumbnails.default.url || '/images/user-circle.png',
     }),
   );
 

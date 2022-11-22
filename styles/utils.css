@@ -1,3 +1,7 @@
 .make-circular {
   border-radius: 50%;
 }
+
+.uppercase {
+  text-transform: uppercase;
+}
