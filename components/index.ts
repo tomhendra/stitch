@@ -4,3 +4,5 @@ export * from './Navbar';
 export * from './Sidebar';
 export * from './ErrorBoundary';
 export * from './VideoPlayer';
+export * from './Main';
+export * from './MaxWidthContainer';

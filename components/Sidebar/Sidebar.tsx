@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Link, Text } from '@chakra-ui/react';
+import { Box, Flex, GridItem, Heading, Link, Text } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import slugify from 'slugify';
 import type { Channel } from '~/models/app';
@@ -10,14 +10,14 @@ type Props = {
 
 function Sidebar({ channels }: Props) {
   return (
-    <>
+    <GridItem area={'sidebar'} bg={'gray.100'} px={2.5} py={4} zIndex={3}>
       <Heading as="h2" fontSize="xl" marginBlockEnd={3}>
-        For you
+        For You
       </Heading>
       <Heading
         as="h3"
         className="uppercase"
-        fontSize="md"
+        fontSize="sm"
         color={'gray.500'}
         paddingBlockEnd={4}
       >
@@ -53,7 +53,7 @@ function Sidebar({ channels }: Props) {
           </Flex>
         ))}
       </Flex>
-    </>
+    </GridItem>
   );
 }
 

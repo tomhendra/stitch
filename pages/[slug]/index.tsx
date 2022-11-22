@@ -14,18 +14,29 @@ import Head from 'next/head';
 import type { ParsedUrlQuery } from 'querystring';
 import { useEffect, useRef, useState } from 'react';
 import slugify from 'slugify';
-import { Layout, Navbar, Sidebar, VideoPlayer } from '~/components';
-import { sampleChannelSearchQueryData, sampleMessageData } from '~/data/api';
+import {
+  Layout,
+  Main,
+  MaxWidthContainer,
+  Navbar,
+  Sidebar,
+  VideoPlayer,
+} from '~/components';
+import { Chat } from '~/components/Chat';
+import {
+  sampleChannelSearchQueryData,
+  sampleChannelVideosQueryData,
+  sampleMessageData,
+} from '~/data/api';
+import { getChannelVideosQueryEndpoint } from '~/helpers/youtube-api.helper';
 import type { ChannelVideosQueryData } from '~/models/api';
 import type { Channel, Message, Video } from '~/models/app';
 import { getDataWithFetch, sampleOne } from '~/utils/main';
-
-import { Chat } from '~/components/Chat';
-import { getChannelVideosQueryEndpoint } from '~/helpers/youtube-api.helper';
-
-import { sampleChannelVideosQueryData } from '~/data/api';
-
 // import { DataDebugger } from '~/components';
+
+// ! 🔥 DO NOT FORGET TO FLIP TO *TRUE* BEFORE PUSHING TO PROD !! 🔥
+const USE_ACTUAL_API_VIDEO_DATA = false;
+const AUTOPLAY_VIDEO = false;
 
 /* 
     SEO
@@ -51,11 +62,6 @@ type Props = {
   channels: Channel[];
 };
 
-// ! 🔥 DO NOT FORGET TO FLIP TO TRUE BEFORE PUSHING TO PROD !! 🔥
-const USE_ACTUAL_API_VIDEO_DATA = true;
-const AUTOPLAY_VIDEO = true;
-// ! 🔥 OR THE REQ'S WILL NOT PASS !! 🔥
-
 function Channel({ channel, channels }: Props) {
   // Videos
   const [videos, setVideos] = useState<Video[] | null>(null);
@@ -79,7 +85,7 @@ function Channel({ channel, channels }: Props) {
     
     Take this as a minimum proof of concept that the form handling works..
 
-    TODO create an auth flow and realtime chat via Websockets & PostgreSQL
+    TODO create an auth flow and realtime chat
     - channel id for each message & database query with id to get messages for 
     current channel.
   
@@ -116,35 +122,21 @@ function Channel({ channel, channels }: Props) {
         <meta property="og:image" content="https://postimg.cc/w3Vk5FJ0" />
       </Head>
 
-      {/* <DataDebugger data={channel} />  */}
       {/* <DataDebugger data={channelVideosQueryData} /> */}
 
       <Layout>
-        <GridItem
-          position="sticky"
-          top={0}
-          p={2}
-          shadow="base"
-          area={'header'}
-          bg="Background"
-          zIndex={3}
-        >
-          <Navbar channel={channel} />
-        </GridItem>
-        <GridItem p={2} area={'sidebar'} backgroundColor={'gray.50'} zIndex={2}>
-          <Sidebar channels={channels} />
-        </GridItem>
-        <GridItem as="main" area={'main'} zIndex={1}>
-          <Container maxW="container.xl" padding={10}>
+        <Navbar channel={channel} />
+        <Sidebar channels={channels} />
+        <Main>
+          <MaxWidthContainer>
             <Box>
               <VideoPlayer
                 video={currentVideo || null}
                 autoplay={AUTOPLAY_VIDEO}
               />
             </Box>
-          </Container>
-          {/* Channel body */}
-          <Container maxW="container.xl" padding={10}>
+          </MaxWidthContainer>
+          <MaxWidthContainer>
             <Flex paddingBlock={5} alignItems="center" gap={4}>
               <Heading
                 lineHeight={1.1}
@@ -164,6 +156,7 @@ function Channel({ channel, channels }: Props) {
               </Button>
               {/* Chat */}
               <Chat
+                channelTitle={channel.title}
                 messages={messages}
                 message={messageBody}
                 isOpen={isOpen}
@@ -182,8 +175,8 @@ function Channel({ channel, channels }: Props) {
                 ))}
               </List>
             </div>
-          </Container>
-        </GridItem>
+          </MaxWidthContainer>
+        </Main>
       </Layout>
     </>
   );

@@ -8,6 +8,7 @@ import {
   DrawerFooter,
   DrawerHeader,
   Flex,
+  Heading,
   Input,
   Spacer,
   Text,
@@ -22,6 +23,7 @@ interface MessageFormElement extends HTMLFormElement {
 }
 
 type Props = {
+  channelTitle: string;
   messages: Message[];
   message: string;
   isOpen: boolean;
@@ -31,13 +33,24 @@ type Props = {
 };
 
 function Chat(props: Props) {
-  const { messages, message, isOpen, onClose, onChange, onSubmit } = props;
+  const {
+    channelTitle,
+    messages,
+    message,
+    isOpen,
+    onClose,
+    onChange,
+    onSubmit,
+  } = props;
 
   return (
     <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
       <DrawerContent>
         <DrawerCloseButton />
-        <DrawerHeader>Chat</DrawerHeader>
+        <DrawerHeader>
+          <Heading>Chat</Heading>
+          <Text fontSize={'md'}>{channelTitle}</Text>
+        </DrawerHeader>
         <DrawerBody>
           <Flex direction="column" maxHeight="100%">
             <Box p="4">

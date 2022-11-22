@@ -1,15 +1,16 @@
-import { Container, GridItem, Heading } from '@chakra-ui/react';
+import { Heading } from '@chakra-ui/react';
 import type { GetStaticProps } from 'next';
 import Head from 'next/head';
-import { Layout, Navbar, Sidebar } from '~/components';
+import { Layout, Main, MaxWidthContainer, Navbar, Sidebar } from '~/components';
 import { sampleChannelSearchQueryData } from '~/data/api';
+import { getChannelSearchQueryEndpoint } from '~/helpers/youtube-api.helper';
+import type { ChannelSearchQueryData } from '~/models/api';
 import type { Channel } from '~/models/app';
-
-// import { getDataWithFetch } from '~/utils/main';
-// import { getChannelSearchQueryEndpoint } from '~/helpers/youtube-api.helper';
-// import type { ChannelSearchQueryData } from '~/models/api';
-
+import { getDataWithFetch } from '~/utils/main';
 // import { DataDebugger } from '~/components';
+
+// ! 🔥 DO NOT FORGET TO FLIP TO *FALSE* BEFORE PUSHING TO PROD !! 🔥
+const USE_ACTUAL_API_CHANNEL_DATA = false;
 
 /* 
     TODO improve User Experience 
@@ -48,25 +49,13 @@ function Home({ channels }: Props) {
       {/* <DataDebugger data={channelSearchQueryData} /> */}
 
       <Layout>
-        <GridItem
-          position="sticky"
-          top={0}
-          p={2}
-          shadow="base"
-          area={'header'}
-          bg="Background"
-          zIndex={3}
-        >
-          <Navbar />
-        </GridItem>
-        <GridItem p={2} area={'sidebar'} backgroundColor={'gray.50'} zIndex={2}>
-          <Sidebar channels={channels} />
-        </GridItem>
-        <GridItem as="main" area={'main'} paddingInline={8} zIndex={1}>
-          <Container maxW="container.xl" padding={10}>
+        <Navbar />
+        <Sidebar channels={channels} />
+        <Main>
+          <MaxWidthContainer>
             <Heading as="h1">Home route</Heading>
-          </Container>
-        </GridItem>
+          </MaxWidthContainer>
+        </Main>
       </Layout>
     </>
   );
@@ -96,18 +85,16 @@ function Home({ channels }: Props) {
   getServerSideProps (+ change the type) and delete getStaticPaths. SSR will 
   fetch data and serve fresh pages on every user request.
 
-  ? Learn more about how rendering strategies affect SEO
-  https://nextjs.org/learn/seo/rendering-and-ranking/rendering-strategies
+  TODO Learn more about how rendering strategies affect SEO
   https://www.smashingmagazine.com/2021/04/incremental-static-regeneration-nextjs/
   https://vercel.com/blog/nextjs-server-side-rendering-vs-static-generation
 */
-export const getStaticProps: GetStaticProps<Props> = async () => {
-  // const ENDPOINT = getChannelSearchQueryEndpoint(12, 'gaming', 'channel');
-  // const channelSearchQueryData = await getDataWithFetch<ChannelSearchQueryData>(
-  //   ENDPOINT,
-  // );
 
-  const channelSearchQueryData = sampleChannelSearchQueryData;
+export const getStaticProps: GetStaticProps<Props> = async () => {
+  const ENDPOINT = getChannelSearchQueryEndpoint(12, 'gaming', 'channel');
+  const channelSearchQueryData = USE_ACTUAL_API_CHANNEL_DATA
+    ? await getDataWithFetch<ChannelSearchQueryData>(ENDPOINT)
+    : sampleChannelSearchQueryData;
 
   /* 
     getChannelSearchQueryEndpoint provides an endpoint to fetch channels from
@@ -125,35 +112,6 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     I have queried the YouTube API once using getChannelSearchQueryEndpoint and 
     have dumped the result in data/api.ts to simulate a database fetch, which 
     can be reused in other routes. 
-
-    If we were fetching real channel data from each route, the sidebar & header 
-    components in the Home and Channel routes would unmount and remount on page 
-    navigation change. If we wanted to persist state between page navigations, 
-    with Next.js we need to use client-side data fetching - the same as a React 
-    SPA.
-    
-    There is a tradeoff with this approach however - in general Client-Side 
-    Rendering is not recommended for optimal SEO. CSR is more suited to data 
-    heavy dashboards, account pages or any page that you do not require to be 
-    in any search engine index.
-
-    I am still developing my mental model of Next.js - which is why there are a 
-    lot of note changes! 
-    TODO read Next.js docs from start to finish
-
-    Next.js 13 has a new (Remix inspired) router which handles nested layouts, 
-    but the app directory part of the feature to invoke this behaviour is still 
-    in beta. This ties in to React 18 Server Components and Streaming.
-    TODO investigate SEO strategies for the upcoming router architecture
-    https://nextjs.org/blog/next-13
-
-    TODO (maybe) implement persistent layout of sidebar & header the stable way
-    https://nextjs.org/docs/basic-features/layouts#data-fetchinghttps://nextjs.org/docs/basic-features/layouts#data-fetching
-    https://www.youtube.com/watch?v=WOeLxL2DF3E&t=37s
-    https://adamwathan.me/2019/10/17/persistent-layout-patterns-in-nextjs/
-    https://nextjs.org/docs/api-routes/introduction
-    https://swr.vercel.app/docs/with-nextjs
-
   */
 
   const channels: Channel[] = [];
