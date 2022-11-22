@@ -6,6 +6,7 @@ import {
   SimpleGrid,
   Text,
   useDisclosure,
+  VisuallyHidden,
 } from '@chakra-ui/react';
 import type { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
@@ -165,7 +166,7 @@ function Channel({ channel, channels }: Props) {
             </Flex>
             <Text>{channel.about}</Text>
             <Heading paddingBlock={4}>Videos</Heading>
-            <SimpleGrid columns={4} columnGap={2.5} rowGap={8} w="full">
+            <SimpleGrid columns={4} columnGap={8} w="full" h="full">
               {videos?.map(video => {
                 const { url, height, width } = video.thumbnails.medium;
                 return (
@@ -180,6 +181,7 @@ function Channel({ channel, channels }: Props) {
                       height={height}
                       width={width}
                     />
+                    <VisuallyHidden>video - {video.title}</VisuallyHidden>
                   </Button>
                 );
               })}
@@ -286,7 +288,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
     some sample data to data/api.ts as with the channel query. 
   */
 
-  const ENDPOINT = getChannelVideosQueryEndpoint(channel.id.channelId, 12);
+  const ENDPOINT = getChannelVideosQueryEndpoint(channel.id.channelId, 4);
 
   const channelVideosQueryData = USE_ACTUAL_API_VIDEO_DATA
     ? await getDataWithFetch<ChannelVideosQueryData>(ENDPOINT)

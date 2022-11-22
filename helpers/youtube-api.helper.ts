@@ -3,7 +3,7 @@ import { sampleOne } from '~/utils/main';
 type ResourceType = 'video' | 'channel' | 'playlist';
 
 const API = 'https://www.googleapis.com/youtube/v3';
-const AUTH = process.env.YOUTUBE_API_KEY_5;
+const AUTH = process.env.YOUTUBE_API_KEY_6;
 
 // ? Function names should correspond to the YouTube API conventions por-fa
 
