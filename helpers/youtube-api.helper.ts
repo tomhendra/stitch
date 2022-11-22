@@ -1,3 +1,5 @@
+import { sampleOne } from '~/utils/main';
+
 type ResourceType = 'video' | 'channel' | 'playlist';
 
 const API = 'https://www.googleapis.com/youtube/v3';

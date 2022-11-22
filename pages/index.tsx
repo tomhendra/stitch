@@ -1,14 +1,12 @@
 import { Flex, GridItem, Heading, Link } from '@chakra-ui/react';
 import type { GetStaticProps } from 'next';
 import Head from 'next/head';
-import NextLink from 'next/link';
-import slugify from 'slugify';
 import { Layout, Navbar, Sidebar } from '~/components';
 import { sampleChannelSearchQueryData } from '~/data/api';
 import type { Channel } from '~/models/app';
 import type { ChannelSearchQueryData } from '~/models/api';
 
-import { getChannelSearchQueryEndpoint } from '~/helpers/youtube-api.helper';
+// import { getChannelSearchQueryEndpoint } from '~/helpers/youtube-api.helper';
 // import { DataDebugger } from '~/components';
 
 /* 
@@ -119,11 +117,6 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     will unmount and remount on page navigation change. If we want to persist 
     them (and their data) in between page navigations, with Next.js we need to
     use client-side data fetching - the same as a React SPA.
-
-    In the future we may want to re-architect the app to take advantage of 
-    persistent layouts. Note if a user added a channel to their followed 
-    channels list, we'd have to update local state for our navigation + update 
-    the database, which could introduce bugs due to race conditions.
     
     There is a tradeoff with this approach however - in general Client-Side 
     Rendering is not recommended for optimal SEO. CSR is more suited to data 

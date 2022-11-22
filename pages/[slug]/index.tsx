@@ -136,8 +136,8 @@ function Channel({ channel, channels }: Props) {
           {/* Video embed */}
           <AspectRatio maxW="560px" ratio={16 / 9} paddingBlock={6}>
             <iframe
-              src={`https://www.youtube.com/embed/${currentVideo?.videoId}`}
-              // src={`https://www.youtube.com/embed/${currentVideo?.videoId}?autoplay=1`}
+              // src={`https://www.youtube.com/embed/${currentVideo?.videoId}`}
+              src={`https://www.youtube.com/embed/${currentVideo?.videoId}?autoplay=1`}
               frameBorder="0"
               allow="autoplay; encrypted-media"
               allowFullScreen
@@ -187,6 +187,7 @@ function Channel({ channel, channels }: Props) {
               </DrawerBody>
               <DrawerFooter>
                 <Flex
+                  // TODO fix when more familiar with Chakra
                   // @ts-ignore
                   onSubmit={handleMessage}
                   as="form"
