@@ -9,7 +9,7 @@ import type { Channel } from '~/models/app';
 import { getDataWithFetch } from '~/utils/main';
 // import { DataDebugger } from '~/components';
 
-// ! 🔥 DO NOT FORGET TO FLIP TO *FALSE* BEFORE PUSHING TO PROD !! 🔥
+// ! 🔥 FLIP TO *FALSE* BEFORE PUSHING TO PROD !! 🔥
 const USE_ACTUAL_API_CHANNEL_DATA = false;
 
 /* 
@@ -91,7 +91,7 @@ function Home({ channels }: Props) {
 */
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const ENDPOINT = getChannelSearchQueryEndpoint(12, 'gaming', 'channel');
+  const ENDPOINT = getChannelSearchQueryEndpoint(6, 'gaming', 'channel');
   const channelSearchQueryData = USE_ACTUAL_API_CHANNEL_DATA
     ? await getDataWithFetch<ChannelSearchQueryData>(ENDPOINT)
     : sampleChannelSearchQueryData;
