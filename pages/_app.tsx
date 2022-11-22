@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app';
 import theme from '~/styles/theme';
 import { Children } from '~/types';
 import '../styles/globals.css';
+import { ErrorBoundary } from '~/components';
 
 // App is the *only* component that renders on every page.
 // the pageProps object represents the props for each page.
@@ -20,14 +21,20 @@ export default function App({ Component, pageProps }: ComponentWithPageLayout) {
     Component.PageLayout || (({ children }: Children) => children);
 
   return (
-    <ChakraProvider theme={theme}>
-      {Component.PageLayout ? (
-        <InnerLayout>
-          <Component {...pageProps} />)
-        </InnerLayout>
-      ) : (
-        <Component {...pageProps} />
-      )}
-    </ChakraProvider>
+    <ErrorBoundary>
+      <ChakraProvider theme={theme}>
+        {Component.PageLayout ? (
+          <InnerLayout>
+            <Component {...pageProps} />)
+          </InnerLayout>
+        ) : (
+          <Component {...pageProps} />
+        )}
+      </ChakraProvider>
+    </ErrorBoundary>
   );
+}
+
+export function reportWebVitals(metric: any) {
+  console.log(metric);
 }

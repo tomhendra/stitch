@@ -55,7 +55,6 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   const channels = sampleChannelSearchQueryData.data.items;
 
   // We generate the XML sitemap with the posts data
-  // TODO look more at this type cast when time allows
   const sitemap = generateSiteMap(channels);
 
   res.setHeader('Content-Type', 'text/xml');

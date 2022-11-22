@@ -40,11 +40,14 @@ import { sampleOne } from '~/utils/main';
 
 /* 
     SEO
-    TODO consider https://<url>/channels/user url structure
+    TODO consider https://<url>/channels/[slug] url structure
     https://nextjs.org/learn/seo/rendering-and-ranking/url-structure
     TODO generate OG images from channel thumbnail
     TODO go further with Open Graph https://ogp.me/
     TODO generate structured data and JSON-LD https://schema.org/docs/documents.html
+    TODO dynamically import modules 
+    https://nextjs.org/learn/seo/improve/dynamic-imports
+    https://nextjs.org/learn/seo/improve/dynamic-import-components
 */
 
 interface FormElements extends HTMLFormControlsCollection {
@@ -313,7 +316,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
     is pretty low - I have had to create 3 apps on GCP already! - so have dumped 
     some sample data to data/api.ts as with the channel query. 
   */
-  // TODO move fetch calls into helpers and return proper types
+  // TODO move fetch calls into helpers and return properly typed values
   const ENDPOINT = getChannelVideosQueryEndpoint(channel.id.channelId, 12);
   const channelVideosQueryRes = await fetch(`${ENDPOINT}`);
   const channelVideosQueryData: ChannelVideosQueryData =
