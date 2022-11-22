@@ -3,11 +3,12 @@ import type { GetStaticProps } from 'next';
 import Head from 'next/head';
 import NextLink from 'next/link';
 import slugify from 'slugify';
-import { Layout } from '~/components';
+import { Layout, Navbar, Sidebar } from '~/components';
 import { sampleChannelSearchQueryData } from '~/data/api';
 import type { Channel } from '~/models/app';
+import type { ChannelSearchQueryData } from '~/models/api';
 
-// import { getChannelSearchQueryEndpoint } from '~/helpers/youtube-api.helper';
+import { getChannelSearchQueryEndpoint } from '~/helpers/youtube-api.helper';
 // import { DataDebugger } from '~/components';
 
 /* 
@@ -48,26 +49,11 @@ function Home({ channels }: Props) {
       {/* <DataDebugger data={channelData} /> */}
 
       <Layout>
+        <GridItem p={2} shadow="base" area={'header'}>
+          <Navbar />
+        </GridItem>
         <GridItem p={2} area={'sidebar'}>
-          <Heading as="p" fontSize="xl" marginBlockEnd={3}>
-            For you
-          </Heading>
-          <Flex as="nav" direction="column" gap={1.5}>
-            {channels?.map(channel => (
-              <NextLink
-                legacyBehavior
-                passHref
-                key={channel.channelId}
-                href={`/${slugify(channel.title).toLowerCase()}`}
-              >
-                <Link noOfLines={1}>
-                  <Heading as="p" fontSize="1xl">
-                    {channel.title}
-                  </Heading>
-                </Link>
-              </NextLink>
-            ))}
-          </Flex>
+          <Sidebar channels={channels} />
         </GridItem>
         <GridItem as="main" area={'main'}>
           <Heading as="h1">Home route</Heading>
@@ -110,7 +96,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
   // const ENDPOINT = getChannelSearchQueryEndpoint(12, 'gaming', 'channel');
   // const channelSearchQueryRes = await fetch(`${ENDPOINT}`);
   // const channelSearchQueryData: ChannelSearchQueryData =
-  // await channelSearchQueryRes.json();
+  //   await channelSearchQueryRes.json();
 
   /* 
     getChannelSearchQueryEndpoint provides an endpoint to fetch channels from
@@ -129,25 +115,20 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     have dumped the result in data/api.ts to simulate a database fetch, which 
     can be reused in other routes. 
 
-    Something to consider is that we want to persist the sidebar containing 
-    the channels the user has subscribed to in between page navigations for an 
-    "app-like" feel. This can be achieved by client-side data fetching, like a 
-    traditional React SPA.
-
-    At the moment the sidebar is duplicated in the Home and Channel routes since 
-    the channel data is dynamically generated from the backend of each route 
-    via a (simulated) database read.
+    At the moment the sidebar & header components in the Home and Channel routes 
+    will unmount and remount on page navigation change. If we want to persist 
+    them (and their data) in between page navigations, with Next.js we need to
+    use client-side data fetching - the same as a React SPA.
 
     In the future we may want to re-architect the app to take advantage of 
-    persistent layouts, which presently requires Client-Side Rendering in 
-    Next.js. Note if a user added a channel to their followed channels list, 
-    we'd have to update local state for our navigation + update the database, 
-    which could introduce bugs due to race conditions - handle with care.
+    persistent layouts. Note if a user added a channel to their followed 
+    channels list, we'd have to update local state for our navigation + update 
+    the database, which could introduce bugs due to race conditions.
     
     There is a tradeoff with this approach however - in general Client-Side 
-    Rendering is not recommended for optimal SEO. CSR is perfect for data heavy 
-    dashboards, account pages or any page that you do not require to be in any 
-    search engine index.
+    Rendering is not recommended for optimal SEO. CSR is more suited to data 
+    heavy dashboards, account pages or any page that you do not require to be 
+    in any search engine index.
 
     Next.js 13 has a new (Remix inspired) router which handles nested layouts, 
     but the app directory part of the feature to invoke this behaviour is still 
@@ -166,11 +147,12 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 
   const channels: Channel[] = [];
 
-  channelSearchQueryData.data.items.forEach(item =>
+  channelSearchQueryData.items.forEach(item =>
     channels.push({
       channelId: item.snippet.channelId,
       title: item.snippet.title,
       about: item.snippet.description,
+      thumbnail: item.snippet.thumbnails.default.url,
     }),
   );
 

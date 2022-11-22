@@ -52,7 +52,7 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   // const request = await fetch(EXTERNAL_DATA_URL);
   // const channels = await request.json();
   // ? our simulated data
-  const channels = sampleChannelSearchQueryData.data.items;
+  const channels = sampleChannelSearchQueryData.items;
 
   // We generate the XML sitemap with the posts data
   const sitemap = generateSiteMap(channels);

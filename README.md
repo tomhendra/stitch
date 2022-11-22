@@ -1,43 +1,30 @@
-# Welcome to Stitch app
+# Welcome to Stitch
 
-## Commitlint types
+This is a Twitch clone for learning some technologies that are new to me:
 
-This is a sticky note for Tom, because he never remembers them!
+- Next.js
+- Chakra UI
+- YouTbe API
 
-- build
-- chore
-- ci
-- docs
-- feat
-- fix
-- perf
-- refactor
-- revert
-- style
-- test
+## Twitch architecture
 
-## App architecture
+- Framework: React App (v18) (probably a custom Webpack / Vite build)
+- Component library: Almost certainly custom based on their [design system](https://brand.twitch.tv/) at Twitch's scale.
+- Styles: Styled Components
+- API: Custom
+- Deployment: AWS (obviously, being Amazon-owned!)
 
-- Framework: [Next.js 13 stable](https://nextjs.org/docs/getting-started) (React v18)
+**Note** - Twitch serves a separate app at [https://m.twitch.tv](https://m.twitch.tv) for handheld devices.
+
+## Stitch architecture
+
+- Framework: [Next.js v13 (stable)](https://nextjs.org/docs/getting-started) (React v18)
 - Component library: [Chakra UI](https://chakra-ui.com/)
 - Custom styles: [CSS Modules](https://nextjs.org/docs/basic-features/built-in-css-support#adding-component-level-css)
 - API: [YouTube](https://developers.google.com/youtube/)
 - Deployment: [Vercel](https://vercel.com/)
 
-The data fetching method is currently ISR. To change to SSR we just need to
-change `getStaticProps` to `getServerSideProps`. We also remove `getStaticPaths`
-because no HTML is needed to be generated at build time for SSR.
-
-### Twitch architecture
-
-- Framework: React App (v18) (probably a custom build)
-- Styles: Styled Components (runtime CSS-in-JS)
-- API: Custom
-- Deployment: AWS (obviously)
-
-**Note** - Twitch serves a [separate app](https://m.twitch.tv) for handheld devices.
-
-### Component architecture
+## Component architecture
 
 See ./components/NewComponent for a structural example.
 
@@ -88,3 +75,19 @@ CSS is evolving rapidly with native nesting and scoping solutions on the horizon
 
 A PostCSS plugin exists called `postcss-preset-env` that allows us to use future
 specs today. However in favour of **stability** it isn't used in this project.
+
+## Commitlint types
+
+This is a sticky note for me, because I can never remember them!
+
+- build
+- chore
+- ci
+- docs
+- feat
+- fix
+- perf
+- refactor
+- revert
+- style
+- test

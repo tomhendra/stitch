@@ -29,17 +29,15 @@ export type ChannelData = {
 };
 
 export type ChannelSearchQueryData = {
-  data: {
-    kind: string;
-    etag: string;
-    nextPageToken: string;
-    regionCode: string;
-    pageInfo: {
-      totalResults: number;
-      resultsPerPage: number;
-    };
-    items: ChannelData[];
+  kind: string;
+  etag: string;
+  nextPageToken: string;
+  regionCode: string;
+  pageInfo: {
+    totalResults: number;
+    resultsPerPage: number;
   };
+  items: ChannelData[];
 };
 
 // result of querying for all videos associated with a channel

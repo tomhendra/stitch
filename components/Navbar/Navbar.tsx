@@ -1,32 +1,38 @@
 import Image from 'next/image';
 import NextLink from 'next/link';
+import { Flex, VisuallyHidden } from '@chakra-ui/react';
+import { Channel } from '~/models/app';
 
-import {
-  Container,
-  Heading,
-  Flex,
-  Grid,
-  GridItem,
-  Text,
-  Spacer,
-  Link,
-} from '@chakra-ui/react';
+type Props = {
+  channel?: Channel;
+};
 
-function Navbar() {
+function Navbar({ channel }: Props) {
   return (
-    <Flex as="header" alignItems="center" gap={3}>
+    <Flex
+      as="header"
+      alignItems="center"
+      gap={3}
+      justifyContent={'space-between'}
+    >
       <NextLink href="/">
         <Image
+          alt="Stitch logo - credit of Vercel"
           src="/images/stitch-dark.svg"
           height={24}
           width={24}
-          alt="Stitch logo - credit of Vercel"
         />
+        <VisuallyHidden>Switch - Home navigation</VisuallyHidden>
       </NextLink>
-      <Heading as="span" fontSize="2xl">
-        Stitch
-      </Heading>
+      <Image
+        alt={`avatar for ${channel?.title}`}
+        className="make-circular"
+        src={channel?.thumbnail || '/images/user-circle.png'}
+        height={30}
+        width={30}
+      />
     </Flex>
   );
 }
+
 export { Navbar };

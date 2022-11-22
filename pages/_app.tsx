@@ -2,8 +2,9 @@ import { ChakraProvider } from '@chakra-ui/react';
 import type { AppProps } from 'next/app';
 import theme from '~/styles/theme';
 import { Children } from '~/types';
-import '../styles/globals.css';
 import { ErrorBoundary } from '~/components';
+import '../styles/globals.css';
+import '../styles/utils.css';
 
 // App is the *only* component that renders on every page.
 // the pageProps object represents the props for each page.

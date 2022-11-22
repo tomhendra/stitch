@@ -2,6 +2,7 @@ export type Channel = {
   channelId: string;
   title: string;
   about: string;
+  thumbnail: string;
   videos?: Video[];
 };
 

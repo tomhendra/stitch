@@ -8,16 +8,13 @@ function Layout({ children }: Children) {
     <Grid
       templateColumns={'15rem 1fr'}
       gridTemplateRows={'3rem 1fr'}
-      gap={2}
       minH="100%"
       templateAreas={`
-    "header header"
-    "sidebar main"
-    `}
+      "header header"
+      "sidebar main"
+      `}
+      gap={2}
     >
-      <GridItem p={2} shadow="base" area={'header'}>
-        <Navbar />
-      </GridItem>
       {children}
     </Grid>
   );

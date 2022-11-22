@@ -1,4 +1,4 @@
-.container {
+/* .container {
   min-height: 100%;
   display: grid;
   grid-template-areas:
@@ -7,12 +7,12 @@
   grid-template-columns: 15rem 1fr;
   grid-template-rows: 3rem 1fr;
   --buffer: 0.5rem;
-}
+} */
 
-.header {
+/* .header {
   grid-area: header;
   padding-inline: var(--buffer);
-}
+} */
 
 .sidebar {
   grid-area: sidebar;

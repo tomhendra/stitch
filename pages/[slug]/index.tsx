@@ -25,7 +25,7 @@ import NextLink from 'next/link';
 import type { ParsedUrlQuery } from 'querystring';
 import { useEffect, useRef, useState } from 'react';
 import slugify from 'slugify';
-import { Layout } from '~/components';
+import { Layout, Navbar, Sidebar } from '~/components';
 import {
   sampleMessageData,
   sampleChannelSearchQueryData,
@@ -126,37 +126,24 @@ function Channel({ channel, channels }: Props) {
       {/* <DataDebugger data={channelVideosQueryData} /> */}
 
       <Layout>
+        <GridItem p={2} shadow="base" area={'header'}>
+          <Navbar channel={channel} />
+        </GridItem>
         <GridItem p={2} area={'sidebar'}>
-          <Heading as="h2" fontSize="xl" marginBlockEnd={3}>
-            For you
-          </Heading>
-          <Flex as="nav" direction="column" gap={1.5}>
-            {channels?.map(channel => (
-              <NextLink
-                legacyBehavior
-                passHref
-                key={channel.channelId}
-                href={`/${slugify(channel.title).toLowerCase()}`}
-              >
-                <Link noOfLines={1}>
-                  <Heading as="p" fontSize="1xl">
-                    {channel.title}
-                  </Heading>
-                </Link>
-              </NextLink>
-            ))}
-          </Flex>
+          <Sidebar channels={channels} />
         </GridItem>
         <GridItem as="main" area={'main'}>
           {/* Video embed */}
           <AspectRatio maxW="560px" ratio={16 / 9} paddingBlock={6}>
             <iframe
-              src={`https://www.youtube.com/embed/${currentVideo?.videoId}?autoplay=1`}
+              src={`https://www.youtube.com/embed/${currentVideo?.videoId}`}
+              // src={`https://www.youtube.com/embed/${currentVideo?.videoId}?autoplay=1`}
               frameBorder="0"
               allow="autoplay; encrypted-media"
               allowFullScreen
             ></iframe>
           </AspectRatio>
+          {/* Channel body */}
           <Flex paddingBlock={5} alignItems="center" gap={4}>
             <Heading
               lineHeight={1.1}
@@ -200,7 +187,8 @@ function Channel({ channel, channels }: Props) {
               </DrawerBody>
               <DrawerFooter>
                 <Flex
-                  onSubmit={() => handleMessage}
+                  // @ts-ignore
+                  onSubmit={handleMessage}
                   as="form"
                   direction="column"
                   width="100%"
@@ -250,7 +238,7 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
   // https://www.vitamindev.com/next-js/getstaticprops-getstaticpaths-typescript/
   const paths: any = [];
 
-  channelSearchQueryData.data.items.forEach(item => {
+  channelSearchQueryData.items.forEach(item => {
     paths.push({
       params: {
         slug: slugify(item.snippet.title).toLowerCase(),
@@ -260,7 +248,7 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
 
   return {
     paths,
-    /* if a user navigates to a path that doesn't exists in the paths array, 
+    /* if a user navigates to a path that doesn't exist in the paths array, 
     fallback: false will cause Next to return a 404 page */
     fallback: false,
   };
@@ -287,29 +275,27 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
     
     slug comes from the filename [slug] — square brackets signify a dynamic route.
   */
-  const channel = channelSearchQueryData.data.items.find(item => {
+  const channel = channelSearchQueryData.items.find(item => {
     const { title } = item.snippet;
     const itemSlug = slugify(title).toLowerCase();
     return itemSlug === slug;
   });
+
+  if (!channel) throw new Error('channel not found');
 
   const channels: Channel[] = [];
   /* 
     populate the channels array so that we only send data from the server that 
     is required to minimise bandwidth and compute expense.
   */
-  channelSearchQueryData.data.items.forEach(item =>
+  channelSearchQueryData.items.forEach(item =>
     channels.push({
       channelId: item.snippet.channelId,
       title: item.snippet.title,
       about: item.snippet.description,
+      thumbnail: item.snippet.thumbnails.default.url,
     }),
   );
-
-  if (!channel) {
-    throw new Error('channel not found');
-    // TODO research how Next handles errors.
-  }
 
   /* 
     Now we hit the YouTube API to get videos for the channel 🎉. The GCP quota 
@@ -324,10 +310,11 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
 
   // const channelVideosQueryData = sampleChannelVideosQueryData;
 
-  const title = channel?.snippet.title || '';
-  const about = channel?.snippet.description || '';
-  const channelId = channel?.snippet.channelId || '';
+  const title = channel.snippet.title;
+  const about = channel?.snippet.description;
+  const channelId = channel?.snippet.channelId;
   const videos: Video[] = [];
+  const thumbnail = channel.snippet.thumbnails.default.url;
 
   channelVideosQueryData.items.forEach(video => {
     videos.push({
@@ -344,6 +331,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
         title,
         about,
         videos,
+        thumbnail,
       },
     },
     revalidate: 5,
