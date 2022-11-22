@@ -96,6 +96,12 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     ? await getDataWithFetch<ChannelSearchQueryData>(ENDPOINT)
     : sampleChannelSearchQueryData;
 
+  if (!channelSearchQueryData) {
+    /* getDataWithFetch has error handling but leave this here in case 
+    the static data fails */
+    throw new Error('error fetching channel data');
+  }
+
   /* 
     getChannelSearchQueryEndpoint provides an endpoint to fetch channels from
     the YouTube API based on a search query, which means data could be different 

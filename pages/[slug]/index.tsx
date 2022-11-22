@@ -87,7 +87,6 @@ function Channel({ channel, channels }: Props) {
     TODO create an auth flow and realtime chat
     - channel id for each message & database query with id to get messages for 
     current channel.
-  
   */
   function handleMessage(event: React.FormEvent<MessageFormElement>) {
     event.preventDefault();
@@ -205,6 +204,10 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
   // ? using static data to simulate a database as explained in pages/index.tsx
   const channelSearchQueryData = sampleChannelSearchQueryData;
 
+  if (!channelSearchQueryData) {
+    throw new Error('error fetching channel data');
+  }
+
   // TODO how to type getStaticPaths? - no info in Next docs! - remove "any"
   // https://www.vitamindev.com/next-js/getstaticprops-getstaticpaths-typescript/
   const paths: any = [];
@@ -220,7 +223,7 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
   return {
     paths,
     /* if a user navigates to a path that doesn't exist in the paths array, 
-    fallback: false will cause Next to return a 404 page */
+    `fallback: false` will cause Next to return a 404 page */
     fallback: false,
   };
 };
@@ -235,11 +238,12 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
     throw new Error('error generating path');
   }
 
-  const slug: string = !Array.isArray(params.slug) ? params.slug : '';
-
   // ? using static data to simulate a database as explained in pages/index.tsx
   const channelSearchQueryData = sampleChannelSearchQueryData;
 
+  if (!channelSearchQueryData) {
+    throw new Error('error fetching channel data');
+  }
   /* 
     grab the current channel for this route by matching the slug on the params 
     object with the subscribed channel sample data entry. 
@@ -249,10 +253,12 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const channel = channelSearchQueryData.items.find(item => {
     const { title } = item.snippet;
     const itemSlug = slugify(title).toLowerCase();
-    return itemSlug === slug;
+    return itemSlug === params.slug;
   });
 
-  if (!channel) throw new Error('channel not found');
+  if (!channel) {
+    throw new Error('channel not found');
+  }
 
   const channels: Channel[] = [];
   /* 
@@ -280,6 +286,12 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const channelVideosQueryData = USE_ACTUAL_API_VIDEO_DATA
     ? await getDataWithFetch<ChannelVideosQueryData>(ENDPOINT)
     : sampleChannelVideosQueryData;
+
+  if (!channelVideosQueryData) {
+    /* getDataWithFetch has error handling but leave this here in case 
+    the static data fails */
+    throw new Error('error fetching video data');
+  }
 
   const title = channel.snippet.title;
   const about = channel.snippet.description;
