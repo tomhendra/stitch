@@ -55,7 +55,7 @@ function Home({ channels }: Props) {
         <Sidebar channels={channels} />
         <Main>
           <MaxWidthContainer>
-            <Box py={[4, 6, 10]}>
+            <Box px={[2, 4, 6, 10]} py={[4, 6, 10]}>
               <Heading as="h1">Welcome to Stitch!</Heading>
               <Text as="p">The next big thing in video streaming.</Text>
             </Box>
