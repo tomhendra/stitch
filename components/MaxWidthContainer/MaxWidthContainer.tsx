@@ -3,7 +3,7 @@ import type { Children } from '~/types';
 
 function MaxWidthContainer({ children }: Children) {
   return (
-    <Container maxW="2000px" px={[4, 6, 10]}>
+    <Container maxW="2000px" p={0}>
       {children}
     </Container>
   );

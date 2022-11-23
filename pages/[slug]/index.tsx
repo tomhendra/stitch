@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Container,
   Flex,
   Heading,
   SimpleGrid,
@@ -127,19 +128,20 @@ function Channel({ channel, channels }: Props) {
         <Navbar channel={channel} />
         <Sidebar channels={channels} />
         <Main>
-          <MaxWidthContainer>
-            <Box py={[4, 6, 10]}>
+          <Container maxW="2000px" p={0}>
+            <Box px={[0, 0, 6, 10]} py={[0, 0, 6, 10]}>
               <VideoPlayer
                 video={currentVideo || null}
                 autoplay={AUTOPLAY_VIDEO}
               />
             </Box>
-          </MaxWidthContainer>
+          </Container>
           <MaxWidthContainer>
             <Flex
               direction="column"
               py={6}
-              gap={8}
+              px={[2, 4, 6, 10]}
+              gap={[4, 8]}
               justifyContent="space-between"
             >
               <Heading as="h1" lineHeight={1.1} fontSize={['2xl', '4xl']}>
@@ -165,7 +167,7 @@ function Channel({ channel, channels }: Props) {
                   </Button>
                 </TabList>
                 <TabPanels>
-                  <TabPanel>
+                  <TabPanel px={0}>
                     <SimpleGrid
                       columns={[1, 1, 2, 3, 4]}
                       columnGap={[0, 0, 8]}
@@ -177,22 +179,29 @@ function Channel({ channel, channels }: Props) {
                         const { url, height, width } = video.thumbnails.medium;
                         return (
                           <Box
-                            cursor="pointer"
                             key={video.videoId}
                             onClick={() => setCurrentVideo(video)}
+                            cursor="pointer"
                             w="full"
+                            overflow="hidden"
                           >
-                            <Box>
+                            <Box
+                              transition="transform 150ms"
+                              _hover={{
+                                transition: 'transform 250ms',
+                                transform: 'scale(1.06)',
+                              }}
+                            >
                               <Image
                                 alt={video.title}
                                 src={url}
                                 height={height}
                                 width={width}
                               />
+                              <VisuallyHidden>
+                                video - {video.title}
+                              </VisuallyHidden>
                             </Box>
-                            <VisuallyHidden>
-                              video - {video.title}
-                            </VisuallyHidden>
                           </Box>
                         );
                       })}
@@ -269,7 +278,7 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   // console.log({params});
   if (!params?.slug) {
-    throw new Error('error generating path');
+    throw new Error('error getting slug from params');
   }
 
   // ? using static data to simulate a database as explained in pages/index.tsx

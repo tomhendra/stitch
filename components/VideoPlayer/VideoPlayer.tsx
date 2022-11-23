@@ -12,7 +12,7 @@ function VideoPlayer({ video, autoplay }: Props) {
   }
 
   return (
-    <AspectRatio maxW="560px" ratio={16 / 9} paddingBlock={6}>
+    <AspectRatio maxW="560px" ratio={16 / 9}>
       <iframe
         src={`https://www.youtube.com/embed/${video?.videoId}?autoplay=${
           autoplay ? 1 : 0

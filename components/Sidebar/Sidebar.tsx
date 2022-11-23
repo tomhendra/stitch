@@ -56,18 +56,20 @@ function Sidebar({ channels }: Props) {
                   noOfLines={1}
                   variant="button"
                   w="full"
-                  _hover={{ bg: hoverColor }}
-                  px={2.5}
+                  px={[2, 2.5]}
                   cursor="pointer"
+                  _hover={{ bg: hoverColor }}
                 >
                   <Flex alignItems={'center'} gap={2} paddingBlock={2}>
-                    <Image
-                      className="circular"
-                      src={channel.thumbnail}
-                      alt={`avatar for ${channel.title}`}
-                      height={30}
-                      width={30}
-                    />
+                    <Box>
+                      <Image
+                        className="circular"
+                        src={channel.thumbnail}
+                        alt={`avatar for ${channel.title}`}
+                        height={30}
+                        width={30}
+                      />
+                    </Box>
                     <Heading
                       as="p"
                       fontSize="1xl"
