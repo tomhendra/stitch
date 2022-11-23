@@ -1,10 +1,14 @@
 # Welcome to Stitch
 
-This is a Twitch clone for learning some technologies that are new to me:
+This project serves to demonstrate my ability in creating a React Application.
+
+It uses the following stack, all three of which I learned for this assignment.
 
 - Next.js
 - Chakra UI
 - YouTbe API
+
+The requirement was to create a basic Twitch clone. See the `docs` directory for full details.
 
 ## Twitch architecture
 

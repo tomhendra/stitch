@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Container,
   Flex,
   Heading,
   SimpleGrid,
@@ -152,11 +151,11 @@ function Channel({ channel, channels }: Props) {
               </Button>
               {/* Chat */}
               <Chat
+                isOpen={isOpen}
+                onClose={onClose}
                 channelTitle={channel.title}
                 messages={messages}
                 message={messageBody}
-                isOpen={isOpen}
-                onClose={onClose}
                 onChange={e => setMessageBody(e.target.value)}
                 onSubmit={handleMessage}
               />
@@ -210,7 +209,6 @@ function Channel({ channel, channels }: Props) {
 
   we need to generate an array of paths for the getStaticPaths function.
 */
-
 interface Params extends ParsedUrlQuery {
   slug: string;
 }
@@ -289,13 +287,11 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
         item.snippet.thumbnails.default.url || '/images/user-circle.png',
     }),
   );
-
   /* 
     Now we hit the YouTube API to get videos for the channel 🎉. The GCP quota 
-    is pretty low - I have had to create 5 apps on GCP already! - so have dumped 
+    is pretty low - I have had to create 7 apps on GCP already! - so I've dumped 
     some sample data to data/api.ts as with the channel query. 
   */
-
   const ENDPOINT = getChannelVideosQueryEndpoint(channel.id.channelId, 4);
 
   const channelVideosQueryData = USE_ACTUAL_API_VIDEO_DATA

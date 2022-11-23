@@ -8,6 +8,9 @@ import {
 } from '@chakra-ui/react';
 import Image from 'next/image';
 import NextLink from 'next/link';
+import { Logo } from './Logo';
+import { Sun } from './Sun';
+import { Moon } from './Moon';
 import type { Channel } from '~/models/app';
 
 type Props = {
@@ -15,9 +18,10 @@ type Props = {
 };
 
 function Navbar({ channel }: Props) {
-  const { toggleColorMode } = useColorMode();
+  const { toggleColorMode, colorMode } = useColorMode();
   const bgColor = useColorModeValue('gray.50', 'gray.900');
   const secondaryTextColor = useColorModeValue('gray.600', 'gray.400');
+  const iconColor = useColorModeValue('black', 'white');
 
   return (
     <GridItem
@@ -36,12 +40,7 @@ function Navbar({ channel }: Props) {
         gap={3}
       >
         <NextLink href="/">
-          <Image
-            alt="Stitch logo - credit of Vercel"
-            src="/images/stitch-dark.svg"
-            height={24}
-            width={24}
-          />
+          <Logo color={iconColor} />
           <VisuallyHidden>Switch - Home navigation</VisuallyHidden>
         </NextLink>
         <HStack alignItems="center" gap={4}>
@@ -50,7 +49,17 @@ function Navbar({ channel }: Props) {
             variant="link"
             onClick={toggleColorMode}
           >
-            Theme
+            {colorMode === 'light' ? (
+              <>
+                <VisuallyHidden>Dark</VisuallyHidden>
+                <Moon color={iconColor} />
+              </>
+            ) : (
+              <>
+                <Sun color={iconColor} />
+                <VisuallyHidden>Light</VisuallyHidden>
+              </>
+            )}
           </Button>
           <Image
             alt={`avatar for ${channel?.title}`}

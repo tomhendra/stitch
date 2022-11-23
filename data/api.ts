@@ -417,5 +417,9 @@ export const sampleMessageData = {
       sender: 'Feo',
       body: 'Life is movement-we breathe, we eat, we walk, we move!',
     },
+    {
+      sender: 'Noelia',
+      body: "I believe life is an intelligent thing: that things aren't random.",
+    },
   ],
 };

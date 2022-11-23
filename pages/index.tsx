@@ -14,15 +14,17 @@ const USE_ACTUAL_API_CHANNEL_DATA = false;
 
 /* 
     TODO improve User Experience 
-    - Core Web Vitals https://web.dev/vitals/ 
-
+    Core Web Vitals https://web.dev/vitals/
     TODO consider whether url/channels/user would be better for SEO
     https://nextjs.org/learn/seo/rendering-and-ranking/url-structure
-
-    SEO 
     TODO generate OG images from channel thumbnail
-    TODO go further with Open Graph https://ogp.me/
-    TODO generate structured data and JSON-LD https://schema.org/docs/documents.html
+    TODO go further with Open Graph 
+    https://ogp.me/
+    TODO generate structured data and JSON-LD 
+    https://schema.org/docs/documents.html
+    TODO Learn more about how rendering strategies affect SEO
+    https://www.smashingmagazine.com/2021/04/incremental-static-regeneration-nextjs/
+    https://vercel.com/blog/nextjs-server-side-rendering-vs-static-generation
 */
 
 type Props = {
@@ -84,10 +86,6 @@ function Home({ channels }: Props) {
   to transition to SSR from ISR, we just rename getStaticProps to 
   getServerSideProps (+ change the type) and delete getStaticPaths. SSR will 
   fetch data and serve fresh pages on every user request.
-
-  TODO Learn more about how rendering strategies affect SEO
-  https://www.smashingmagazine.com/2021/04/incremental-static-regeneration-nextjs/
-  https://vercel.com/blog/nextjs-server-side-rendering-vs-static-generation
 */
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
