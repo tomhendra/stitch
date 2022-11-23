@@ -136,7 +136,7 @@ function Channel({ channel, channels }: Props) {
               gap={8}
               justifyContent="space-between"
             >
-              <Heading as="h1" lineHeight={1.1} fontSize={['4xl']}>
+              <Heading as="h1" lineHeight={1.1} fontSize={['2xl', '4xl']}>
                 {channel.title}
               </Heading>
               <Button
@@ -161,7 +161,7 @@ function Channel({ channel, channels }: Props) {
               />
             </Flex>
             <Text>{channel.about}</Text>
-            <Heading as="h2" paddingBlock={4} fontSize={['3xl']}>
+            <Heading as="h2" paddingBlock={4} fontSize={['xl', '3xl']}>
               Videos
             </Heading>
             <SimpleGrid
