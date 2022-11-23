@@ -7,6 +7,11 @@ import {
   Text,
   useDisclosure,
   VisuallyHidden,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
 } from '@chakra-ui/react';
 import type { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
@@ -21,6 +26,7 @@ import {
   Navbar,
   Sidebar,
   VideoPlayer,
+  ArrowUpRight,
 } from '~/components';
 import { Chat } from '~/components/Chat';
 import {
@@ -131,24 +137,70 @@ function Channel({ channel, channels }: Props) {
           </MaxWidthContainer>
           <MaxWidthContainer>
             <Flex
+              direction="column"
               py={6}
-              alignItems="center"
               gap={8}
               justifyContent="space-between"
             >
               <Heading as="h1" lineHeight={1.1} fontSize={['2xl', '4xl']}>
                 {channel.title}
               </Heading>
-              <Button
-                // TODO fix this later
-                // @ts-ignore
-                ref={btnRef}
-                colorScheme="blue"
-                onClick={onOpen}
-                size="md"
-              >
-                Chat
-              </Button>
+              <Tabs>
+                <TabList>
+                  <Tab>Home</Tab>
+                  <Tab>About</Tab>
+                  <Button
+                    leftIcon={<ArrowUpRight />}
+                    // TODO fix this later
+                    // @ts-ignore
+                    ref={btnRef}
+                    colorScheme="blue"
+                    onClick={onOpen}
+                    size="md"
+                    variant="link"
+                  >
+                    Chat
+                  </Button>
+                </TabList>
+                <TabPanels>
+                  <TabPanel>
+                    <SimpleGrid
+                      columns={[1, 1, 2, 3, 4]}
+                      columnGap={[0, 0, 8]}
+                      rowGap={[8, 8, 8, 8]}
+                      w="full"
+                      h="full"
+                    >
+                      {videos?.map(video => {
+                        const { url, height, width } = video.thumbnails.medium;
+                        return (
+                          <Box
+                            cursor="pointer"
+                            key={video.videoId}
+                            onClick={() => setCurrentVideo(video)}
+                            w="full"
+                          >
+                            <Box>
+                              <Image
+                                alt={video.title}
+                                src={url}
+                                height={height}
+                                width={width}
+                              />
+                            </Box>
+                            <VisuallyHidden>
+                              video - {video.title}
+                            </VisuallyHidden>
+                          </Box>
+                        );
+                      })}
+                    </SimpleGrid>
+                  </TabPanel>
+                  <TabPanel>
+                    <Text>{channel.about}</Text>
+                  </TabPanel>
+                </TabPanels>
+              </Tabs>
               {/* Chat */}
               <Chat
                 isOpen={isOpen}
@@ -160,39 +212,6 @@ function Channel({ channel, channels }: Props) {
                 onSubmit={handleMessage}
               />
             </Flex>
-            <Text>{channel.about}</Text>
-            <Heading as="h2" paddingBlock={4} fontSize={['xl', '3xl']}>
-              Videos
-            </Heading>
-            <SimpleGrid
-              columns={[1, 1, 2, 3, 4]}
-              columnGap={[0, 0, 8]}
-              rowGap={[8, 8, 8, 8]}
-              w="full"
-              h="full"
-            >
-              {videos?.map(video => {
-                const { url, height, width } = video.thumbnails.medium;
-                return (
-                  <Box
-                    cursor="pointer"
-                    key={video.videoId}
-                    onClick={() => setCurrentVideo(video)}
-                    w="full"
-                  >
-                    <Box>
-                      <Image
-                        alt={video.title}
-                        src={url}
-                        height={height}
-                        width={width}
-                      />
-                    </Box>
-                    <VisuallyHidden>video - {video.title}</VisuallyHidden>
-                  </Box>
-                );
-              })}
-            </SimpleGrid>
           </MaxWidthContainer>
         </Main>
       </Layout>

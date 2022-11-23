@@ -6,3 +6,4 @@ export * from './ErrorBoundary';
 export * from './VideoPlayer';
 export * from './Main';
 export * from './MaxWidthContainer';
+export * from './ArrowUpRight';

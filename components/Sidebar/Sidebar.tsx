@@ -58,6 +58,7 @@ function Sidebar({ channels }: Props) {
                   w="full"
                   _hover={{ bg: hoverColor }}
                   px={2.5}
+                  cursor="pointer"
                 >
                   <Flex alignItems={'center'} gap={2} paddingBlock={2}>
                     <Image

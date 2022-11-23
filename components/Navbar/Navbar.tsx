@@ -52,11 +52,11 @@ function Navbar({ channel }: Props) {
             {colorMode === 'light' ? (
               <>
                 <VisuallyHidden>Dark</VisuallyHidden>
-                <Moon color={iconColor} />
+                <Moon color={iconColor} h="24px" w="24px" />
               </>
             ) : (
               <>
-                <Sun color={iconColor} />
+                <Sun color={iconColor} h="24px" w="24px" />
                 <VisuallyHidden>Light</VisuallyHidden>
               </>
             )}
