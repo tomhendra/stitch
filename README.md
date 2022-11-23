@@ -32,6 +32,16 @@ The requirement was to create a basic Twitch clone. See the `docs` directory for
 
 See `./components/NewComponent` for a structural example.
 
+## Google Cloud Platform API quotas
+
+If you notice the app isn't fetching data it is almost certainly because the
+daily API quota limit has expired.
+
+Because Next.js builds static pages for this app at build time on the server, the API takes a hit every time I push to GitHub and trigger a build.
+
+I have created 7 different apps on GCP so far! I am monitoring the situation
+and swapping out API keys as and when quota limits are reached.
+
 ## CSS declaration order style guide
 
 This is not enforced via tooling but is recommended for the benefit of your compañeros.

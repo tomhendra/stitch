@@ -1,4 +1,4 @@
-import { Heading } from '@chakra-ui/react';
+import { Box, Heading, Text } from '@chakra-ui/react';
 import type { GetStaticProps } from 'next';
 import Head from 'next/head';
 import { Layout, Main, MaxWidthContainer, Navbar, Sidebar } from '~/components';
@@ -55,7 +55,10 @@ function Home({ channels }: Props) {
         <Sidebar channels={channels} />
         <Main>
           <MaxWidthContainer>
-            <Heading as="h1">Home route</Heading>
+            <Box py={[4, 6, 10]}>
+              <Heading as="h1">Welcome to Stitch!</Heading>
+              <Text as="p">The next big thing in video streaming.</Text>
+            </Box>
           </MaxWidthContainer>
         </Main>
       </Layout>

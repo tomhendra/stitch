@@ -5,12 +5,14 @@ import {
   VisuallyHidden,
   useColorMode,
   useColorModeValue,
+  Flex,
 } from '@chakra-ui/react';
 import Image from 'next/image';
 import NextLink from 'next/link';
 import { Logo } from './Logo';
 import { Sun } from './Sun';
 import { Moon } from './Moon';
+import { User } from './User';
 import type { Channel } from '~/models/app';
 
 type Props = {
@@ -61,13 +63,19 @@ function Navbar({ channel }: Props) {
               </>
             )}
           </Button>
-          <Image
-            alt={`avatar for ${channel?.title}`}
-            className="circular"
-            src={channel?.thumbnail || '/images/user-circle.png'}
-            height={30}
-            width={30}
-          />
+          {channel ? (
+            <Image
+              alt={`avatar for ${channel?.title}`}
+              className="circular"
+              src={channel?.thumbnail || '/images/user-circle.png'}
+              height={30}
+              width={30}
+            />
+          ) : (
+            <Flex p="3px">
+              <User color={iconColor} h="24px" w="24px" />
+            </Flex>
+          )}
         </HStack>
       </HStack>
     </GridItem>

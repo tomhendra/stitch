@@ -84,7 +84,7 @@ function Chat(props: Props) {
               onChange={onChange}
             />
             <Flex direction="column" width="100%" gap="3">
-              <Button colorScheme="blue" type="submit">
+              <Button colorScheme="purple" type="submit">
                 Send
               </Button>
               <Button variant="outline" mr={3} onClick={onClose}>

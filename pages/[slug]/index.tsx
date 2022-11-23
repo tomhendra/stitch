@@ -145,19 +145,21 @@ function Channel({ channel, channels }: Props) {
               <Heading as="h1" lineHeight={1.1} fontSize={['2xl', '4xl']}>
                 {channel.title}
               </Heading>
-              <Tabs>
-                <TabList>
+              <Tabs colorScheme="purple">
+                <TabList fontWeight="bold">
                   <Tab>Home</Tab>
                   <Tab>About</Tab>
                   <Button
-                    leftIcon={<ArrowUpRight />}
+                    leftIcon={<ArrowUpRight h="24px" w="24px" />}
                     // TODO fix this later
                     // @ts-ignore
                     ref={btnRef}
-                    colorScheme="blue"
+                    colorScheme="purple"
                     onClick={onOpen}
                     size="md"
                     variant="link"
+                    fontWeight="bold"
+                    p={4}
                   >
                     Chat
                   </Button>
