@@ -46,47 +46,57 @@ function Sidebar({ channels }: Props) {
         </Heading>
         <Flex as="nav">
           <VStack w="full" h="full" p={0} spacing={1.5} alignItems="flex-start">
-            {channels?.map(channel => (
-              <NextLink
-                key={channel.channelId}
-                href={`/${slugify(channel.title).toLowerCase()}`}
-                legacyBehavior
-                passHref
-              >
-                <Link
-                  noOfLines={1}
-                  variant="button"
-                  w="full"
-                  px={[2, 2.5]}
-                  cursor="pointer"
-                  _hover={{ bg: hoverColor }}
+            {channels ? (
+              channels?.map(channel => (
+                <NextLink
+                  key={channel.channelId}
+                  href={`/${slugify(channel.title).toLowerCase()}`}
+                  legacyBehavior
+                  passHref
                 >
-                  <Flex
-                    // alignItems={'center'}
-                    gap={2}
-                    paddingBlock={2}
-                    shrink={0}
+                  <Link
+                    noOfLines={1}
+                    variant="button"
+                    w="full"
+                    px={[2, 2.5]}
+                    cursor="pointer"
+                    _hover={{ bg: hoverColor }}
                   >
-                    <Box flexShrink="0">
-                      <Image
-                        className="circular"
-                        src={channel.thumbnail}
-                        alt={`avatar for ${channel.title}`}
-                        height={30}
-                        width={30}
-                      />
-                    </Box>
-                    <Heading
-                      as="p"
-                      fontSize="1xl"
-                      display={['none', 'none', 'revert']}
+                    <Flex
+                      gap={2}
+                      paddingBlock={2}
+                      shrink={0}
+                      alignItems="center"
                     >
-                      {channel.title}
-                    </Heading>
-                  </Flex>
-                </Link>
-              </NextLink>
-            ))}
+                      <Box flexShrink="0">
+                        <Image
+                          className="circular"
+                          src={channel.thumbnail}
+                          alt={`avatar for ${channel.title}`}
+                          height={30}
+                          width={30}
+                        />
+                      </Box>
+                      <Heading
+                        as="p"
+                        fontSize="1xl"
+                        display={['none', 'none', 'revert']}
+                      >
+                        {channel.title}
+                      </Heading>
+                    </Flex>
+                  </Link>
+                </NextLink>
+              ))
+            ) : (
+              <Heading
+                as="p"
+                fontSize="1xl"
+                display={['none', 'none', 'revert']}
+              >
+                Follow some channels!
+              </Heading>
+            )}
           </VStack>
         </Flex>
       </VStack>

@@ -35,7 +35,7 @@ import {
   sampleVideosQueryData,
   sampleMessageData,
 } from '~/data/api';
-import { getChannelVideosQueryEndpoint } from '~/helpers/youtube-api.helper';
+import { getYouTubeVideosEndpoint } from '~/helpers/youtube-api.helper';
 import type { ChannelVideosQueryData } from '~/models/api';
 import type { Channel, Message, Video } from '~/models/app';
 import type { MessageFormElement } from '~/components/Chat';
@@ -217,7 +217,7 @@ function Channel({ channel, channels }: Props) {
                     <Text>
                       {channel.about
                         ? channel.about
-                        : 'No info has been provided about this channel.'}
+                        : 'No info has been provided.'}
                     </Text>
                   </TabPanel>
                 </TabPanels>
@@ -332,7 +332,11 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
     is pretty low - I have had to create 7 apps on GCP already! - so I've dumped 
     some sample data to data/api.ts as with the channel query. 
   */
-  const endpoint = getChannelVideosQueryEndpoint(channel.snippet.channelId, 4);
+
+  const endpoint = getYouTubeVideosEndpoint({
+    channelId: channel.snippet.channelId,
+    maxResults: 4,
+  });
 
   const channelVideosQueryData = USE_ACTUAL_API_VIDEO_DATA
     ? await getDataWithFetch<ChannelVideosQueryData>(endpoint)
@@ -350,7 +354,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
 
   channelVideosQueryData.items.forEach(video => {
     videos.push({
-      videoId: video.id.videoId || '',
+      videoId: video.id.videoId,
       title: video.snippet.title,
       thumbnails: video.snippet.thumbnails,
     });

@@ -50,23 +50,20 @@ type ChannelsOptions = {
     | 'relevance';
   q?: string;
   regionCode?: 'ES' | 'GB'; // https://www.iso.org/obp/ui/#search/code/
-  type?: 'channel' | 'playlist' | 'video';
-};
-
-type ChannelDataOptions = {
-  channelId?: string;
-  maxResults?: number;
 };
 
 type VideoOptions = {
+  channelId?: string;
+  maxResults?: number;
   videoDefinition?: 'any' | 'high' | 'standard';
   videoEmbeddable?: 'any' | 'true';
   videoType?: 'any' | 'episode' | 'movie';
 };
 
-type Options = ChannelsOptions & VideoOptions;
-
-function getYouTubeApiEndpoint(options?: Options) {
+function getYouTubeApiEndpoint(
+  type: 'channel' | 'video' | 'playlist',
+  options?: ChannelsOptions | VideoOptions,
+) {
   let url = `${API}/search?part=snippet`;
 
   if (options?.maxResults && options.maxResults > 50) {
@@ -85,25 +82,11 @@ function getYouTubeApiEndpoint(options?: Options) {
     }
   }
 
-  return `${url}&key=${auth}`;
+  return `${url}&type=${type}&key=${auth}`;
 }
 
 export const getYouTubeChannelsEndpoint = (options: ChannelsOptions) =>
-  getYouTubeApiEndpoint(options);
-
-export const getYouTubeChannelDataEndpoint = (options: ChannelDataOptions) =>
-  getYouTubeApiEndpoint(options);
+  getYouTubeApiEndpoint('channel', options);
 
 export const getYouTubeVideosEndpoint = (options: VideoOptions) =>
-  getYouTubeApiEndpoint(options);
-
-export function getChannelVideosQueryEndpoint(
-  channelId: string,
-  maxResults: number,
-) {
-  const BASE = `${API}/search?order=date&part=snippet`;
-
-  return `${BASE}&channelId=${channelId}&maxResults=${String(
-    maxResults,
-  )}&key=${auth}`;
-}
+  getYouTubeApiEndpoint('video', options);
