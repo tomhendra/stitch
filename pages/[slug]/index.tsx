@@ -146,7 +146,7 @@ function Channel({ channel, channels }: Props) {
               justifyContent="space-between"
             >
               <Heading as="h1" lineHeight={1.1} fontSize={['2xl', '4xl']}>
-                {channel.title}
+                {channel.title ? channel.title : 'Untitled channel'}
               </Heading>
 
               <Tabs colorScheme="purple">
@@ -170,15 +170,15 @@ function Channel({ channel, channels }: Props) {
                 </TabList>
                 <TabPanels>
                   <TabPanel px={0}>
-                    <SimpleGrid
-                      columns={[1, 1, 2, 3, 4]}
-                      columnGap={[0, 0, 8]}
-                      rowGap={[8, 8, 8, 8]}
-                      w="full"
-                      h="full"
-                    >
-                      {channel.videos ? (
-                        videos?.map(video => {
+                    {videos ? (
+                      <SimpleGrid
+                        columns={[1, 1, 2, 3, 4]}
+                        columnGap={[0, 0, 8]}
+                        rowGap={[8, 8, 8, 8]}
+                        w="full"
+                        h="full"
+                      >
+                        {videos?.map(video => {
                           const { url } = video.thumbnails.medium;
                           return (
                             <Box
@@ -207,14 +207,18 @@ function Channel({ channel, channels }: Props) {
                               </Box>
                             </Box>
                           );
-                        })
-                      ) : (
-                        <Text>This channel has no videos</Text>
-                      )}
-                    </SimpleGrid>
+                        })}
+                      </SimpleGrid>
+                    ) : (
+                      <Text>This channel has not uploaded any videos yet.</Text>
+                    )}
                   </TabPanel>
                   <TabPanel>
-                    <Text>{channel.about}</Text>
+                    <Text>
+                      {channel.about
+                        ? channel.about
+                        : 'No info has been provided about this channel.'}
+                    </Text>
                   </TabPanel>
                 </TabPanels>
               </Tabs>
@@ -348,7 +352,6 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
     videos.push({
       videoId: video.id.videoId || '',
       title: video.snippet.title,
-      // @ts-ignore
       thumbnails: video.snippet.thumbnails,
     });
   });

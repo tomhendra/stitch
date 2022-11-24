@@ -15,7 +15,7 @@ function ArrowUpRight(props: any) {
           stroke="currentColor"
           stroke-width="2"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
       </svg>
     </Icon>

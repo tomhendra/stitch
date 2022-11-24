@@ -241,112 +241,157 @@ export const sampleChannelsSearchData = {
 // result of querying for all videos associated with a channel ✅ fresh
 export const sampleVideosQueryData = {
   kind: 'youtube#searchListResponse',
-  etag: 'YX5BAB67yQwjIgccHAzVk7-bhoU',
+  etag: 'wW0kHiydoqJ9DjYUD1lBMzrZV2w',
+  nextPageToken: 'CAQQAA',
   regionCode: 'ES',
   pageInfo: {
-    totalResults: 3,
-    resultsPerPage: 3,
+    totalResults: 39,
+    resultsPerPage: 4,
   },
   items: [
     {
       kind: 'youtube#searchResult',
-      etag: 'B4MxAbQSiwFvQSrbKTGLpMTXb38',
-      id: {
-        kind: 'youtube#channel',
-        channelId: 'UC4Xt9sEtJyHH5ANRySkzxMw',
-      },
-      snippet: {
-        publishedAt: '2022-11-23T08:29:35Z',
-        channelId: 'UC4Xt9sEtJyHH5ANRySkzxMw',
-        title: 'Tapas Bera',
-        description: '',
-        thumbnails: {
-          default: {
-            url: 'https://yt3.ggpht.com/ytc/AMLnZu_56hHrc-KURij4hr8CIF1d4SsaMKLIOvjn90xJZzq28Kg7nIlIvoc0DLrN6IGz=s88-c-k-c0xffffffff-no-rj-mo',
-          },
-          medium: {
-            url: 'https://yt3.ggpht.com/ytc/AMLnZu_56hHrc-KURij4hr8CIF1d4SsaMKLIOvjn90xJZzq28Kg7nIlIvoc0DLrN6IGz=s240-c-k-c0xffffffff-no-rj-mo',
-          },
-          high: {
-            url: 'https://yt3.ggpht.com/ytc/AMLnZu_56hHrc-KURij4hr8CIF1d4SsaMKLIOvjn90xJZzq28Kg7nIlIvoc0DLrN6IGz=s800-c-k-c0xffffffff-no-rj-mo',
-          },
-        },
-        channelTitle: 'Tapas Bera',
-        liveBroadcastContent: 'none',
-        publishTime: '2022-11-23T08:29:35Z',
-      },
-    },
-    {
-      kind: 'youtube#searchResult',
-      etag: 'NnrqdPrpPRbFt8eCNksFs_sC09g',
+      etag: 'G4d2g9i9RxHffgCrxHIqDDa7qAc',
       id: {
         kind: 'youtube#video',
-        videoId: 'bq7U4VDq99M',
+        videoId: 'idjRN8DbGfE',
       },
       snippet: {
-        publishedAt: '2022-11-23T08:31:46Z',
-        channelId: 'UC4Xt9sEtJyHH5ANRySkzxMw',
-        title: 'November 23, 2022',
-        description: '',
+        publishedAt: '2022-11-15T00:44:02Z',
+        channelId: 'UC9gQHBdiGxTnOQdkA5A32gg',
+        title:
+          'I PRETENDED To Be The OWNER Of Brookhaven To Prank My SISTER.. (Roblox Brookhaven)',
+        description:
+          'Subscribe for more brookhaven vids with hypesquad! #roblox #brookhaven.',
         thumbnails: {
           default: {
-            url: 'https://i.ytimg.com/vi/bq7U4VDq99M/default.jpg',
+            url: 'https://i.ytimg.com/vi/idjRN8DbGfE/default.jpg',
             width: 120,
             height: 90,
           },
           medium: {
-            url: 'https://i.ytimg.com/vi/bq7U4VDq99M/mqdefault.jpg',
+            url: 'https://i.ytimg.com/vi/idjRN8DbGfE/mqdefault.jpg',
             width: 320,
             height: 180,
           },
           high: {
-            url: 'https://i.ytimg.com/vi/bq7U4VDq99M/hqdefault.jpg',
+            url: 'https://i.ytimg.com/vi/idjRN8DbGfE/hqdefault.jpg',
             width: 480,
             height: 360,
           },
         },
-        channelTitle: 'Tapas Bera',
+        channelTitle: 'Hype Squad Gaming',
         liveBroadcastContent: 'none',
-        publishTime: '2022-11-23T08:31:46Z',
+        publishTime: '2022-11-15T00:44:02Z',
       },
     },
     {
       kind: 'youtube#searchResult',
-      etag: 'Z-OGWNare71Z_tpksbh9c-Y5NYo',
+      etag: 'nh52mVYAxbTdQIQojOyoOyko21Y',
       id: {
         kind: 'youtube#video',
-        videoId: 'hRd2RGPicwY',
+        videoId: 'pqh8h_Th24Q',
       },
       snippet: {
-        publishedAt: '2022-11-23T08:29:57Z',
-        channelId: 'UC4Xt9sEtJyHH5ANRySkzxMw',
-        title: 'November 23, 2022',
-        description: '',
+        publishedAt: '2022-11-11T01:00:16Z',
+        channelId: 'UC9gQHBdiGxTnOQdkA5A32gg',
+        title:
+          'HYPESQUAD VS LUCKY BLOCK RACE, But I Secretly RIGGED it.. (Minecraft)',
+        description:
+          'subscribe if u want to see more Minecraft videos with hypesquad!',
         thumbnails: {
           default: {
-            url: 'https://i.ytimg.com/vi/hRd2RGPicwY/default.jpg',
+            url: 'https://i.ytimg.com/vi/pqh8h_Th24Q/default.jpg',
             width: 120,
             height: 90,
           },
           medium: {
-            url: 'https://i.ytimg.com/vi/hRd2RGPicwY/mqdefault.jpg',
+            url: 'https://i.ytimg.com/vi/pqh8h_Th24Q/mqdefault.jpg',
             width: 320,
             height: 180,
           },
           high: {
-            url: 'https://i.ytimg.com/vi/hRd2RGPicwY/hqdefault.jpg',
+            url: 'https://i.ytimg.com/vi/pqh8h_Th24Q/hqdefault.jpg',
             width: 480,
             height: 360,
           },
         },
-        channelTitle: 'Tapas Bera',
+        channelTitle: 'Hype Squad Gaming',
         liveBroadcastContent: 'none',
-        publishTime: '2022-11-23T08:29:57Z',
+        publishTime: '2022-11-11T01:00:16Z',
+      },
+    },
+    {
+      kind: 'youtube#searchResult',
+      etag: 'ZkB6m3oVGqDPj8NPa_ibSwBPieA',
+      id: {
+        kind: 'youtube#video',
+        videoId: 'BV-btDFAsOY',
+      },
+      snippet: {
+        publishedAt: '2022-11-10T00:30:05Z',
+        channelId: 'UC9gQHBdiGxTnOQdkA5A32gg',
+        title: 'Doors 2 Mod in Among Us!',
+        description: 'Subscribe for more mods!',
+        thumbnails: {
+          default: {
+            url: 'https://i.ytimg.com/vi/BV-btDFAsOY/default.jpg',
+            width: 120,
+            height: 90,
+          },
+          medium: {
+            url: 'https://i.ytimg.com/vi/BV-btDFAsOY/mqdefault.jpg',
+            width: 320,
+            height: 180,
+          },
+          high: {
+            url: 'https://i.ytimg.com/vi/BV-btDFAsOY/hqdefault.jpg',
+            width: 480,
+            height: 360,
+          },
+        },
+        channelTitle: 'Hype Squad Gaming',
+        liveBroadcastContent: 'none',
+        publishTime: '2022-11-10T00:30:05Z',
+      },
+    },
+    {
+      kind: 'youtube#searchResult',
+      etag: 'zWt0konyi4j3j2YLApT851_0YVI',
+      id: {
+        kind: 'youtube#video',
+        videoId: 'BnvXXNcce50',
+      },
+      snippet: {
+        publishedAt: '2022-11-09T01:24:31Z',
+        channelId: 'UC9gQHBdiGxTnOQdkA5A32gg',
+        title: '*NEW* RAINBOW FRIENDS Mod in Among Us',
+        description:
+          'NEW* RAINBOW FRIENDS Mod in Among Us #amongus #hypesquad #hypesquadgaming #amongusmod.',
+        thumbnails: {
+          default: {
+            url: 'https://i.ytimg.com/vi/BnvXXNcce50/default.jpg',
+            width: 120,
+            height: 90,
+          },
+          medium: {
+            url: 'https://i.ytimg.com/vi/BnvXXNcce50/mqdefault.jpg',
+            width: 320,
+            height: 180,
+          },
+          high: {
+            url: 'https://i.ytimg.com/vi/BnvXXNcce50/hqdefault.jpg',
+            width: 480,
+            height: 360,
+          },
+        },
+        channelTitle: 'Hype Squad Gaming',
+        liveBroadcastContent: 'none',
+        publishTime: '2022-11-09T01:24:31Z',
       },
     },
   ],
 };
-
 // result of querying a channel by id for channel data from YouTube API
 export const sampleChannelDetailsData = {
   kind: 'youtube#channelListResponse',
@@ -361,7 +406,7 @@ export const sampleChannelDetailsData = {
       etag: 'wjvRzSVTfcR9VOGQ0zSJIK-JNNg',
       id: 'UCLH8DheNxePxsolq-guXx3w',
       snippet: {
-        title: 'CREATIVE Gaming!',
+        title: undefined,
         description:
           'Bienvenidos al Canal GAMING de CREATIVE, dónde encontrareis todo tipo de Videojuegos y puro entretenimiento! 😜❤️',
         customUrl: '@creativejuega',
