@@ -128,15 +128,16 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 
   const channels: Channel[] = [];
 
-  channelSearchQueryData.items.forEach(item =>
+  channelSearchQueryData.items.forEach(item => {
+    const { channelId, title, description, thumbnails } = item.snippet;
+
     channels.push({
-      channelId: item.snippet.channelId,
-      title: item.snippet.title,
-      about: item.snippet.description,
-      thumbnail:
-        item.snippet.thumbnails.default.url || '/images/user-circle.png',
-    }),
-  );
+      channelId: channelId,
+      title: title,
+      about: description,
+      thumbnail: thumbnails.default.url || '/images/user-circle.png',
+    });
+  });
 
   return {
     props: {

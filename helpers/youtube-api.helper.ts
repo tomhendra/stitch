@@ -37,6 +37,10 @@ const keys = [
 
 const auth = sampleOne(keys);
 
+/* 
+  types guard us against a bad configuration of method calls to the google api. 
+*/
+
 type ChannelsOptions = {
   channelType?: 'any' | 'show';
   maxResults?: number;
@@ -59,20 +63,26 @@ type VideoOptions = {
   videoEmbeddable?: 'any' | 'true';
   videoType?: 'any' | 'episode' | 'movie';
 };
-
+/* 
+  be cautious when adding to this url builder, as not all methods are prepended 
+  with &, for example location requires %2c to represent a comma between 
+  latitude and longitude coords.
+*/
 function getYouTubeApiEndpoint(
   type: 'channel' | 'video' | 'playlist',
   options?: ChannelsOptions | VideoOptions,
 ) {
-  let url = `${API}/search?part=snippet`;
-
-  if (options?.maxResults && options.maxResults > 50) {
-    throw new Error(
-      `MaxResults can be no greater than 50. You have requested ${options.maxResults}`,
-    );
-  }
+  let url = `${API}/search?part=snippet&type=${type}`;
 
   if (options) {
+    const { maxResults } = options;
+
+    if (maxResults && maxResults > 50) {
+      throw new Error(
+        `MaxResults can be no greater than 50. You have requested ${maxResults}`,
+      );
+    }
+
     for (const key in options) {
       if (options.hasOwnProperty(key)) {
         const value = options[key as keyof typeof options];
@@ -82,7 +92,7 @@ function getYouTubeApiEndpoint(
     }
   }
 
-  return `${url}&type=${type}&key=${auth}`;
+  return `${url}&key=${auth}`;
 }
 
 export const getYouTubeChannelsEndpoint = (options: ChannelsOptions) =>

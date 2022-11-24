@@ -256,7 +256,7 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
   // ? using static data to simulate a database as explained in pages/index.tsx
   const channelSearchQueryData = sampleChannelsSearchData;
 
-  if (!channelSearchQueryData) {
+  if (!channelSearchQueryData.items) {
     throw new Error('error fetching channel data');
   }
 
@@ -317,15 +317,16 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
     populate the channels array so that we only send data from the server that 
     is required to minimise bandwidth and compute expense.
   */
-  channelSearchQueryData.items.forEach(item =>
+  channelSearchQueryData.items.forEach(item => {
+    const { channelId, title, description, thumbnails } = item.snippet;
+
     channels.push({
-      channelId: item.snippet.channelId,
-      title: item.snippet.title,
-      about: item.snippet.description,
-      thumbnail:
-        item.snippet.thumbnails.default.url || '/images/user-circle.png',
-    }),
-  );
+      channelId: channelId,
+      title: title,
+      about: description,
+      thumbnail: thumbnails.default.url || '/images/user-circle.png',
+    });
+  });
 
   /* 
     Now we hit the YouTube API to get videos for the channel 🎉. The GCP quota 
@@ -346,17 +347,19 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
     throw new Error('error fetching video data');
   }
 
-  const title = channel.snippet.title;
-  const about = channel.snippet.description;
-  const channelId = channel.snippet.channelId;
-  const thumbnail = channel.snippet.thumbnails.default.url;
+  const { title, description, channelId, thumbnails } = channel.snippet;
+
+  const about = description;
+  const thumbnail = thumbnails.default.url;
   const videos: Video[] = [];
 
   channelVideosQueryData.items.forEach(video => {
+    const { title, thumbnails } = video.snippet;
+
     videos.push({
       videoId: video.id.videoId,
-      title: video.snippet.title,
-      thumbnails: video.snippet.thumbnails,
+      title: title,
+      thumbnails: thumbnails,
     });
   });
 
