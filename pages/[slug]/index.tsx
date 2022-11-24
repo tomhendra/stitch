@@ -31,8 +31,8 @@ import {
 } from '~/components';
 import { Chat } from '~/components/Chat';
 import {
-  sampleChannelSearchQueryData,
-  sampleChannelVideosQueryData,
+  sampleChannelsSearchData,
+  sampleVideosQueryData,
   sampleMessageData,
 } from '~/data/api';
 import { getChannelVideosQueryEndpoint } from '~/helpers/youtube-api.helper';
@@ -40,7 +40,8 @@ import type { ChannelVideosQueryData } from '~/models/api';
 import type { Channel, Message, Video } from '~/models/app';
 import type { MessageFormElement } from '~/components/Chat';
 import { getDataWithFetch, sampleOne } from '~/utils/main';
-// import { DataDebugger } from '~/components';
+
+import { DataDebugger } from '~/components';
 
 // ! 🔥 FLIP TO *TRUE* BEFORE PUSHING TO PROD !! 🔥
 const USE_ACTUAL_API_VIDEO_DATA = true;
@@ -147,6 +148,7 @@ function Channel({ channel, channels }: Props) {
               <Heading as="h1" lineHeight={1.1} fontSize={['2xl', '4xl']}>
                 {channel.title}
               </Heading>
+
               <Tabs colorScheme="purple">
                 <TabList fontWeight="bold">
                   <Tab>Home</Tab>
@@ -175,36 +177,40 @@ function Channel({ channel, channels }: Props) {
                       w="full"
                       h="full"
                     >
-                      {videos?.map(video => {
-                        const { url, height, width } = video.thumbnails.medium;
-                        return (
-                          <Box
-                            key={video.videoId}
-                            onClick={() => setCurrentVideo(video)}
-                            cursor="pointer"
-                            w="full"
-                            overflow="hidden"
-                          >
+                      {channel.videos ? (
+                        videos?.map(video => {
+                          const { url } = video.thumbnails.medium;
+                          return (
                             <Box
-                              transition="transform 150ms"
-                              _hover={{
-                                transition: 'transform 250ms',
-                                transform: 'scale(1.06)',
-                              }}
+                              key={video.videoId}
+                              onClick={() => setCurrentVideo(video)}
+                              cursor="pointer"
+                              w="full"
+                              overflow="hidden"
                             >
-                              <Image
-                                alt={video.title}
-                                src={url}
-                                height={height}
-                                width={width}
-                              />
-                              <VisuallyHidden>
-                                video - {video.title}
-                              </VisuallyHidden>
+                              <Box
+                                transition="transform 150ms"
+                                _hover={{
+                                  transition: 'transform 250ms',
+                                  transform: 'scale(1.06)',
+                                }}
+                              >
+                                <Image
+                                  alt={video.title}
+                                  src={url}
+                                  height={200}
+                                  width={360}
+                                />
+                                <VisuallyHidden>
+                                  video - {video.title}
+                                </VisuallyHidden>
+                              </Box>
                             </Box>
-                          </Box>
-                        );
-                      })}
+                          );
+                        })
+                      ) : (
+                        <Text>This channel has no videos</Text>
+                      )}
                     </SimpleGrid>
                   </TabPanel>
                   <TabPanel>
@@ -212,7 +218,6 @@ function Channel({ channel, channels }: Props) {
                   </TabPanel>
                 </TabPanels>
               </Tabs>
-              {/* Chat */}
               <Chat
                 isOpen={isOpen}
                 onClose={onClose}
@@ -245,7 +250,7 @@ interface Params extends ParsedUrlQuery {
 
 export const getStaticPaths: GetStaticPaths<Params> = async () => {
   // ? using static data to simulate a database as explained in pages/index.tsx
-  const channelSearchQueryData = sampleChannelSearchQueryData;
+  const channelSearchQueryData = sampleChannelsSearchData;
 
   if (!channelSearchQueryData) {
     throw new Error('error fetching channel data');
@@ -282,9 +287,9 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   }
 
   // ? using static data to simulate a database as explained in pages/index.tsx
-  const channelSearchQueryData = sampleChannelSearchQueryData;
+  const channelSearchQueryData = sampleChannelsSearchData;
 
-  if (!channelSearchQueryData) {
+  if (!channelSearchQueryData.items) {
     throw new Error('error fetching channel data');
   }
   /* 
@@ -317,20 +322,19 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
         item.snippet.thumbnails.default.url || '/images/user-circle.png',
     }),
   );
+
   /* 
     Now we hit the YouTube API to get videos for the channel 🎉. The GCP quota 
     is pretty low - I have had to create 7 apps on GCP already! - so I've dumped 
     some sample data to data/api.ts as with the channel query. 
   */
-  const ENDPOINT = getChannelVideosQueryEndpoint(channel.snippet.channelId, 4);
+  const endpoint = getChannelVideosQueryEndpoint(channel.snippet.channelId, 4);
 
   const channelVideosQueryData = USE_ACTUAL_API_VIDEO_DATA
-    ? await getDataWithFetch<ChannelVideosQueryData>(ENDPOINT)
-    : sampleChannelVideosQueryData;
+    ? await getDataWithFetch<ChannelVideosQueryData>(endpoint)
+    : sampleVideosQueryData;
 
-  if (!channelVideosQueryData) {
-    /* getDataWithFetch has error handling but leave this here in case 
-    the static data fails */
+  if (!channelVideosQueryData.items) {
     throw new Error('error fetching video data');
   }
 
@@ -342,8 +346,9 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
 
   channelVideosQueryData.items.forEach(video => {
     videos.push({
-      videoId: video.id.videoId,
+      videoId: video.id.videoId || '',
       title: video.snippet.title,
+      // @ts-ignore
       thumbnails: video.snippet.thumbnails,
     });
   });

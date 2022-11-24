@@ -67,14 +67,15 @@ function Sidebar({ channels }: Props) {
                     paddingBlock={2}
                     shrink={0}
                   >
-                    {/* <Image
-                      className="circular"
-                      src={channel.thumbnail}
-                      alt={`avatar for ${channel.title}`}
-                      height={30}
-                      width={30}
-                    /> */}
-                    <User w={6} h={6} />
+                    <Box flexShrink="0">
+                      <Image
+                        className="circular"
+                        src={channel.thumbnail}
+                        alt={`avatar for ${channel.title}`}
+                        height={30}
+                        width={30}
+                      />
+                    </Box>
                     <Heading
                       as="p"
                       fontSize="1xl"

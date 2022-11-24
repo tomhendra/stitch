@@ -12,7 +12,7 @@
 */
 
 import { GetServerSideProps } from 'next';
-import { sampleChannelSearchQueryData } from '~/data/api';
+import { sampleChannelsSearchData } from '~/data/api';
 import type { ChannelData } from '~/models/api';
 import slugify from 'slugify';
 
@@ -52,9 +52,10 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   // const request = await fetch(EXTERNAL_DATA_URL);
   // const channels = await request.json();
   // ? our simulated data
-  const channels = sampleChannelSearchQueryData.items;
+  const channels = sampleChannelsSearchData.items;
 
   // We generate the XML sitemap with the posts data
+  // @ts-ignore
   const sitemap = generateSiteMap(channels);
 
   res.setHeader('Content-Type', 'text/xml');

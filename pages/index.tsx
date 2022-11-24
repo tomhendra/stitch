@@ -2,11 +2,12 @@ import { Box, Heading, Text } from '@chakra-ui/react';
 import type { GetStaticProps } from 'next';
 import Head from 'next/head';
 import { Layout, Main, MaxWidthContainer, Navbar, Sidebar } from '~/components';
-import { sampleChannelSearchQueryData } from '~/data/api';
-import { getYouTubeApiSearchEndpoint } from '~/helpers/youtube-api.helper';
+import { sampleChannelsSearchData } from '~/data/api';
+import { getYouTubeChannelsEndpoint } from '~/helpers/youtube-api.helper';
 import type { ChannelSearchQueryData } from '~/models/api';
 import type { Channel } from '~/models/app';
 import { getDataWithFetch } from '~/utils/main';
+
 import { DataDebugger } from '~/components';
 
 // ! 🔥 FLIP TO *FALSE* BEFORE PUSHING TO PROD !! 🔥
@@ -92,22 +93,19 @@ function Home({ channels }: Props) {
 */
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const endpoint = getYouTubeApiSearchEndpoint('tapas', {
-    type: 'channel',
-    maxResults: 12,
-    regionCode: 'ES',
+  const endpoint = getYouTubeChannelsEndpoint({
+    maxResults: 8,
     order: 'date',
-    videoDefinition: 'standard',
-    videoEmbeddable: ' true',
+    q: 'gaming',
+    regionCode: 'ES',
+    type: 'channel',
   });
 
   const channelSearchQueryData = USE_ACTUAL_API_CHANNEL_DATA
     ? await getDataWithFetch<ChannelSearchQueryData>(endpoint)
-    : sampleChannelSearchQueryData;
+    : sampleChannelsSearchData;
 
-  if (!channelSearchQueryData) {
-    /* getDataWithFetch has error handling but leave this here in case 
-    the static data fails */
+  if (!channelSearchQueryData.items) {
     throw new Error('error fetching channel data');
   }
 

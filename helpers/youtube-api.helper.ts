@@ -1,6 +1,6 @@
 import { sampleOne } from '~/utils/main';
 
-const API = 'https://www.googleapis.com/youtube/v3';
+const API = 'https://youtube.googleapis.com/youtube/v3';
 
 /* 
   The YouTube Data API quota is 10K points per day, but every time we call the 
@@ -12,9 +12,9 @@ const API = 'https://www.googleapis.com/youtube/v3';
   eaten up between builds on Vercel, development and route changes when testing 
   the app.
 
-  My below solution is to use a random API key from o8 different apps created on
-  Google Cloud Platform. This is a bit verbose, and there is a package to 
-  interpolate env vars but it seems overkill fot this project. 
+  My below solution is to use a random API key from 8 different apps created on
+  Google Cloud Platform. This is a bit verbose, and a package does exists that 
+  interpolates env vars, but it seems overkill fot this project. 
   
   https://www.npmjs.com/package/dotenv-expand
   
@@ -22,7 +22,7 @@ const API = 'https://www.googleapis.com/youtube/v3';
   balloon and we'd end up shipping too much JS to our users. Next.js is pretty 
   heavy out-of-the-box so we should be concious of performance wins like this.
 
-  We should use this: https://bundlephobia.com/ 
+  We should use keep an eye on package size: https://bundlephobia.com/ 
 */
 const keys = [
   process.env.YOUTUBE_API_KEY_1,
@@ -37,8 +37,7 @@ const keys = [
 
 const auth = sampleOne(keys);
 
-type SearchOptions = {
-  channelId?: string;
+type ChannelsOptions = {
   channelType?: 'any' | 'show';
   maxResults?: number;
   order?:
@@ -49,37 +48,54 @@ type SearchOptions = {
     | 'title'
     | 'videoCount'
     | 'relevance';
-  regionCode?: 'ES' | 'EN'; // https://www.iso.org/obp/ui/#search/code/
-  type?: 'video' | 'channel' | 'playlist';
+  q?: string;
+  regionCode?: 'ES' | 'GB'; // https://www.iso.org/obp/ui/#search/code/
+  type?: 'channel' | 'playlist' | 'video';
+};
+
+type ChannelDataOptions = {
+  channelId?: string;
+  maxResults?: number;
+};
+
+type VideoOptions = {
   videoDefinition?: 'any' | 'high' | 'standard';
-  videoEmbeddable?: 'any' | ' true';
+  videoEmbeddable?: 'any' | 'true';
   videoType?: 'any' | 'episode' | 'movie';
 };
 
-export function getYouTubeApiSearchEndpoint(
-  query: string,
-  options?: SearchOptions,
-) {
-  let url = `${API}/search?part=snippet&q=${query}`;
+type Options = ChannelsOptions & VideoOptions;
 
-  if (options && options.maxResults && options.maxResults > 50) {
+function getYouTubeApiEndpoint(options?: Options) {
+  let url = `${API}/search?part=snippet`;
+
+  if (options?.maxResults && options.maxResults > 50) {
     throw new Error(
       `MaxResults can be no greater than 50. You have requested ${options.maxResults}`,
     );
   }
 
   if (options) {
-    for (let property in options) {
-      if (options.hasOwnProperty(property)) {
-        const value = options[property as keyof typeof options];
+    for (const key in options) {
+      if (options.hasOwnProperty(key)) {
+        const value = options[key as keyof typeof options];
 
-        url += value ? `&${String(value)}` : '';
+        url += value ? `&${key}=${String(value)}` : '';
       }
     }
   }
 
   return `${url}&key=${auth}`;
 }
+
+export const getYouTubeChannelsEndpoint = (options: ChannelsOptions) =>
+  getYouTubeApiEndpoint(options);
+
+export const getYouTubeChannelDataEndpoint = (options: ChannelDataOptions) =>
+  getYouTubeApiEndpoint(options);
+
+export const getYouTubeVideosEndpoint = (options: VideoOptions) =>
+  getYouTubeApiEndpoint(options);
 
 export function getChannelVideosQueryEndpoint(
   channelId: string,
