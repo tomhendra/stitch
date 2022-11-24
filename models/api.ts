@@ -4,7 +4,7 @@ export type ChannelData = {
   etag: string;
   id: {
     kind: string;
-    channelId: string;
+    videoId: string;
   };
   snippet: {
     publishedAt: string;

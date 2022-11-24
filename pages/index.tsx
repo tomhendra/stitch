@@ -3,11 +3,11 @@ import type { GetStaticProps } from 'next';
 import Head from 'next/head';
 import { Layout, Main, MaxWidthContainer, Navbar, Sidebar } from '~/components';
 import { sampleChannelSearchQueryData } from '~/data/api';
-import { getChannelSearchQueryEndpoint } from '~/helpers/youtube-api.helper';
+import { getYouTubeApiSearchEndpoint } from '~/helpers/youtube-api.helper';
 import type { ChannelSearchQueryData } from '~/models/api';
 import type { Channel } from '~/models/app';
 import { getDataWithFetch } from '~/utils/main';
-// import { DataDebugger } from '~/components';
+import { DataDebugger } from '~/components';
 
 // ! 🔥 FLIP TO *FALSE* BEFORE PUSHING TO PROD !! 🔥
 const USE_ACTUAL_API_CHANNEL_DATA = false;
@@ -48,7 +48,7 @@ function Home({ channels }: Props) {
         <meta property="og:image" content="https://postimg.cc/w3Vk5FJ0" />
       </Head>
 
-      {/* <DataDebugger data={channelSearchQueryData} /> */}
+      {/* <DataDebugger data={channels} /> */}
 
       <Layout>
         <Navbar />
@@ -92,9 +92,17 @@ function Home({ channels }: Props) {
 */
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const ENDPOINT = getChannelSearchQueryEndpoint(6, 'gaming', 'channel');
+  const endpoint = getYouTubeApiSearchEndpoint('tapas', {
+    type: 'channel',
+    maxResults: 12,
+    regionCode: 'ES',
+    order: 'date',
+    videoDefinition: 'standard',
+    videoEmbeddable: ' true',
+  });
+
   const channelSearchQueryData = USE_ACTUAL_API_CHANNEL_DATA
-    ? await getDataWithFetch<ChannelSearchQueryData>(ENDPOINT)
+    ? await getDataWithFetch<ChannelSearchQueryData>(endpoint)
     : sampleChannelSearchQueryData;
 
   if (!channelSearchQueryData) {

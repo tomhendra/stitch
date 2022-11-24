@@ -44,7 +44,7 @@ import { getDataWithFetch, sampleOne } from '~/utils/main';
 
 // ! 🔥 FLIP TO *TRUE* BEFORE PUSHING TO PROD !! 🔥
 const USE_ACTUAL_API_VIDEO_DATA = true;
-const AUTOPLAY_VIDEO = true;
+const AUTOPLAY_VIDEO = false;
 
 /* 
     SEO
@@ -322,7 +322,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
     is pretty low - I have had to create 7 apps on GCP already! - so I've dumped 
     some sample data to data/api.ts as with the channel query. 
   */
-  const ENDPOINT = getChannelVideosQueryEndpoint(channel.id.channelId, 4);
+  const ENDPOINT = getChannelVideosQueryEndpoint(channel.snippet.channelId, 4);
 
   const channelVideosQueryData = USE_ACTUAL_API_VIDEO_DATA
     ? await getDataWithFetch<ChannelVideosQueryData>(ENDPOINT)

@@ -63,19 +63,9 @@ function Navbar({ channel }: Props) {
               </>
             )}
           </Button>
-          {channel ? (
-            <Image
-              alt={`avatar for ${channel?.title}`}
-              className="circular"
-              src={channel?.thumbnail || '/images/user-circle.png'}
-              height={30}
-              width={30}
-            />
-          ) : (
-            <Flex p="3px">
-              <User color={iconColor} h="24px" w="24px" />
-            </Flex>
-          )}
+          <Flex p="3px">
+            <User color={iconColor} h="24px" w="24px" />
+          </Flex>
         </HStack>
       </HStack>
     </GridItem>

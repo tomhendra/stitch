@@ -12,6 +12,7 @@ import NextLink from 'next/link';
 import slugify from 'slugify';
 import type { Channel } from '~/models/app';
 import Image from 'next/image';
+import { User } from '../Navbar/User';
 
 type Props = {
   channels: Channel[];
@@ -60,16 +61,20 @@ function Sidebar({ channels }: Props) {
                   cursor="pointer"
                   _hover={{ bg: hoverColor }}
                 >
-                  <Flex alignItems={'center'} gap={2} paddingBlock={2}>
-                    <Box>
-                      <Image
-                        className="circular"
-                        src={channel.thumbnail}
-                        alt={`avatar for ${channel.title}`}
-                        height={30}
-                        width={30}
-                      />
-                    </Box>
+                  <Flex
+                    // alignItems={'center'}
+                    gap={2}
+                    paddingBlock={2}
+                    shrink={0}
+                  >
+                    {/* <Image
+                      className="circular"
+                      src={channel.thumbnail}
+                      alt={`avatar for ${channel.title}`}
+                      height={30}
+                      width={30}
+                    /> */}
+                    <User w={6} h={6} />
                     <Heading
                       as="p"
                       fontSize="1xl"
