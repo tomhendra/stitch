@@ -11,7 +11,8 @@
     "prettier": "prettier \"**/*.+(js|jsx|json|yml|yaml|ts|tsx|md|gql|graphql|mdx|svelte)\"",
     "format": "pnpm prettier --write",
     "format:check": "pnpm prettier --list-different",
-    "validate": "npm-run-all --parallel type:check lint format:check build",
+    "test": "jest",
+    "validate": "npm-run-all --parallel type:check lint test format:check build",
     "flush": "rm -rf node_modules .next .pnpm-lock.yaml && pnpm i",
     "prepare": "husky install"
   },
@@ -37,9 +38,14 @@
   "devDependencies": {
     "@commitlint/cli": "^17.2.0",
     "@commitlint/config-conventional": "^17.2.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@types/jest": "^29.2.3",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.0",
+    "jest": "^29.3.1",
+    "jest-environment-jsdom": "^29.3.1",
     "lint-staged": "^13.0.3",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.7.1"

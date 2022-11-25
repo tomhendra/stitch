@@ -8,7 +8,7 @@ import type { ChannelSearchQueryData } from '~/models/api';
 import type { Channel } from '~/models/app';
 import { getDataWithFetch } from '~/utils/main';
 
-import { DataDebugger } from '~/components';
+// import { DataDebugger } from '~/components';
 
 // ! 🔥 FLIP TO *FALSE* BEFORE PUSHING TO PROD !! 🔥
 const USE_ACTUAL_API_CHANNEL_DATA = false;
