@@ -102,7 +102,7 @@ function getEndpointGenerator() {
 
     Here it servers two purposes:
 
-    1. To demonstrate that I (Tom) understands how closures work in JavaScript.
+    1. To demonstrate that Tom understands how closures work in JavaScript.
     2. A placeholder for when this app grows! 
   */
 }

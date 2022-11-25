@@ -13,8 +13,8 @@ function ArrowUpRight(props: any) {
         <path
           d="M7 17L17 7M17 7H7M17 7V17"
           stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
+          strokeWidth="2"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
       </svg>

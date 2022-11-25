@@ -97,7 +97,6 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     maxResults: 8,
     order: 'date',
     q: 'gaming',
-    regionCode: 'ES',
   });
 
   const channelSearchQueryData = USE_ACTUAL_API_CHANNEL_DATA

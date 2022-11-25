@@ -201,9 +201,7 @@ function Channel({ channel, channels }: Props) {
                                   height={200}
                                   width={360}
                                 />
-                                <VisuallyHidden>
-                                  video - {video.title}
-                                </VisuallyHidden>
+                                <VisuallyHidden>{video.title}</VisuallyHidden>
                               </Box>
                             </Box>
                           );
