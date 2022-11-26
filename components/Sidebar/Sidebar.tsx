@@ -12,7 +12,6 @@ import NextLink from 'next/link';
 import slugify from 'slugify';
 import type { Channel } from '~/models/app';
 import Image from 'next/image';
-import { User } from '../Navbar/User';
 
 type Props = {
   channels: Channel[];

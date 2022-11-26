@@ -6,7 +6,7 @@ import { sampleChannelsSearchData } from '~/data/api';
 import { getYouTubeChannelsEndpoint } from '~/helpers/youtube-api.helper';
 import type { ChannelSearchQueryData } from '~/models/api';
 import type { Channel } from '~/models/app';
-import { getDataWithFetch } from '~/utils/main';
+import { getDataWithFetch } from '~/utils';
 
 // import { DataDebugger } from '~/components';
 

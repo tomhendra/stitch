@@ -2,49 +2,44 @@
 
 This project serves to demonstrate my ability in creating a React Application.
 
-It uses the following stack, all three of which I learned for this assignment.
+It uses the following stack, all three of which I had to learn for the project.
 
 - Next.js
 - Chakra UI
 - YouTbe API
 
-The requirement was to create a basic Twitch clone. See the `docs` directory for full details.
-
-## Twitch architecture
-
-- **Framework**: React App (v18) (probably a custom Webpack / Vite build)
-- **Component library**: Almost certainly custom based on their [design system](https://brand.twitch.tv/) at Twitch's scale.
-- **Styles**: Styled Components
-- **API**: Custom
-- **Deployment**: AWS (obviously, being Amazon-owned!)
-
-**Note** - Twitch serves a separate app at [https://m.twitch.tv](https://m.twitch.tv) for handheld devices.
-
-## Stitch architecture
+## App architecture
 
 - **Framework**: [Next.js v13 (stable)](https://nextjs.org/docs/getting-started) (React v18)
 - **Component library**: [Chakra UI](https://chakra-ui.com/)
-- **Styles**: [CSS Modules](https://nextjs.org/docs/basic-features/built-in-css-support#adding-component-level-css) + CSS utils
+- **Styles**: [CSS Modules](https://nextjs.org/docs/basic-features/built-in-css-support#adding-component-level-css) + Custom written CSS utils
 - **API**: [YouTube](https://developers.google.com/youtube/)
 - **Deployment**: [Vercel](https://vercel.com/)
 
-## Component architecture
+## Component structure
 
 See `./components/NewComponent` for a structural example.
 
-## Google Cloud Platform API quotas
+## pnpm vs npm
 
-If you notice the app isn't fetching data it is almost certainly because the
-daily API quota limit has expired.
+pnpm is faster and uses far less disk space due to the way it handles dependency
+trees: https://pnpm.io/id/pnpm-vs-npm.
 
-Because Next.js builds static pages for this app at build time on the server, the API takes a hit every time I push to GitHub and trigger a build.
+It has native node version management, interactive package updating, and has
+been adopted by some huge projects, like [Next.js](https://github.com/vercel/next.js)
+& [Vite](https://github.com/vitejs/vite). I am a huge fan of pnpm.
 
-I have created 7 different apps on GCP so far! I am monitoring the situation
-and swapping out API keys as and when quota limits are reached.
+However for this project it breaks React Testing Library due to types not being hoisted:
+
+https://github.com/facebook/create-react-app/issues/12622
+https://www.reddit.com/r/typescript/comments/x59poq/jest_ts_property_tobeinthedocument_does_not_exist/
+
+Rather than spend too much time trying to find a workaround (the suggestions do
+not work for this project), we will be using npm until the issue is resolved.
 
 ## CSS declaration order style guide
 
-This is not enforced via tooling but is recommended for the benefit of your compañeros.
+This is not enforced via tooling but is recommended for tidiness.
 
 ```css
 .selector {
@@ -84,8 +79,7 @@ This is not enforced via tooling but is recommended for the benefit of your comp
 
 ## CSS future specs
 
-Keep close to the upcoming CSS specs' progress as documented by [CSSDB](https://cssdb.org/#all-property).
-CSS is evolving rapidly with native nesting and scoping solutions on the horizon.
+Keep close to the upcoming CSS specs' progress as documented by [CSSDB](https://cssdb.org/#all-property). CSS is evolving rapidly with native nesting and scoping solutions on the horizon.
 
 A PostCSS plugin exists called `postcss-preset-env` that allows us to use future
 specs today. However in favour of **stability** it isn't used in this project.

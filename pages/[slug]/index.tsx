@@ -39,13 +39,13 @@ import { getYouTubeVideosEndpoint } from '~/helpers/youtube-api.helper';
 import type { ChannelVideosQueryData } from '~/models/api';
 import type { Channel, Message, Video } from '~/models/app';
 import type { MessageFormElement } from '~/components/Chat';
-import { getDataWithFetch, sampleOne } from '~/utils/main';
+import { getDataWithFetch, sampleOne } from '~/utils';
 
 import { DataDebugger } from '~/components';
 
 // ! 🔥 FLIP TO *TRUE* BEFORE PUSHING TO PROD !! 🔥
-const USE_ACTUAL_API_VIDEO_DATA = true;
-const AUTOPLAY_VIDEO = true;
+const USE_ACTUAL_API_VIDEO_DATA = false;
+const AUTOPLAY_VIDEO = false;
 
 /* 
     SEO

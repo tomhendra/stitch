@@ -1,4 +1,4 @@
-import { sampleOne } from '~/utils/main';
+import { sampleOne } from '~/utils';
 /* 
   The YouTube Data API quota is 10K points per day, but every time we call the 
   list method it costs 100 pts - we get 100 calls per day.
