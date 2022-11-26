@@ -21,7 +21,7 @@ const customJestConfig = {
   // TypeScript alias path for root to match that of tsconfig and avoid ../../../../../ hell
   moduleNameMapper: { '^~/(.*)$': '<rootDir>/./$1' },
   // Add more setup options before each test is run.
-  setupFilesAfterEnv: ['<rootDir>/test/jest.setup.js'],
+  setupFilesAfterEnv: ['<rootDir>/test/jest.setup.ts'],
   // serialize emotion classes like `chakra-stack css-4lej6k` to actual CSS in our snapshots.
   snapshotSerializers: ['@emotion/jest/serializer'],
   //  include only app code in our test coverage reports to get a better sense of how well our app is tested
