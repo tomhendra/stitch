@@ -44,8 +44,8 @@ import { getDataWithFetch, sampleOne } from '~/utils';
 import { DataDebugger } from '~/components';
 
 // ! 🔥 FLIP TO *TRUE* BEFORE PUSHING TO PROD !! 🔥
-const USE_ACTUAL_API_VIDEO_DATA = false;
-const AUTOPLAY_VIDEO = false;
+const USE_ACTUAL_API_VIDEO_DATA = true;
+const AUTOPLAY_VIDEO = true;
 
 /* 
     SEO
