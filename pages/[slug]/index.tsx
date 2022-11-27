@@ -66,7 +66,7 @@ type Props = {
 
 function Channel({ channel, channels }: Props) {
   // Videos
-  const [videos, setVideos] = useState<Video[] | null>(null);
+  const [videos, setVideos] = useState<Video[]>([]);
   const [currentVideo, setCurrentVideo] = useState<Video | null>(null);
   // Messages
   const [messages, setMessages] = useState<Message[]>([]);
@@ -77,7 +77,7 @@ function Channel({ channel, channels }: Props) {
 
   // On component mount populate video state variables
   useEffect(() => {
-    setVideos(channel.videos || null);
+    setVideos(channel.videos || []);
     setCurrentVideo(channel.videos ? sampleOne(channel.videos) : null);
   }, [channel.videos]);
 
@@ -170,7 +170,7 @@ function Channel({ channel, channels }: Props) {
                 </TabList>
                 <TabPanels>
                   <TabPanel px={0}>
-                    {videos ? (
+                    {videos.length ? (
                       <SimpleGrid
                         columns={[1, 1, 2, 3, 4]}
                         columnGap={[0, 0, 8]}
@@ -208,14 +208,18 @@ function Channel({ channel, channels }: Props) {
                         })}
                       </SimpleGrid>
                     ) : (
-                      <Text>This channel has not uploaded any videos yet.</Text>
+                      <Text>
+                        {channel.title
+                          ? `${channel.title} has no uploaded videos.`
+                          : 'This channel has no uploaded videos.'}
+                      </Text>
                     )}
                   </TabPanel>
                   <TabPanel>
                     <Text>
                       {channel.about
                         ? channel.about
-                        : 'No info has been provided.'}
+                        : `${channel.title} hasn't provided any "about" information for their channel.`}
                     </Text>
                   </TabPanel>
                 </TabPanels>

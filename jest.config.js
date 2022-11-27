@@ -1,3 +1,26 @@
+/*
+  TODO more advanced Jest config in Next.js
+  Jest config allows a `projects` property to define separate configurations 
+  to be used in different scenarios, for instance using jest-environment-node to 
+  test server code, run eslint and type checking within Jest and add labels to 
+  the output for a clean overview of what config the tests are related to. 
+
+  This config doesn't work out of the boc with Next, at least not in the way I 
+  have learned from the Kent C. Dodds (author of Testing Library) Testing 
+  JavaScript course. 
+
+  In the Next.js docs and example repo for Jest config 'jest-environment-jsdom' 
+  is the only example given. To test code that runs in a Node env with any sort 
+  of confidence, we need to use a node testing env!
+
+  I have asked in the Next.js & Testing JavaScript Discord - for a full stack 
+  framework that uses the Node env to run code on the server, they should 
+  provide a Node env to run our tests too! 
+  
+  Note: There is now an "edge" env as well. For Vercel's edge functions feature 
+  they use Cloudflare Workers under the hood. Something to consider. 
+*/
+
 const nextJest = require('next/jest');
 const path = require('path');
 
@@ -29,7 +52,6 @@ const customJestConfig = {
     '**/components/**/*.+(ts|tsx)',
     '**/pages/**/*.+(ts|tsx)',
     '**/helpers/**/*.ts',
-    '**/utils/**/*.ts',
   ],
   // add goals for testing coverage. current level -2% is a good base, to allow for flexibility as changes are made
   coverageThreshold: {

@@ -24,6 +24,11 @@ function Navbar({ channel }: Props) {
   const bgColor = useColorModeValue('gray.50', 'gray.900');
   const secondaryTextColor = useColorModeValue('gray.600', 'gray.400');
   const iconColor = useColorModeValue('black', 'white');
+  // TODO learn Chakra better - this feels a bit hacky
+  const logoColor = useColorModeValue(
+    'var(--chakra-colors-purple-600)',
+    'var(--chakra-colors-purple-500)',
+  );
 
   return (
     <GridItem
@@ -42,7 +47,7 @@ function Navbar({ channel }: Props) {
         gap={3}
       >
         <NextLink href="/">
-          <Logo color={iconColor} />
+          <Logo color={logoColor} />
           <VisuallyHidden>Switch - Home navigation</VisuallyHidden>
         </NextLink>
         <HStack alignItems="center" gap={4}>
