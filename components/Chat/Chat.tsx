@@ -87,7 +87,7 @@ function Chat(props: Props) {
               <Button colorScheme="purple" type="submit">
                 Send
               </Button>
-              <Button variant="outline" mr={3} onClick={onClose}>
+              <Button variant="outline" onClick={onClose}>
                 Cancel
               </Button>
             </Flex>
