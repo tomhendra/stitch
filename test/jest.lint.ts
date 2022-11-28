@@ -1,7 +1,7 @@
 import type { Config } from 'jest';
 import path from 'path';
 
-const lintConfig: Config = {
+const lintJestConfig: Config = {
   // point this config to the root directory
   rootDir: path.join(__dirname, '..'),
   // label test output in terminal
@@ -12,4 +12,4 @@ const lintConfig: Config = {
   testMatch: ['<rootDir>/**/*.+(ts|tsx)'],
 };
 
-export default lintConfig;
+export default lintJestConfig;
