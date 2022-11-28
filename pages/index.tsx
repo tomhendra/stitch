@@ -10,7 +10,7 @@ import { getDataWithFetch } from '~/utils';
 
 // import { DataDebugger } from '~/components';
 
-// ! 🔥 FLIP TO *FALSE* BEFORE PUSHING TO PROD !! 🔥
+// !! 🔥 FLIP TO *FALSE* BEFORE PUSHING TO PROD !! 🔥
 const USE_ACTUAL_API_CHANNEL_DATA = false;
 
 /* 

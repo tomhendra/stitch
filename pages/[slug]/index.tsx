@@ -41,9 +41,9 @@ import type { Channel, Message, Video } from '~/models/app';
 import type { MessageFormElement } from '~/components/Chat';
 import { getDataWithFetch, sampleOne } from '~/utils';
 
-import { DataDebugger } from '~/components';
+// import { DataDebugger } from '~/components';
 
-// ! 🔥 FLIP TO *TRUE* BEFORE PUSHING TO PROD !! 🔥
+// !! 🔥 FLIP TO *TRUE* BEFORE PUSHING TO PROD !! 🔥
 const USE_ACTUAL_API_VIDEO_DATA = true;
 const AUTOPLAY_VIDEO = true;
 
@@ -83,13 +83,11 @@ function Channel({ channel, channels }: Props) {
 
   /* 
     Handle the message and persist in component state. The messages are currently
-    not associated with a channel, so remain the same across channel routes. 
+    not associated with a channel, so remain the same across channel routes.
     
-    Take this as a minimum proof of concept that the form handling works..
+    Take this as a minimum proof of concept that the form handling works.
 
     TODO create an auth flow and realtime chat
-    - channel id for each message & database query with id to get messages for 
-    current channel.
   */
   function handleMessage(event: React.FormEvent<MessageFormElement>) {
     event.preventDefault();
