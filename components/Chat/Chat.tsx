@@ -28,32 +28,40 @@ export interface MessageFormElement extends HTMLFormElement {
 }
 
 type Props = {
+  channelTitle: string;
   isOpen: boolean;
   onClose: () => void;
-  channelTitle: string;
   messages: Message[];
   setMessages: Dispatch<SetStateAction<Message[]>>;
 };
 
 function Chat({ isOpen, onClose, channelTitle, messages, setMessages }: Props) {
-  const [messageBody, setMessageBody] = useState('');
+  const [message, setMessage] = useState('');
 
-  function handleSubmitMessage(event: React.FormEvent<MessageFormElement>) {
-    event.preventDefault();
+  function handleSubmit(e: React.FormEvent<MessageFormElement>) {
+    e.preventDefault();
+
+    if (!message) return;
 
     const newMessage = {
       sender: 'Me',
-      body: messageBody,
+      body: message,
     };
 
-    const updatedMessages = [...messages, newMessage];
-    setMessageBody('');
-    setMessages(updatedMessages);
+    // clear the input value
+    setMessage('');
+    // update the messages array to include the new message
+    setMessages([...messages, newMessage]);
 
     const randomMessage = sampleOne(sampleMessageData.items);
-
+    // update the messages array after one second to include a random message
     setTimeout(() => {
-      setMessages([...updatedMessages, randomMessage]);
+      /* 
+        Pass an _updater function_ to setMessages to be added to the queue. 
+        This will calculate the state for the next render based on the previous 
+        state change above: setMessages([...messages, newMessage]); 
+      */
+      setMessages(messages => [...messages, randomMessage]);
     }, 1000);
   }
 
@@ -82,7 +90,7 @@ function Chat({ isOpen, onClose, channelTitle, messages, setMessages }: Props) {
           <Flex
             // TODO fix this later & use FormControl / FormLabel components
             // @ts-ignore
-            onSubmit={handleSubmitMessage}
+            onSubmit={handleSubmit}
             as="form"
             direction="column"
             width="100%"
@@ -91,8 +99,8 @@ function Chat({ isOpen, onClose, channelTitle, messages, setMessages }: Props) {
             <Input
               id="messageInput"
               placeholder="Message..."
-              value={messageBody}
-              onChange={e => setMessageBody(e.target.value)}
+              value={message}
+              onChange={e => setMessage(e.target.value)}
             />
             <Flex direction="column" width="100%" gap="3">
               <Button colorScheme="purple" type="submit">

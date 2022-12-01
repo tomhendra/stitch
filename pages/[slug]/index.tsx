@@ -43,7 +43,7 @@ const USE_ACTUAL_API_VIDEO_DATA = true;
 const AUTOPLAY_VIDEO = true;
 
 /* 
-    SEO
+
     TODO consider https://<url>/channels/[slug] url structure
     https://nextjs.org/learn/seo/rendering-and-ranking/url-structure
     TODO generate OG images from channel thumbnail
@@ -62,19 +62,19 @@ type Props = {
 function Channel({ channel, channels }: Props) {
   const [currentVideo, setCurrentVideo] = useState<Video | null>(null);
   /* 
-    handle chat drawer state in parent - onOpen is used for the drawer open 
-    trigger button.
+    handle Chat drawer state here in its parent - onOpen is used as the trigger 
+    for the drawer open button.
   */
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef();
   /* 
-    messages use static data at present. in a real world app they would be 
-    from a database and would have an associated channelId.
+    messages use static data at present. in a real–world app they would be 
+    fetched from a database and each message would have an associated channelId.
   */
   const [messages, setMessages] = useState<Message[]>([]);
 
-  // Play a random video on component mount
   useEffect(() => {
+    // set a random video to play on component mount (& on each page navigation)
     setCurrentVideo(channel.videos ? sampleOne(channel.videos) : null);
   }, [channel.videos]);
 
@@ -300,8 +300,9 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
 
   /* 
     Now we hit the YouTube API to get videos for the channel 🎉. The GCP quota 
-    is pretty low - I have had to create 7 apps on GCP already! - so I've dumped 
-    some sample data to data/api.ts as with the channel query. 
+    is pretty low, so I've dumped some sample data to data/api.ts as with the 
+    channel query which can be toggled with the USE_ACTUAL_API_VIDEO_DATA
+    boolean at the top of this file.
   */
 
   const endpoint = getYouTubeVideosEndpoint({

@@ -4,14 +4,13 @@ import {
   GridItem,
   Heading,
   Link,
-  Text,
-  VStack,
   useColorModeValue,
+  VStack,
 } from '@chakra-ui/react';
+import Image from 'next/image';
 import NextLink from 'next/link';
 import slugify from 'slugify';
 import type { Channel } from '~/models/app';
-import Image from 'next/image';
 
 type Props = {
   channels: Channel[];
