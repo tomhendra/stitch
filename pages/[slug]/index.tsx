@@ -5,14 +5,14 @@ import {
   Flex,
   Heading,
   SimpleGrid,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
   Text,
   useDisclosure,
   VisuallyHidden,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
 } from '@chakra-ui/react';
 import type { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
@@ -21,24 +21,19 @@ import type { ParsedUrlQuery } from 'querystring';
 import { useEffect, useRef, useState } from 'react';
 import slugify from 'slugify';
 import {
+  ArrowUpRight,
   Layout,
   Main,
   MaxWidthContainer,
   Navbar,
   Sidebar,
   VideoPlayer,
-  ArrowUpRight,
 } from '~/components';
 import { Chat } from '~/components/Chat';
-import {
-  sampleChannelsSearchData,
-  sampleVideosQueryData,
-  sampleMessageData,
-} from '~/data/api';
+import { sampleChannelsSearchData, sampleVideosQueryData } from '~/data/api';
 import { getYouTubeVideosEndpoint } from '~/helpers/youtube-api.helper';
 import type { ChannelVideosQueryData } from '~/models/api';
 import type { Channel, Message, Video } from '~/models/app';
-import type { MessageFormElement } from '~/components/Chat';
 import { getDataWithFetch, sampleOne } from '~/utils';
 
 // import { DataDebugger } from '~/components';
@@ -65,48 +60,23 @@ type Props = {
 };
 
 function Channel({ channel, channels }: Props) {
-  // Videos
-  const [videos, setVideos] = useState<Video[]>([]);
   const [currentVideo, setCurrentVideo] = useState<Video | null>(null);
-  // Messages
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [messageBody, setMessageBody] = useState('');
-  // Chat
+  /* 
+    handle chat drawer state in parent - onOpen is used for the drawer open 
+    trigger button.
+  */
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef();
+  /* 
+    messages use static data at present. in a real world app they would be 
+    from a database and would have an associated channelId.
+  */
+  const [messages, setMessages] = useState<Message[]>([]);
 
-  // On component mount populate video state variables
+  // Play a random video on component mount
   useEffect(() => {
-    setVideos(channel.videos || []);
     setCurrentVideo(channel.videos ? sampleOne(channel.videos) : null);
   }, [channel.videos]);
-
-  /* 
-    Handle the message and persist in component state. The messages are currently
-    not associated with a channel, so remain the same across channel routes.
-    
-    Take this as a minimum proof of concept that the form handling works.
-
-    TODO create an auth flow and realtime chat
-  */
-  function handleMessage(event: React.FormEvent<MessageFormElement>) {
-    event.preventDefault();
-
-    const newMessage = {
-      sender: 'Me',
-      body: messageBody,
-    };
-
-    const updatedMessages = [...messages, newMessage];
-    setMessageBody('');
-    setMessages(updatedMessages);
-
-    const randomMessage = sampleOne(sampleMessageData.items);
-
-    setTimeout(() => {
-      setMessages([...updatedMessages, randomMessage]);
-    }, 1000);
-  }
 
   return (
     <>
@@ -168,7 +138,7 @@ function Channel({ channel, channels }: Props) {
                 </TabList>
                 <TabPanels>
                   <TabPanel px={0}>
-                    {videos.length ? (
+                    {channel.videos?.length ? (
                       <SimpleGrid
                         columns={[1, 1, 2, 3, 4]}
                         columnGap={[0, 0, 8]}
@@ -176,14 +146,15 @@ function Channel({ channel, channels }: Props) {
                         w="full"
                         h="full"
                       >
-                        {videos?.map(video => {
+                        {channel.videos?.map(video => {
                           const { url } = video.thumbnails.medium;
                           return (
-                            <Box
+                            <Button
+                              variant="unstyled"
                               key={video.videoId}
                               onClick={() => setCurrentVideo(video)}
-                              cursor="pointer"
                               w="full"
+                              h="full"
                               overflow="hidden"
                             >
                               <Box
@@ -201,15 +172,14 @@ function Channel({ channel, channels }: Props) {
                                 />
                                 <VisuallyHidden>{video.title}</VisuallyHidden>
                               </Box>
-                            </Box>
+                            </Button>
                           );
                         })}
                       </SimpleGrid>
                     ) : (
                       <Text>
-                        {channel.title
-                          ? `${channel.title} has no uploaded videos.`
-                          : 'This channel has no uploaded videos.'}
+                        {channel.title ? `${channel.title} ` : 'This channel '}
+                        has no uploaded videos.
                       </Text>
                     )}
                   </TabPanel>
@@ -217,19 +187,17 @@ function Channel({ channel, channels }: Props) {
                     <Text>
                       {channel.about
                         ? channel.about
-                        : `${channel.title} hasn't provided any "about" information for their channel.`}
+                        : 'No information has been provided about this channel.'}
                     </Text>
                   </TabPanel>
                 </TabPanels>
               </Tabs>
               <Chat
+                channelTitle={channel.title}
                 isOpen={isOpen}
                 onClose={onClose}
-                channelTitle={channel.title}
                 messages={messages}
-                message={messageBody}
-                onChange={e => setMessageBody(e.target.value)}
-                onSubmit={handleMessage}
+                setMessages={setMessages}
               />
             </Flex>
           </MaxWidthContainer>
@@ -274,8 +242,10 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
 
   return {
     paths,
-    /* if a user navigates to a path that doesn't exist in the paths array, 
-    `fallback: false` will cause Next to return a 404 page */
+    /* 
+      if a user navigates to a path that doesn't exist in the paths array, 
+    ` fallback: false` will cause Next to return a 404 page 
+    */
     fallback: false,
   };
 };

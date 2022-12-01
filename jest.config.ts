@@ -15,7 +15,7 @@
 
   Here the default is client with server & lint config overrides.
 
-  However there is a problem with the Node en resolving modules. I believe the 
+  However there is a problem with the Node env resolving modules. I believe the 
   problem is related to https://github.com/vercel/next.js/issues/40183, but the 
   suggested workaround doesn't work here: https://github.com/vercel/next.js/issues/40183#issuecomment-1249077718
 

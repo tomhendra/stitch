@@ -9,13 +9,15 @@ import {
   DrawerHeader,
   Flex,
   Heading,
+  Input,
   Spacer,
   Text,
-  FormControl,
-  FormLabel,
-  Input,
 } from '@chakra-ui/react';
+import type { Dispatch, SetStateAction } from 'react';
+import { useState } from 'react';
+import { sampleMessageData } from '~/data/api';
 import type { Message } from '~/models/app';
+import { sampleOne } from '~/utils';
 
 interface FormElements extends HTMLFormControlsCollection {
   messageInput: HTMLInputElement;
@@ -26,25 +28,34 @@ export interface MessageFormElement extends HTMLFormElement {
 }
 
 type Props = {
-  channelTitle: string;
-  messages: Message[];
-  message: string;
   isOpen: boolean;
   onClose: () => void;
-  onChange: (e: any) => any;
-  onSubmit: (event: React.FormEvent<MessageFormElement>) => void;
+  channelTitle: string;
+  messages: Message[];
+  setMessages: Dispatch<SetStateAction<Message[]>>;
 };
 
-function Chat(props: Props) {
-  const {
-    channelTitle,
-    messages,
-    message,
-    isOpen,
-    onClose,
-    onChange,
-    onSubmit,
-  } = props;
+function Chat({ isOpen, onClose, channelTitle, messages, setMessages }: Props) {
+  const [messageBody, setMessageBody] = useState('');
+
+  function handleSubmitMessage(event: React.FormEvent<MessageFormElement>) {
+    event.preventDefault();
+
+    const newMessage = {
+      sender: 'Me',
+      body: messageBody,
+    };
+
+    const updatedMessages = [...messages, newMessage];
+    setMessageBody('');
+    setMessages(updatedMessages);
+
+    const randomMessage = sampleOne(sampleMessageData.items);
+
+    setTimeout(() => {
+      setMessages([...updatedMessages, randomMessage]);
+    }, 1000);
+  }
 
   return (
     <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
@@ -59,7 +70,7 @@ function Chat(props: Props) {
             <Box p="4">
               {messages?.map(message => (
                 <div key={message.body}>
-                  <Text fontSize="xs">From: {message.sender}</Text>
+                  <Text fontSize="xs">{message.sender}</Text>
                   <Text marginBottom={6}>{message.body}</Text>
                 </div>
               ))}
@@ -71,7 +82,7 @@ function Chat(props: Props) {
           <Flex
             // TODO fix this later & use FormControl / FormLabel components
             // @ts-ignore
-            onSubmit={onSubmit}
+            onSubmit={handleSubmitMessage}
             as="form"
             direction="column"
             width="100%"
@@ -80,8 +91,8 @@ function Chat(props: Props) {
             <Input
               id="messageInput"
               placeholder="Message..."
-              value={message}
-              onChange={onChange}
+              value={messageBody}
+              onChange={e => setMessageBody(e.target.value)}
             />
             <Flex direction="column" width="100%" gap="3">
               <Button colorScheme="purple" type="submit">
