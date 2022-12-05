@@ -56,18 +56,20 @@ function Channel({ channel, channels }: Props) {
   const [currentVideo, setCurrentVideo] = useState<Video | null>(null);
   //  Chat open / close state & trigger
   const { isOpen, onOpen, onClose } = useDisclosure();
+  // destructure channel obj
+  const { videos, title, about } = channel;
 
   useEffect(() => {
     // set a random video to play on component mount + on page navigation
-    setCurrentVideo(channel.videos ? sampleOne(channel.videos) : null);
-  }, [channel.videos]);
+    setCurrentVideo(videos ? sampleOne(videos) : null);
+  }, [videos]);
 
   return (
     <>
       <Head>
         {/* use keywords in the title for improved SEO */}
-        <title>{channel.title} | video streaming channel - Stitch</title>
-        <meta name="description" content={channel.about} key="desc" />
+        <title>{title} | video streaming channel - Stitch</title>
+        <meta name="description" content={about} key="desc" />
         <meta name="robots" content="all" />
         <link rel="icon" href="/favicon.ico" />
         <meta property="og:title" content="Stitch" />
@@ -98,7 +100,7 @@ function Channel({ channel, channels }: Props) {
               justifyContent="space-between"
             >
               <Heading as="h1" lineHeight={1.1} fontSize={['2xl', '4xl']}>
-                {channel.title ? channel.title : 'Untitled channel'}
+                {title ? title : 'Untitled channel'}
               </Heading>
               <Tabs>
                 <TabList>
@@ -115,18 +117,14 @@ function Channel({ channel, channels }: Props) {
                 </TabList>
                 <TabPanels>
                   <VideoTabPanel
-                    videos={channel.videos ? channel.videos : null}
-                    channelTitle={channel.title}
+                    videos={videos ? videos : null}
+                    channelTitle={title}
                     setCurrentVideo={setCurrentVideo}
                   />
-                  <AboutTabPanel about={channel.about} />
+                  <AboutTabPanel about={about} />
                 </TabPanels>
               </Tabs>
-              <Chat
-                channelTitle={channel.title}
-                isOpen={isOpen}
-                onClose={onClose}
-              />
+              <Chat channelTitle={title} isOpen={isOpen} onClose={onClose} />
             </Flex>
           </MaxWidthContainer>
         </Main>
