@@ -4,19 +4,10 @@ import {
   Container,
   Flex,
   Heading,
-  SimpleGrid,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-  Text,
   useDisclosure,
-  VisuallyHidden,
 } from '@chakra-ui/react';
 import type { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
-import Image from 'next/image';
 import type { ParsedUrlQuery } from 'querystring';
 import { useEffect, useRef, useState } from 'react';
 import slugify from 'slugify';
@@ -29,19 +20,26 @@ import {
   Sidebar,
   VideoPlayer,
 } from '~/components';
+import {
+  AboutTabPanel,
+  Tab,
+  TabList,
+  TabPanels,
+  Tabs,
+  VideoTabPanel,
+} from '~/components/ChannelTabs';
 import { Chat } from '~/components/Chat';
 import { sampleChannelsSearchData, sampleVideosQueryData } from '~/data/api';
 import { getYouTubeVideosEndpoint } from '~/helpers/youtube-api.helper';
 import type { ChannelVideosQueryData } from '~/models/api';
-import type { Channel, Message, Video } from '~/models/app';
+import type { Channel, Video } from '~/models/app';
 import { getDataWithFetch, sampleOne } from '~/utils';
 
 // import { DataDebugger } from '~/components';
 
 // !! 🔥 FLIP TO *TRUE* BEFORE PUSHING TO PROD !! 🔥
-const USE_ACTUAL_API_VIDEO_DATA = true;
-const AUTOPLAY_VIDEO = true;
-
+const USE_ACTUAL_API_VIDEO_DATA = false;
+const AUTOPLAY_VIDEO = false;
 /* 
 
     TODO consider https://<url>/channels/[slug] url structure
@@ -60,21 +58,16 @@ type Props = {
 };
 
 function Channel({ channel, channels }: Props) {
+  /* currentVideo state is shared by VideoPlayer & VideoTabPanel so is  
+    "lifted up" here — the nearest parent. */
   const [currentVideo, setCurrentVideo] = useState<Video | null>(null);
-  /* 
-    handle Chat drawer state here in its parent - onOpen is used as the trigger 
-    for the drawer open button.
-  */
+  //  Chat open / close state
   const { isOpen, onOpen, onClose } = useDisclosure();
+  // DOM ref required for button that toggles Chat
   const btnRef = useRef();
-  /* 
-    messages use static data at present. in a real–world app they would be 
-    fetched from a database and each message would have an associated channelId.
-  */
-  const [messages, setMessages] = useState<Message[]>([]);
 
   useEffect(() => {
-    // set a random video to play on component mount (& on each page navigation)
+    // set a random video to play on component mount + on page navigation
     setCurrentVideo(channel.videos ? sampleOne(channel.videos) : null);
   }, [channel.videos]);
 
@@ -94,7 +87,7 @@ function Channel({ channel, channels }: Props) {
       {/* <DataDebugger data={channelVideosQueryData} /> */}
 
       <Layout>
-        <Navbar channel={channel} />
+        <Navbar />
         <Sidebar channels={channels} />
         <Main>
           <Container maxW="2000px" p={0}>
@@ -117,10 +110,15 @@ function Channel({ channel, channels }: Props) {
                 {channel.title ? channel.title : 'Untitled channel'}
               </Heading>
 
-              <Tabs colorScheme="purple">
-                <TabList fontWeight="bold">
+              <Tabs>
+                <TabList>
                   <Tab>Home</Tab>
                   <Tab>About</Tab>
+                  {/* The Compound Components pattern allows us to locate our 
+                  Chat toggle button inside the tab list, like Twitch does, 
+                  even though it is functionally unrelated to the tabs. 
+                  This allows React to generate semantic DOM tree and avoids CSS 
+                  position hacks such as the ones I have seen in the wild! */}
                   <Button
                     leftIcon={<ArrowUpRight h="24px" w="24px" />}
                     // TODO fix this later
@@ -137,67 +135,18 @@ function Channel({ channel, channels }: Props) {
                   </Button>
                 </TabList>
                 <TabPanels>
-                  <TabPanel px={0}>
-                    {channel.videos?.length ? (
-                      <SimpleGrid
-                        columns={[1, 1, 2, 3, 4]}
-                        columnGap={[0, 0, 8]}
-                        rowGap={[8, 8, 8, 8]}
-                        w="full"
-                        h="full"
-                      >
-                        {channel.videos?.map(video => {
-                          const { url } = video.thumbnails.medium;
-                          return (
-                            <Button
-                              variant="unstyled"
-                              key={video.videoId}
-                              onClick={() => setCurrentVideo(video)}
-                              w="full"
-                              h="full"
-                              overflow="hidden"
-                            >
-                              <Box
-                                transition="transform 150ms"
-                                _hover={{
-                                  transition: 'transform 250ms',
-                                  transform: 'scale(1.06)',
-                                }}
-                              >
-                                <Image
-                                  alt={video.title}
-                                  src={url}
-                                  height={200}
-                                  width={360}
-                                />
-                                <VisuallyHidden>{video.title}</VisuallyHidden>
-                              </Box>
-                            </Button>
-                          );
-                        })}
-                      </SimpleGrid>
-                    ) : (
-                      <Text>
-                        {channel.title ? `${channel.title} ` : 'This channel '}
-                        has no uploaded videos.
-                      </Text>
-                    )}
-                  </TabPanel>
-                  <TabPanel>
-                    <Text>
-                      {channel.about
-                        ? channel.about
-                        : 'No information has been provided about this channel.'}
-                    </Text>
-                  </TabPanel>
+                  <VideoTabPanel
+                    videos={channel.videos ? channel.videos : null}
+                    channelTitle={channel.title}
+                    setCurrentVideo={setCurrentVideo}
+                  />
+                  <AboutTabPanel about={channel.about} />
                 </TabPanels>
               </Tabs>
               <Chat
                 channelTitle={channel.title}
                 isOpen={isOpen}
                 onClose={onClose}
-                messages={messages}
-                setMessages={setMessages}
               />
             </Flex>
           </MaxWidthContainer>

@@ -7,7 +7,6 @@ import {
   useColorModeValue,
   Flex,
 } from '@chakra-ui/react';
-import Image from 'next/image';
 import NextLink from 'next/link';
 import { Logo } from './Logo';
 import { Sun } from './Sun';
@@ -15,11 +14,7 @@ import { Moon } from './Moon';
 import { User } from './User';
 import type { Channel } from '~/models/app';
 
-type Props = {
-  channel?: Channel;
-};
-
-function Navbar({ channel }: Props) {
+function Navbar() {
   const { toggleColorMode, colorMode } = useColorMode();
   const bgColor = useColorModeValue('gray.50', 'gray.900');
   const secondaryTextColor = useColorModeValue('gray.600', 'gray.400');

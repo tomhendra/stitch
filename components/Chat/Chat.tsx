@@ -31,11 +31,14 @@ type Props = {
   channelTitle: string;
   isOpen: boolean;
   onClose: () => void;
-  messages: Message[];
-  setMessages: Dispatch<SetStateAction<Message[]>>;
 };
 
-function Chat({ isOpen, onClose, channelTitle, messages, setMessages }: Props) {
+function Chat({ isOpen, onClose, channelTitle }: Props) {
+  /* 
+    messages use static data at present. in a real–world app they would be 
+    fetched from a database and each message would have an associated channelId.
+  */
+  const [messages, setMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState('');
 
   function handleSubmit(e: React.FormEvent<MessageFormElement>) {
