@@ -7,10 +7,10 @@ module.exports = {
   ],
   // Lint & Prettify TS and JS files
   '**/*.(ts|tsx|js)': filenames => [
-    `pnpm eslint ${filenames.join(' ')}`,
-    `pnpm prettier --write ${filenames.join(' ')}`,
+    `eslint ${filenames.join(' ')}`,
+    `prettier --write ${filenames.join(' ')}`,
   ],
   // Prettify other files
   '**/*.+(css|scss|json|md|mdx)': filenames =>
-    `pnpm prettier --write ${filenames.join(' ')}`,
+    `prettier --write ${filenames.join(' ')}`,
 };
