@@ -13,11 +13,12 @@ import {
   Spacer,
   Text,
 } from '@chakra-ui/react';
-import type { Dispatch, SetStateAction } from 'react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import { ArrowUpRight } from '~/components';
 import { sampleMessageData } from '~/data/api';
-import type { Message } from '~/models/app';
 import { sampleOne } from '~/utils';
+
+import type { Message } from '~/models/app';
 
 interface FormElements extends HTMLFormControlsCollection {
   messageInput: HTMLInputElement;
@@ -91,7 +92,7 @@ function Chat({ isOpen, onClose, channelTitle }: Props) {
         </DrawerBody>
         <DrawerFooter>
           <Flex
-            // TODO fix this later & use FormControl / FormLabel components
+            // TODO fix this later & use FormControl / FormLabel components + https://zod.dev
             // @ts-ignore
             onSubmit={handleSubmit}
             as="form"
@@ -120,4 +121,28 @@ function Chat({ isOpen, onClose, channelTitle }: Props) {
   );
 }
 
-export { Chat };
+type ChatToggleButtonProps = {
+  onOpen: any;
+};
+
+function ChatToggleButton({ onOpen }: ChatToggleButtonProps) {
+  const ref = useRef();
+  return (
+    <Button
+      leftIcon={<ArrowUpRight h="24px" w="24px" />}
+      // TODO fix this later
+      // @ts-ignore
+      ref={ref}
+      onClick={onOpen}
+      colorScheme="purple"
+      size="md"
+      variant="link"
+      fontWeight="bold"
+      p={4}
+    >
+      Chat
+    </Button>
+  );
+}
+
+export { Chat, ChatToggleButton };

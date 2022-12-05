@@ -1,12 +1,13 @@
 import { Box, Heading, Text } from '@chakra-ui/react';
-import type { GetStaticProps } from 'next';
 import Head from 'next/head';
 import { Layout, Main, MaxWidthContainer, Navbar, Sidebar } from '~/components';
 import { sampleChannelsSearchData } from '~/data/api';
 import { getYouTubeChannelsEndpoint } from '~/helpers/youtube-api.helper';
+import { getDataWithFetch } from '~/utils';
+
+import type { GetStaticProps } from 'next';
 import type { ChannelSearchQueryData } from '~/models/api';
 import type { Channel } from '~/models/app';
-import { getDataWithFetch } from '~/utils';
 
 // import { DataDebugger } from '~/components';
 

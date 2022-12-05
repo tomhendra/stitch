@@ -1,18 +1,8 @@
-import {
-  Box,
-  Button,
-  Container,
-  Flex,
-  Heading,
-  useDisclosure,
-} from '@chakra-ui/react';
-import type { GetStaticPaths, GetStaticProps } from 'next';
+import { Box, Container, Flex, Heading, useDisclosure } from '@chakra-ui/react';
 import Head from 'next/head';
-import type { ParsedUrlQuery } from 'querystring';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import slugify from 'slugify';
 import {
-  ArrowUpRight,
   Layout,
   Main,
   MaxWidthContainer,
@@ -28,12 +18,15 @@ import {
   Tabs,
   VideoTabPanel,
 } from '~/components/ChannelTabs';
-import { Chat } from '~/components/Chat';
+import { Chat, ChatToggleButton } from '~/components/Chat';
 import { sampleChannelsSearchData, sampleVideosQueryData } from '~/data/api';
 import { getYouTubeVideosEndpoint } from '~/helpers/youtube-api.helper';
+import { getDataWithFetch, sampleOne } from '~/utils';
+
+import type { GetStaticPaths, GetStaticProps } from 'next';
+import type { ParsedUrlQuery } from 'querystring';
 import type { ChannelVideosQueryData } from '~/models/api';
 import type { Channel, Video } from '~/models/app';
-import { getDataWithFetch, sampleOne } from '~/utils';
 
 // import { DataDebugger } from '~/components';
 
@@ -61,10 +54,8 @@ function Channel({ channel, channels }: Props) {
   /* currentVideo state is shared by VideoPlayer & VideoTabPanel so is  
     "lifted up" here — the nearest parent. */
   const [currentVideo, setCurrentVideo] = useState<Video | null>(null);
-  //  Chat open / close state
+  //  Chat open / close state & trigger
   const { isOpen, onOpen, onClose } = useDisclosure();
-  // DOM ref required for button that toggles Chat
-  const btnRef = useRef();
 
   useEffect(() => {
     // set a random video to play on component mount + on page navigation
@@ -109,30 +100,18 @@ function Channel({ channel, channels }: Props) {
               <Heading as="h1" lineHeight={1.1} fontSize={['2xl', '4xl']}>
                 {channel.title ? channel.title : 'Untitled channel'}
               </Heading>
-
               <Tabs>
                 <TabList>
                   <Tab>Home</Tab>
                   <Tab>About</Tab>
-                  {/* The Compound Components pattern allows us to locate our 
-                  Chat toggle button inside the tab list, like Twitch does, 
-                  even though it is functionally unrelated to the tabs. 
-                  This allows React to generate semantic DOM tree and avoids CSS 
-                  position hacks such as the ones I have seen in the wild! */}
-                  <Button
-                    leftIcon={<ArrowUpRight h="24px" w="24px" />}
-                    // TODO fix this later
-                    // @ts-ignore
-                    ref={btnRef}
-                    colorScheme="purple"
-                    onClick={onOpen}
-                    size="md"
-                    variant="link"
-                    fontWeight="bold"
-                    p={4}
-                  >
-                    Chat
-                  </Button>
+                  <ChatToggleButton onOpen={onOpen} />
+                  {/* 
+                    'Compound Components' is an advanced React pattern that 
+                    allows us to locate ChatToggleButton inside the tab list 
+                    like Twitch does, even though it is functionally unrelated 
+                    to the tabs.This allows React to generate a semantic DOM 
+                    tree and avoids CSS position hacks! 
+                  */}
                 </TabList>
                 <TabPanels>
                   <VideoTabPanel
