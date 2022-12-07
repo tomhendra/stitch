@@ -31,8 +31,8 @@ import type { Channel, Video } from '~/models/app';
 // import { DataDebugger } from '~/components';
 
 // !! 🔥 FLIP TO *TRUE* BEFORE PUSHING TO PROD !! 🔥
-const USE_ACTUAL_API_VIDEO_DATA = false;
-const AUTOPLAY_VIDEO = false;
+const USE_ACTUAL_API_VIDEO_DATA = true;
+const AUTOPLAY_VIDEO = true;
 /* 
 
     TODO consider https://<url>/channels/[slug] url structure
