@@ -31,8 +31,8 @@ import type { Channel, Video } from '~/models/app';
 // import { DataDebugger } from '~/components';
 
 // !! 🔥 FLIP TO *TRUE* BEFORE PUSHING TO PROD !! 🔥
-const USE_ACTUAL_API_VIDEO_DATA = true;
-const AUTOPLAY_VIDEO = true;
+const USE_ACTUAL_API_VIDEO_DATA = false;
+const AUTOPLAY_VIDEO = false;
 /* 
 
     TODO consider https://<url>/channels/[slug] url structure
@@ -111,7 +111,7 @@ function Channel({ channel, channels }: Props) {
                     'Compound Components' is an advanced React pattern that 
                     allows us to locate ChatToggleButton inside the tab list 
                     like Twitch does, even though it is functionally unrelated 
-                    to the tabs.This allows React to generate a semantic DOM 
+                    to the tabs. This allows React to generate a semantic DOM 
                     tree and avoids CSS position hacks! 
                   */}
                 </TabList>

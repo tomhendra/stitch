@@ -16,7 +16,7 @@ import {
 import { useRef, useState } from 'react';
 import { ArrowUpRight } from '~/components';
 import { sampleMessageData } from '~/data/api';
-import { sampleOne } from '~/utils';
+import { getErrorMessage, sampleOne } from '~/utils';
 
 import type { Message } from '~/models/app';
 
@@ -41,32 +41,44 @@ function Chat({ isOpen, onClose, channelTitle }: Props) {
   */
   const [messages, setMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [status, setStatus] = useState('typing');
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setMessage(e.target.value);
+    status !== 'typing' && setStatus('typing');
+  }
 
   function handleSubmit(e: React.FormEvent<MessageFormElement>) {
     e.preventDefault();
+    setStatus('submitting');
 
-    if (!message) return;
+    try {
+      const newMessage = {
+        sender: 'Me',
+        body: message,
+      };
+      // clear the input value
+      setMessage('');
+      // update the messages array to include the new message
+      setMessages([...messages, newMessage]);
+      // update the messages array after one second to include a random message
+      const randomMessage = sampleOne(sampleMessageData.items);
+      setTimeout(() => {
+        /* 
+          Pass an _updater function_ to setMessages to be added to the queue. 
+          This will calculate the state for the next render based on the previous 
+          state change above: setMessages([...messages, newMessage]); 
+          */
+        setMessages(messages => [...messages, randomMessage]);
+      }, 1000);
 
-    const newMessage = {
-      sender: 'Me',
-      body: message,
-    };
-
-    // clear the input value
-    setMessage('');
-    // update the messages array to include the new message
-    setMessages([...messages, newMessage]);
-
-    const randomMessage = sampleOne(sampleMessageData.items);
-    // update the messages array after one second to include a random message
-    setTimeout(() => {
-      /* 
-        Pass an _updater function_ to setMessages to be added to the queue. 
-        This will calculate the state for the next render based on the previous 
-        state change above: setMessages([...messages, newMessage]); 
-      */
-      setMessages(messages => [...messages, randomMessage]);
-    }, 1000);
+      setStatus('success');
+    } catch (error) {
+      const errorMessage = getErrorMessage(error);
+      setError(errorMessage);
+      setStatus('typing');
+    }
   }
 
   return (
@@ -104,15 +116,21 @@ function Chat({ isOpen, onClose, channelTitle }: Props) {
               id="messageInput"
               placeholder="Message..."
               value={message}
-              onChange={e => setMessage(e.target.value)}
+              onChange={handleChange}
+              disabled={status === 'submitting'}
             />
             <Flex direction="column" width="100%" gap="3">
-              <Button colorScheme="purple" type="submit">
+              <Button
+                colorScheme="purple"
+                type="submit"
+                disabled={status === 'submitting' || !message.length}
+              >
                 Send
               </Button>
               <Button variant="outline" onClick={onClose}>
                 Cancel
               </Button>
+              {error !== null && <Text className="Error">{error}</Text>}
             </Flex>
           </Flex>
         </DrawerFooter>
