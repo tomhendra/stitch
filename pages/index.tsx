@@ -15,18 +15,18 @@ import type { Channel } from '~/models/app';
 const USE_ACTUAL_API_CHANNEL_DATA = false;
 
 /* 
-    TODO improve User Experience 
-    Core Web Vitals https://web.dev/vitals/
-    TODO consider whether url/channels/user would be better for SEO
-    https://nextjs.org/learn/seo/rendering-and-ranking/url-structure
-    TODO generate OG images from channel thumbnail
-    TODO go further with Open Graph 
-    https://ogp.me/
-    TODO generate structured data and JSON-LD 
-    https://schema.org/docs/documents.html
-    TODO Learn more about how rendering strategies affect SEO
-    https://www.smashingmagazine.com/2021/04/incremental-static-regeneration-nextjs/
-    https://vercel.com/blog/nextjs-server-side-rendering-vs-static-generation
+  TODO improve User Experience 
+  Core Web Vitals https://web.dev/vitals/
+  TODO consider whether url/channels/user would be better for SEO
+  https://nextjs.org/learn/seo/rendering-and-ranking/url-structure
+  TODO generate OG images from channel thumbnail
+  TODO go further with Open Graph 
+  https://ogp.me/
+  TODO generate structured data and JSON-LD 
+  https://schema.org/docs/documents.html
+  TODO Learn more about how rendering strategies affect SEO
+  https://www.smashingmagazine.com/2021/04/incremental-static-regeneration-nextjs/
+  https://vercel.com/blog/nextjs-server-side-rendering-vs-static-generation
 */
 
 type Props = {
@@ -74,7 +74,7 @@ function Home({ channels }: Props) {
     1. fetch data from API
     2. create static pages at build time
 
-  the revalidate property is the only addition required to transition from SSG 
+  the revalidate property is the *only* addition required to transition from SSG 
   to ISR. ISR behaves like SSG, but re-fetches data and rebuilds static pages on 
   the server (if there is a client request for them) no more than once during 
   a specified period of time in seconds. The stale static pages are invalidated 
@@ -89,7 +89,7 @@ function Home({ channels }: Props) {
 
   ...
   to transition to SSR from ISR, we just rename getStaticProps to 
-  getServerSideProps (+ change the type) and delete getStaticPaths. SSR will 
+  getServerSideProps (and change the type) and delete getStaticPaths. SSR will 
   fetch data and serve fresh pages on every user request.
 */
 
@@ -109,19 +109,19 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
   }
 
   /* 
-    getChannelSearchQueryEndpoint provides an endpoint to fetch channels from
+    getYouTubeChannelsEndpoint provides an endpoint to fetch channels from
     the YouTube API based on a search query, which means data could be different 
     between queries. As far as I can tell there is no obvious way to query for 
-    a consistent list of channels.
+    a consistent list of channels from the YouTube API.
 
     https://developers.google.com/youtube/v3/docs/search
 
-    With a real app there would be a user object persisted to a database which
-    would have an array of channels that the authenticated user has subscribed 
-    to. This would be fetched from the database via GetStaticProps or 
+    With a production app there would be a user object persisted to a database 
+    which would have an array of channels that the authenticated user has 
+    subscribed to. This would be fetched from the database via GetStaticProps or 
     getServerSideProps.
 
-    I have queried the YouTube API once using getChannelSearchQueryEndpoint and 
+    I have queried the YouTube API once using getYouTubeChannelsEndpoint and 
     have dumped the result in data/api.ts to simulate a database fetch, which 
     can be reused in other routes. 
   */

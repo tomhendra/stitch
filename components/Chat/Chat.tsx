@@ -66,10 +66,10 @@ function Chat({ isOpen, onClose, channelTitle }: Props) {
       const randomMessage = sampleOne(sampleMessageData.items);
       setTimeout(() => {
         /* 
-          Pass an _updater function_ to setMessages to be added to the queue. 
-          This will calculate the state for the next render based on the previous 
-          state change above: setMessages([...messages, newMessage]); 
-          */
+          Pass an *updater function* to setMessages to be added to the queue. 
+          This will calculate the state for the next render based on the 
+          previous state change above: setMessages([...messages, newMessage]); 
+        */
         setMessages(messages => [...messages, randomMessage]);
       }, 1000);
 

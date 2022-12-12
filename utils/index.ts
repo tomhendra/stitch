@@ -94,8 +94,8 @@ export async function getDataWithFetch<T>(endpoint: string): Promise<T> {
     const res = await fetch(endpoint);
     const data = await res.json();
     return data;
-  } catch (e) {
-    const message = getErrorMessage(e);
-    throw new Error(`error fetching data from ${endpoint}: ${message}`);
+  } catch (error) {
+    const errorMessage = getErrorMessage(error);
+    throw new Error(`error fetching data from ${endpoint}: ${errorMessage}`);
   }
 }

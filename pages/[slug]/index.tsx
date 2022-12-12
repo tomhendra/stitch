@@ -31,18 +31,18 @@ import type { Channel, Video } from '~/models/app';
 // import { DataDebugger } from '~/components';
 
 // !! 🔥 FLIP TO *TRUE* BEFORE PUSHING TO PROD !! 🔥
-const USE_ACTUAL_API_VIDEO_DATA = true;
-const AUTOPLAY_VIDEO = true;
-/* 
+const USE_ACTUAL_API_VIDEO_DATA = false;
+const AUTOPLAY_VIDEO = false;
 
-    TODO consider https://<url>/channels/[slug] url structure
-    https://nextjs.org/learn/seo/rendering-and-ranking/url-structure
-    TODO generate OG images from channel thumbnail
-    TODO go further with Open Graph https://ogp.me/
-    TODO generate structured data & JSON-LD https://schema.org/docs/documents.html
-    TODO dynamically import modules 
-    https://nextjs.org/learn/seo/improve/dynamic-imports
-    https://nextjs.org/learn/seo/improve/dynamic-import-components
+/*
+  TODO consider https://<url>/channels/[slug] url structure
+  https://nextjs.org/learn/seo/rendering-and-ranking/url-structure
+  TODO generate OG images from channel thumbnail
+  TODO go further with Open Graph https://ogp.me/
+  TODO generate structured data & JSON-LD https://schema.org/docs/documents.html
+  TODO dynamically import modules 
+  https://nextjs.org/learn/seo/improve/dynamic-imports
+  https://nextjs.org/learn/seo/improve/dynamic-import-components
 */
 
 type Props = {
@@ -52,15 +52,14 @@ type Props = {
 
 function Channel({ channel, channels }: Props) {
   /* currentVideo state is shared by VideoPlayer & VideoTabPanel so is  
-    "lifted up" here — the nearest parent. */
+    "lifted up" here; the nearest parent. */
   const [currentVideo, setCurrentVideo] = useState<Video | null>(null);
   //  Chat open / close state & trigger
   const { isOpen, onOpen, onClose } = useDisclosure();
   // destructure channel obj
   const { videos, title, about } = channel;
-
+  // set a random video to play on component mount & subsequent page navigation
   useEffect(() => {
-    // set a random video to play on component mount + on page navigation
     setCurrentVideo(videos ? sampleOne(videos) : null);
   }, [videos]);
 
@@ -109,10 +108,10 @@ function Channel({ channel, channels }: Props) {
                   <ChatToggleButton onOpen={onOpen} />
                   {/* 
                     'Compound Components' is an advanced React pattern that 
-                    allows us to locate ChatToggleButton inside the tab list 
-                    like Twitch does, even though it is functionally unrelated 
-                    to the tabs. This allows React to generate a semantic DOM 
-                    tree and avoids CSS position hacks! 
+                    allows us to locate ChatToggleButton inside TabList (like 
+                    Twitch does) even though it is functionally unrelated to the 
+                    tabs. This allows React to generate a semantic DOM tree and 
+                    avoids CSS position 'hacks'.
                   */}
                 </TabList>
                 <TabPanels>
@@ -170,7 +169,7 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
     paths,
     /* 
       if a user navigates to a path that doesn't exist in the paths array, 
-    ` fallback: false` will cause Next to return a 404 page 
+      `fallback: false` will cause Next to return a 404 page.
     */
     fallback: false,
   };
@@ -181,7 +180,6 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
   from getStaticPaths
 */
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
-  // console.log({params});
   if (!params?.slug) {
     throw new Error('error getting slug from params');
   }

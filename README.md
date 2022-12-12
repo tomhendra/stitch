@@ -25,17 +25,18 @@ See `./components/NewComponent` for a structural example.
 pnpm is faster and uses far less disk space due to the way it handles dependency
 trees: https://pnpm.io/id/pnpm-vs-npm.
 
-It has native node version management, interactive package updating, and has
-been adopted by some huge projects, like [Next.js](https://github.com/vercel/next.js)
-& [Vite](https://github.com/vitejs/vite). I am a huge fan of pnpm.
+It has native Node version management, interactive package updating, and has
+been adopted by some huge projects such as [Next.js](https://github.com/vercel/next.js)
+and [Vite](https://github.com/vitejs/vite). I am a massive fan of pnpm.
 
-However for this project it breaks React Testing Library due to types not being hoisted:
+However for this project it breaks React Testing Library due to types not being
+hoisted:
 
-https://github.com/facebook/create-react-app/issues/12622
-https://www.reddit.com/r/typescript/comments/x59poq/jest_ts_property_tobeinthedocument_does_not_exist/
+- https://github.com/facebook/create-react-app/issues/12622
+- https://www.reddit.com/r/typescript/comments/x59poq/jest_ts_property_tobeinthedocument_does_not_exist/
 
-Rather than spend too much time trying to find a workaround (the suggestions do
-not work for this project), we will be using npm until the issue is resolved.
+Rather than spend too much time trying to find a workaround (the SO suggestions
+do not work for this project), we will be using npm until the issue is resolved.
 
 ## CSS declaration order style guide
 
