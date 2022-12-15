@@ -38,6 +38,9 @@ hoisted:
 Rather than spend too much time trying to find a workaround (the SO suggestions
 do not work for this project), we will be using npm until the issue is resolved.
 
+Update 15/12/22: There is a workaround: https://github.com/pnpm/pnpm/issues/4920#issuecomment-1226724790
+TODO: Test the workaround!
+
 ## CSS declaration order style guide
 
 This is not enforced via tooling but is recommended for tidiness.

@@ -61,8 +61,8 @@ function getEndpointGenerator() {
     The returned function generateEndpointUrl has closure over the AUTH variable. 
     This is a contrived example since the generated endpoint appends the api key 
     to the end of the URL for the whole world to see. However if this was an 
-    auth token for authorization to perform CRUD operations on a database, it 
-    would be a wise pattern to follow as not expose sensitive data and being 
+    authorization token to perform CRUD operations on a database, it would be a 
+    wise pattern to follow as not expose sensitive data and leave the app 
     vulnerable to bad actor attacks. 
 
     Here it servers two purposes:
