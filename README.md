@@ -1,6 +1,6 @@
 # Welcome to Stitch
 
-This project serves to demonstrate my ability in creating a React Application.
+This project was a take-home test completed in a weekend and improved over a week, which helped me to get my current job.
 
 It uses the following stack, all three of which I had to learn for the project.
 
