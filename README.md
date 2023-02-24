@@ -1,7 +1,7 @@
 # Welcome to Stitch
 
 This project was a take-home test completed in a weekend and improved over a week.
-It helped me to get my current job.
+It got me my fist software developer job.
 
 It uses the following stack, all three of which I had to learn for the project.
 
